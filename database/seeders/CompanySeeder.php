@@ -14,9 +14,9 @@ class CompanySeeder extends Seeder
      */
     public function run()
     {
-        $company = Company::created([
+        $company = Company::create([
             'name' => 'ExchangeLatam S.A.S.',
-            'nit' => '901 422 406 - 6',
+            'nit' => '901 422 406 - 6'
         ]);
     }
 }
