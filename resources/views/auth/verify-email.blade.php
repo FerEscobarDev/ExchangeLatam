@@ -1,21 +1,8 @@
 @extends('layouts.dashboard')
 
-@section('Verificar email')
+@section('title', 'Verificar email')
 
 @section('content')
-    @if (session('status') == 'verification-link-sent')
-            <div class="col-md-12">
-                <div class="alert alert-success">
-                    <div class="container-fluid">
-                        <div class="alert-icon">
-                        <i class="material-icons">check</i>
-                        </div>
-                        <b>Realizado!</b> {{ __('A fresh verification link has been sent to your email address.') }}
-                    </div>
-                </div>
-            </div>
-    @endif
-
     <div class="col-md-10 ml-auto mr-auto">
         <div class="card">
             <div class="row">
@@ -68,8 +55,19 @@
                         <p>Una vez verifique su correo electrónico recomendamos que complemente o actualice sus datos personales y cargue los documentos para validar su identidad, así será más ágil procesar sus retiros.</p>
                     </div>
                 </div>
-            </div>
-    
+            </div>    
         </div>        
     </div>
 @endsection
+
+@push('script-plus')
+    @if (session('status') == 'verification-link-sent')
+        <script>
+            $(window).on('load',function(){
+                var mensaje = "{{ __('A fresh verification link has been sent to your email address.') }}";
+                console.log(mensaje);
+                md.showNotification('top','right', mensaje, 'success');
+            });
+        </script>
+    @endif
+@endpush

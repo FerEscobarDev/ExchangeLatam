@@ -223,6 +223,30 @@
         <script src="{{asset('js-dash/plugins/bootstrap-notify.j')}}s"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{asset('js-dash/material-dashboard.js?v=2.2.2')}}" type="text/javascript"></script>
+
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <script>
+                    $(window).on('load',function(){
+                        var mensaje = "{{ $error }}";
+                        console.log(mensaje);
+                        md.showNotification('top','right', mensaje, 'danger');
+                    });
+                </script>
+            @endforeach
+        @endif
+
+        @if(session()->has('success'))
+            <script>
+                $(window).on('load',function(){
+                    var mensaje = "{{ session()->get('success') }}";
+                    console.log(mensaje);
+                    md.showNotification('top','right', mensaje, 'success');
+                });
+            </script>
+        @endif
+
+        @stack('script-plus')
     </body>
     
 </html>
