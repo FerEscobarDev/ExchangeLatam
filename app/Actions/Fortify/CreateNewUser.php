@@ -21,7 +21,9 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input)
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:50', 'min:3'],
+            'lastname' => ['required', 'string', 'max:50', 'min:3'],
+            'mobil' => ['required', Rule::unique(User::class),'numeric','integer','digits_between:10,12'],
             'email' => [
                 'required',
                 'string',
@@ -30,10 +32,16 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'terms' => ['accepted']
         ])->validate();
 
+        $name = ucwords(strtolower($input['name']));
+        $lastname = ucwords(strtolower($input['lastname']));
+
         return User::create([
-            'name' => $input['name'],
+            'name' => $name,
+            'lastname' => $lastname,
+            'mobil' => $input['mobil'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
