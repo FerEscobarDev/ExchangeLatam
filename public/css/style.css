@@ -1,0 +1,45 @@
+.logo-image {
+  width: 100%;
+  /* height: 46px; */
+  /* border-radius: 50%; */
+  overflow: hidden;
+  margin-top: -6px;
+}
+
+.navbar-brand{
+    max-width: 150px !important;
+}
+
+.mision{
+  max-width: 80% !important;
+}
+
+.login-card{
+  padding-top: 18px !important;
+}
+
+.login-card h4{
+  padding-left: 20px;
+  margin-bottom: 25px;
+}
+
+.input-up{
+  margin-top: 30px !important;
+}
+
+.footer-login{
+  padding-top: 15px !important;
+  margin-bottom: 10px !important;
+}
+
+.error{
+  margin-left: 55px;
+}
+
+.input-register{
+  width: 80% !important;
+}
+
+.main-panel>.content {
+    min-height: calc(100vh - 156px) !important;
+}
