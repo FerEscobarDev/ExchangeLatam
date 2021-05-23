@@ -159,7 +159,15 @@
                                         <a class="dropdown-item" href="#">Cambiar contraseña</a>
                                         <a class="dropdown-item" href="#">Contactenos</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Cerrar sesión</a>
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
                                     </div>
                                 </li>
                             </ul>
@@ -170,7 +178,7 @@
                 <div class="content">
                     <div class="container-fluid">
                         <div class="row">
-                            
+                            @yield('content')
                         </div>                
                     </div>
                 </div>
