@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\UserController;
 use GuzzleHttp\Middleware;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
@@ -18,16 +19,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [CompanyController::class, 'index'])->name('company.index');
+Route::get('/about', [CompanyController::class, 'about'])->name('company.about');
+Route::get('/faq', [CompanyController::class, 'faq'])->name('company.faq');
 
-
-Route::group(['middleware' => 'auth', 'verified'], function () {
-    
-});
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
 });
 
-Route::prefix('user')->group(function () {
+/* Route::prefix('user')->group(function () {
     
-});
+});*/
+/* Route::group(['middleware' => 'auth', 'verified'], function () {
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+}); */

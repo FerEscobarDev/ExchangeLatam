@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Contact;
+use App\Models\Faq;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -11,15 +12,23 @@ class CompanyController extends Controller
 
     public function index()
     {
-    $contact = Contact::all();
+        $contact = Contact::select('link')->where('company_id', 1)->get();
         return view('public.index', compact('contact'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function about()
+    {
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+        return view('public.about', compact('contact'));
+    }
+
+    public function faq()
+    {
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+        $faqs = Faq::all();
+        return view('public.faq', compact('contact', 'faqs'));
+    }
+
     public function create()
     {
         //
