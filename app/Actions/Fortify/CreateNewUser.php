@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Notifications\Welcome;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -38,12 +39,16 @@ class CreateNewUser implements CreatesNewUsers
         $name = ucwords(strtolower($input['name']));
         $lastname = ucwords(strtolower($input['lastname']));
 
-        return User::create([
+        $user = User::create([
             'name' => $name,
             'lastname' => $lastname,
             'mobil' => $input['mobil'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        $user->notify(new Welcome($name, $lastname));
+
+        return $user;
     }
 }
