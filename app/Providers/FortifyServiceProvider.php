@@ -56,15 +56,18 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::requestPasswordResetLinkView(function () {
-            return view('auth.forgot-password');
+            $contact = Contact::select('link')->where('company_id', 1)->get();
+            return view('auth.forgot-password', compact('contact'));
         });
 
         Fortify::resetPasswordView(function ($request) {
-            return view('auth.reset-password', ['request' => $request]);
+            $contact = Contact::select('link')->where('company_id', 1)->get();
+            return view('auth.reset-password', ['request' => $request, 'contact' => $contact]);
         });
 
         Fortify::verifyEmailView(function () {
-            return view('auth.verify-email');
+            $contact = Contact::select('link')->where('company_id', 1)->get();
+            return view('auth.verify-email', compact('contact'));
         });
 
         Fortify::confirmPasswordView(function () {

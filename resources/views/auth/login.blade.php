@@ -17,6 +17,9 @@
                             <div class="card-body login-card">
                                 <h4 class="card-title text-center">Login</h4>
                                 <hr>
+                                @if (session('status'))
+                                    <span class="error text-success" role="alert"><b>{{ session('status') }} </b></span>
+                                @endif
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                       <span class="input-group-text">
@@ -41,19 +44,17 @@
                                 </div>
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input name="terms" class="form-check-input" type="checkbox">
+                                        <input name="remember" class="form-check-input" type="checkbox" {{ old('remember') ? 'checked' : '' }}>
                                         Recordarme
                                         <span class="form-check-sign">
                                             <span class="check"></span>
                                         </span>
-                                    </label>                                        
-                                    @error('terms') 
-                                        <span class="error text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                    @enderror
+                                    </label>
                                 </div>
+                                <p class="text-center"><span><a href="{{ route('password.request') }}">Olvidó su contraseña?</a></span></p>
                             </div>
                             <div class="card-footer justify-content-center footer-login">
-                                <button type="submit" class="btn btn-success">Iniciar sesión</a>
+                                <button type="submit" class="btn btn-success">Acceder</a>
                             </div>
                             </div>
                         </form>
