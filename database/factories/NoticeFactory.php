@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Notices;
+use App\Models\Notice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class NoticesFactory extends Factory
+class NoticeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Notices::class;
+    protected $model = Notice::class;
 
     /**
      * Define the model's default state.

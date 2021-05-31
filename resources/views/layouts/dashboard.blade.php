@@ -26,10 +26,13 @@
 
             gtag('config', 'UA-174915949-1');
         </script>
+        @livewireStyles
     </head>
     <body class="">
         <div class="wrapper ">
-            @include('includes.sidebar_dash')
+
+            <x-sidebarDash/>
+            
             <div class="main-panel">
                 <!-- Navbar -->
                 @include('includes.navbar_dash')
@@ -76,7 +79,7 @@
                 });
             </script>
         @endif
-
+        @livewireScripts
         @stack('script-plus')
     </body>
     

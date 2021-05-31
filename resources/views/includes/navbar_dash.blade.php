@@ -39,13 +39,13 @@
                     <a class="nav-link" href="#" id="navbarDropdownMenuLink"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">notifications</i>
-                        <span class="notification">5</span>
+                        <span class="notification">0</span>
                         <p class="d-lg-none d-md-block">
                             Notificaciones
                         </p>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Depósito pendiente</a>
+                        {{-- <a class="dropdown-item" href="#">Depósito pendiente</a> --}}
                     </div>
                 </li>
                 <li class="nav-item dropdown">

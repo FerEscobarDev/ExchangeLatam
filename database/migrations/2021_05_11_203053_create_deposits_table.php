@@ -30,15 +30,15 @@ class CreateDepositsTable extends Migration
             $table->string('fbs_account', 20);
             $table->integer('price');
             $table->double('amount_usd', 50, 2);
-            $table->double('ammount_cop', 50, 2);
+            $table->double('amount_cop', 50, 2);
             $table->double('comission', 50, 2);
             $table->double('cuatro_por_mil', 50, 2);
             $table->double('iva', 50, 2);
             $table->double('rebate', 50, 2);
             $table->double('total', 50, 2);
             $table->string('status', 20);
-            $table->string('voucher', 100);
-            $table->string('comment', 150);
+            $table->string('voucher', 100)->nullable();
+            $table->string('comment', 150)->nullable();
             $table->dateTime('application_date');
             $table->dateTime('expiration_date');
             $table->dateTime('completed_date');

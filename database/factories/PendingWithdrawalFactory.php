@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\PendingWithdrawals;
+use App\Models\PendingWithdrawal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PendingWithdrawalsFactory extends Factory
+class PendingWithdrawalFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = PendingWithdrawals::class;
+    protected $model = PendingWithdrawal::class;
 
     /**
      * Define the model's default state.

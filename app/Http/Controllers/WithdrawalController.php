@@ -14,7 +14,7 @@ class WithdrawalController extends Controller
      */
     public function index()
     {
-        //
+        return view('user.withdrawalsIndex');
     }
 
     /**

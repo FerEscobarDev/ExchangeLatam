@@ -27,7 +27,7 @@ class CreateAccountsTable extends Migration
                     ->on('banks')
                     ->onDelete('set null')
                     ->onUpdate('cascade');
-            $table->string('number', 20);
+            $table->string('number', 20)->unique();
             $table->string('type', 30);
             $table->string('active', 10);
             $table->string('enrolled', 5);
