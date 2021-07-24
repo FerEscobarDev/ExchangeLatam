@@ -120,7 +120,7 @@
                                     <h4 class="info-title">Transacciones sin comisión</h4>
                                     <p>Todo depósito superior a 500 USD y todos los retiros sin importar el monto estarán
                                         libres de comisión.</p>
-                                    <a href="#pablo">Leer condiciones...</a>
+                                    <a href="{{ url('/faq#heading4') }}">Leer más...</a>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@
                                     <h4 class="info-title">Prioridad en sus retiros</h4>
                                     <p>Tendrá trato preferencial en sus retiros los cuales se procesarán durante las
                                         primeras 24 horas después de ser aprobado por el broker.</p>
-                                    <a href="#pablo">Leer condiciones...</a>
+                                    <a href="{{ url('/faq#heading4') }}">Leer más...</a>
                                 </div>
                             </div>
                         </div>

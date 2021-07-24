@@ -1,4 +1,4 @@
-<div class="col-md-12 ml-auto mr-auto" wire:model="$refresh()">
+<div class="col-md-12 ml-auto mr-auto">
     <div class="card">
         <div class="card-header card-header-primary card-header-icon">
             <div class="card-icon">
@@ -8,25 +8,11 @@
         </div>
         <div class="card-body">
             <div class="toolbar">
-                {{--        Here you can write extra buttons/actions for the toolbar              
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 m-auto text-center">
-                                <form method="POST" action="{{ route('generar_reporte') }}">
-                                    @csrf
-                                    <label for="fecha" class="label">Hasta</label>
-                                    <input type="text" name="fecha" class="form-control datepicker col-md-4 m-auto">
-                                    <button type="submit" class="btn btn-info">Generar reporte de transacciones</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
+                <livewire:user.create-deposit />
             </div>
             <div class="material-datatables">
                 <table id="deposits" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-                    <thead>
+                    <thead class="text-center">
                         <tr>
                             <th>Cuenta</th>
                             <th>Monto USD</th>

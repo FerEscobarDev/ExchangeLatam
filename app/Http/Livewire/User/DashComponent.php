@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\User;
 
-use App\Models\Deposit;
 use App\Models\Notice;
-use App\Models\Withdrawal;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
-class UserDashComponent extends Component
+class DashComponent extends Component
 {
     public function render()
     {   
@@ -26,6 +24,6 @@ class UserDashComponent extends Component
             ->limit(5) 
             ->get();
 
-        return view('livewire.user-dash-component', compact('noticesAll', 'lastTransactions'));
+        return view('livewire.user.dash-component', compact('noticesAll', 'lastTransactions'));
     }
 }

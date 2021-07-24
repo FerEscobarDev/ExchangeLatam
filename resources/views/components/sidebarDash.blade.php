@@ -4,23 +4,23 @@
             <a href="{{ route('company.index') }}" class="simple-text logo-mini">
                 <img src="{{ asset('img_web/logo-mini.png') }}" class="img-fluid">
             </a>
-            <a href="{{ route('user.dashboard') }}" class="simple-text logo-normal">
+            <a href="{{-- route('user.dashboard') --}}" class="simple-text logo-normal">
                 ExchangeLatam
             </a>
         </div>
         <div class="sidebar-wrapper">
             <div class="user">
                 <div class="photo">
-                    @isset(auth()->user->picture)
-                        <img src="{{ asset('storage/' . auth()->user->picture) }}">
+                    @isset(Auth::user()->picture)
+                        <img src="{{ asset('storage/' . Auth::user()->picture) }}">
                     @else
-                        <img src="{{ asset('img_web/default-avatar.png') }}">
+                        <img src="{{ asset('img_web/default.png') }}">
                     @endisset
                 </div>
                 <div class="user-info">
                     <a data-toggle="collapse" href="#collapseProfile" class="username">
                         <span>
-                            {{ strtok(auth()->user()->name, ' ') . ' ' . strtok(auth()->user()->lastname, ' ') }}
+                            {{ strtok(Auth::user()->name, ' ') . ' ' . strtok(Auth::user()->lastname, ' ') }}
                             <b class="caret"></b>
                         </span>
                     </a>
@@ -28,7 +28,7 @@
                         <ul class="nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    @isset(auth()->user->picture)
+                                    @isset(Auth::user()->picture)
                                         <span class="sidebar-mini"> CF </span>
                                         <span class="sidebar-normal"> Cambiar Foto </span>
                                     @else
@@ -53,32 +53,32 @@
                 </div>
             </div>
             <ul class="nav">
-                <li class="nav-item {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('user.dashboard') }}">
+                <li class="nav-item {{-- request()->routeIs('user.dashboard') ? 'active' : '' --}}">
+                    <a class="nav-link" href="{{-- route('user.dashboard') --}}">
                         <i class="material-icons">dashboard</i>
                         <p> Dashboard </p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('deposits.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('deposits.index') }}">
+                <li class="nav-item {{-- request()->routeIs('deposits.index') ? 'active' : '' --}}">
+                    <a class="nav-link" href="{{-- route('deposits.index') --}}">
                         <i class="material-icons">arrow_upward</i>
                         <p> Depósitos a FBS </p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('withdrawals.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('withdrawals.index') }}">
+                <li class="nav-item {{-- request()->routeIs('withdrawals.index') ? 'active' : '' --}}">
+                    <a class="nav-link" href="{{-- route('withdrawals.index') --}}">
                         <i class="material-icons">arrow_downward</i>
                         <p>Retiros de FBS </p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('accounts.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('accounts.index') }}">
+                <li class="nav-item {{-- request()->routeIs('accounts.index') ? 'active' : '' --}}">
+                    <a class="nav-link" href="{{-- route('accounts.index') --}}">
                         <i class="material-icons">account_balance</i>
                         <p>Datos bancarios</p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('verification.create') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('verification.create') }}">
+                <li class="nav-item {{-- request()->routeIs('verification.create') ? 'active' : '' --}}">
+                    <a class="nav-link" href="{{-- route('verification.create') --}}">
                         <i class="material-icons">fingerprint</i>
                         <p>Verificar cuenta</p>
                     </a>

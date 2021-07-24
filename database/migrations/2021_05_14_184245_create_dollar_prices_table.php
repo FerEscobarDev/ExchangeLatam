@@ -21,8 +21,8 @@ class CreateDollarPricesTable extends Migration
                     ->on('companies')
                     ->onDelete('set null')
                     ->onUpdate('cascade');
-            $table->double('dollar_buy', 50, 2);
-            $table->double('dollar_sell', 50, 2);
+            $table->double('dollar_buy', 50, 2)->comment('Precio al que lo compra el cliente(Depósitos)');
+            $table->double('dollar_sell', 50, 2)->comment('Precio al que lo vende el cliente(Retiros)');;
             $table->date('date');
             $table->timestamps();
         });

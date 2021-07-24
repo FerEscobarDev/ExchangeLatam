@@ -29,6 +29,9 @@ class CreateUsersTable extends Migration
             $table->string('picture', 70)->nullable();
             $table->integer('verified')->default(0);
             $table->integer('info_ok')->default(0);
+            $table->string('vip', 4)->nullable()->default('no');
+            $table->string('policy', 10)->default('accepted');
+            $table->string('terms', 10)->default('accepted');
             $table->rememberToken();
             $table->timestamps();
         });

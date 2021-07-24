@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Models\DollarPrice;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,11 @@ class DollarPriceController extends Controller
      */
     public function index()
     {
-        //
+        $dollarPrices = DollarPrice::orderBy('id', 'desc')->paginate(7);
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+        $hoy = date('Y-m-d');
+
+        return view('admin.dollarPriceIndex', compact('dollarPrices', 'contact', 'hoy'));
     }
 
     /**
@@ -35,7 +40,25 @@ class DollarPriceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date' => 'required',
+            'dollar_buy' => 'required',
+            'dollar_sell' => 'required',
+        ]);
+
+        $exist = DollarPrice::where('date', $request->date)->get();
+
+        if(!empty($exist[0]))
+        {
+            if($exist[0]->date == $request->date)
+            {
+                return back()->with('error', 'Ya existe un precio del dolar definido para esta fecha.');
+            }
+        }
+        DollarPrice::create($request->all());
+
+        return back()->with('success', 'El precio del dolar para le día '.$request->date.' se ha registrado correctamente.');
+
     }
 
     /**
@@ -69,7 +92,24 @@ class DollarPriceController extends Controller
      */
     public function update(Request $request, DollarPrice $dollarPrice)
     {
-        //
+        $request->validate([
+            'date' => 'required',
+            'dollar_buy' => 'required',
+            'dollar_sell' => 'required',
+        ]);
+
+        $exist = DollarPrice::where('date', $request->date)->get();
+
+        if(!empty($exist[0]))
+        {
+            if($exist[0]->date == $request->date)
+            {
+                return back()->with('error', 'No es posible cambiar los datos del precio para una fecha pasada o en curso.');
+            }
+        }
+        $dollarPrice->update($request->all());
+
+        return back()->with('success', 'El precio del dolar para le día '.$request->date.' se ha actualizado correctamente.');
     }
 
     /**
@@ -79,7 +119,17 @@ class DollarPriceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(DollarPrice $dollarPrice)
-    {
-        //
+    {   
+        $hoy = date('Y-m-d');
+        $date = $dollarPrice->date;
+        
+        if($dollarPrice->date <= $hoy)
+        {
+            return back()->with('error', 'No es posible eliminar el precio seleccionado, corresponde a una fecha pasada o que está en curso.');
+        }
+
+        $dollarPrice->delete();
+
+        return back()->with('success', 'El precio del dolar para le día '.$date.' se ha eliminado correctamente.');
     }
 }

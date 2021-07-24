@@ -14,6 +14,11 @@
             <div class="row">
                 <div class="col-md-8 ml-auto mr-auto text-center">
                     <h1 class="title">Acerca de nosotros</h1>
+                    {{-- <h4>
+                        <a target="_blank" href="{{ route('company.policy') }}" class="btn btn-link btn-lg">
+                            <i class="fa fa-gavel"></i> Política de tratamiento de datos
+                        </a>  
+                    </h4> --}}
                 </div>
             </div>
         </div>
@@ -65,7 +70,7 @@
                         <h4 class="description">Horario de procesamiento de transacciones de 7:00 am a 10:00 pm.</h4>
                     </div>
                     <div class="col-md-8 ml-auto mr-auto">
-                        <h2 class="text-center title">Contactenos</h2>
+                        <h2 class="text-center title">Contáctenos</h2>
                         <h4>
                             <a target="_blank" href="{{$contact[2]->link}}" class="btn btn-success btn-link btn-lg">
                                 <i class="fa fa-whatsapp"></i> +57 320 924 00 56
@@ -76,6 +81,19 @@
                                 <i class="fa fa-envelope-o"></i> support@exchangelatam.com
                             </a> 
                         </h4>                    
+                    </div>
+                </div> <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="title ml-5">
+                            <a target="_blank" href="{{ route('company.policy') }}" class="btn btn-link btn-lg">
+                                <i class="fa fa-gavel"></i> Política de tratamiento de datos
+                            </a>  
+                        </h4>{{-- 
+                        <h6 class="title ml-5">
+                            <a target="_blank" href="{{ route('company.policy') }}" class="">
+                                Política de tratamiento de datos
+                            </a>   
+                        </h2>  --}}               
                     </div>
                 </div>
             </div>

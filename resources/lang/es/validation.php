@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'accepted'             => 'El campo :attribute debe ser aceptado.',
+    'accepted'             => 'Debe aceptar :attribute.',
     'active_url'           => 'El campo :attribute no es una URL válida.',
     'after'                => 'El campo :attribute debe ser una fecha posterior a :date.',
     'after_or_equal'       => 'El campo :attribute debe ser una fecha posterior o igual a :date.',
@@ -146,6 +146,26 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'nombres',
+        'lastname' => 'apellidos',
+        'mobil' => 'celular',
+        'password' => 'contraseña',
+        'terms' => 'terminos y condiciones',
+        'amount_usd' => 'monto en usd',
+        'fbs_account' => 'cuenta fbs',
+        'voucher' => 'comprobante',
+        'departament' => 'departamento',
+        'city' => 'ciudad',
+        'address' => 'dirección',
+        'front' => 'fotografía frontal',
+        'back' => 'fotografía reverso',
+        'number' => 'número de cuenta',
+        'bank' => 'banco',
+        'type' => 'tipo de cuenta',
+        'current_password' => 'contraseña actual',
+        'subject' => 'asunto',
+        'message' => 'solicitud',
+    ],
 
 ];

@@ -16,16 +16,19 @@
         <link href="{{asset('css/material-dashboard.css?v=2.2.2')}}" rel="stylesheet" />
         <!-- CSS personalizado -->
         <link href="{{asset('css/style.css')}}" rel="stylesheet" />
+        {{-- Alpine --}}
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+        @production            
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174915949-1"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174915949-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'UA-174915949-1');
-        </script>
+                gtag('config', 'UA-174915949-1');
+            </script>
+        @endproduction
         @livewireStyles
     </head>
     <body class="">
@@ -54,7 +57,7 @@
         <script src="{{asset('js-dash/plugins/perfect-scrollbar.min.js')}}"></script>
         @stack('scripts')
         <!--  Notifications Plugin    -->
-        <script src="{{asset('js-dash/plugins/bootstrap-notify.j')}}s"></script>
+        <script src="{{asset('js-dash/plugins/bootstrap-notify.js')}}"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{asset('js-dash/material-dashboard.js?v=2.2.2')}}" type="text/javascript"></script>
 

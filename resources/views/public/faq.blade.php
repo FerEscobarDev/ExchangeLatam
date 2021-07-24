@@ -23,6 +23,39 @@
         <div class="main main-raised">
             <div class="container">
                 <div class="about-services features-2">
+                    {{-- <div class="about-contact">
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <!-- <h2 class="text-center title">Horarios de Atención <span class="material-icons">query_builder</span></h2> -->
+                                <div id="collapse">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                @foreach($faqs as $faq)
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="heading{{ $faq->id }}">
+                                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $faq->id }}" aria-expanded="false" aria-controls="collapse{{ $faq->id }}" class="collapsed">
+                                                                <h4 class="panel-title" style="font-weight: bold;">
+                                                                {{ $faq->question }}
+                                                                <i class="material-icons">keyboard_arrow_down</i>
+                                                                </h4>
+                                                            </a>
+                                                        </div>
+                                                        <div id="collapse{{ $faq->id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ $faq->id }}" aria-expanded="false" style="height: 0px;">
+                                                            <div class="panel-body">
+                                                                {!! $faq->answer !!}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>	                        
+                            </div>
+                        </div>
+                    </div> --}}
                     <div class="row">
                         <div class=" col-md-8 ml-auto mr-auto">
                             <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">

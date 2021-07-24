@@ -30,7 +30,7 @@ class CreateAccountsTable extends Migration
             $table->string('number', 20)->unique();
             $table->string('type', 30);
             $table->string('active', 10);
-            $table->string('enrolled', 5);
+            $table->string('enrolled', 5)->default('0');
             $table->timestamps();
         });
     }

@@ -29,6 +29,19 @@ class CompanyController extends Controller
         return view('public.faq', compact('contact', 'faqs'));
     }
 
+    public function config()
+    {
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+
+        return view('admin.config', compact('contact'));
+    }
+
+    public function policy()
+    {
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+        return view('public.policy', compact('contact'));
+    }
+    
     public function create()
     {
         //

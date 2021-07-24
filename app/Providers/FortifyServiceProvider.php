@@ -67,7 +67,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::verifyEmailView(function () {
             $contact = Contact::select('link')->where('company_id', 1)->get();
-            return view('auth.verify-email', compact('contact'));
+            return view('authOld.verify-email', compact('contact'));
         });
 
         Fortify::confirmPasswordView(function () {

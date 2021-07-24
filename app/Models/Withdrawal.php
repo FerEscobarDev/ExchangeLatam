@@ -13,11 +13,11 @@ class Withdrawal extends Model
 
     //Relación uno a muchos (invertida)
     public function user(){
-        return $this->belongsTo(Users::class);
+        return $this->belongsTo(User::class);
     }
 
     //Relación de uno a muchos (invertida)
     public function account(){
-        return $this->belongsTo(Accounts::class);
+        return $this->belongsTo(Account::class);
     }
 }

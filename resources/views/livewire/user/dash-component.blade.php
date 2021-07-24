@@ -68,7 +68,7 @@
             </div>
             <div class="material-datatables">
                 <table id="clientes" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-                    <thead>
+                    <thead class="text-center">
                         <tr>
                             <th>Tipo</th>
                             <th>Cuenta</th>

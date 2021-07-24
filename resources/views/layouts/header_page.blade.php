@@ -20,20 +20,22 @@
     <link href="{{ asset('css/material-kit.css?v=2.2.0') }}" rel="stylesheet" />
     <!-- CSS personalizado -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+    
+    @production     
+        <!-- Global site tag (gtag.js) - Google Analytics -->   
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174915949-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174915949-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
+            gtag('config', 'UA-174915949-1');
 
-        gtag('config', 'UA-174915949-1');
-
-    </script>
+        </script>
+    @endproduction
 </head>
 
 @yield('content')

@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notices;
+use App\Models\User;
+use App\Models\Contact;
+use App\Models\Notice;
 use Illuminate\Http\Request;
 
-class NoticesController extends Controller
+class NoticeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function noticesUser($id)
+    {   
+        $user = User::find($id);
+        $notices = Notice::where('type', 'general')->get();
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+
+        return view('admin.userNotices', compact('user', 'notices', 'contact'));
+    }
+
     public function index()
     {
         //
@@ -33,9 +39,21 @@ class NoticesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'type' => 'required|string',
+            'title' => 'required|string',
+            'content' => 'required|string'
+        ]);
+
+        $user->notices()->create([
+            'type' => $request->type,
+            'title' => $request->title,
+            'content' => $request->content
+        ]);
+
+        return back()->with('success', $request->type.' registrada correctamente.');
     }
 
     /**
@@ -44,7 +62,7 @@ class NoticesController extends Controller
      * @param  \App\Models\Notices  $notices
      * @return \Illuminate\Http\Response
      */
-    public function show(Notices $notices)
+    public function show(Notice $notice)
     {
         //
     }
@@ -55,7 +73,7 @@ class NoticesController extends Controller
      * @param  \App\Models\Notices  $notices
      * @return \Illuminate\Http\Response
      */
-    public function edit(Notices $notices)
+    public function edit(Notice $notice)
     {
         //
     }
@@ -67,7 +85,7 @@ class NoticesController extends Controller
      * @param  \App\Models\Notices  $notices
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Notices $notices)
+    public function update(Request $request, Notice $notice)
     {
         //
     }
@@ -78,8 +96,10 @@ class NoticesController extends Controller
      * @param  \App\Models\Notices  $notices
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Notices $notices)
+    public function destroy(Notice $notice)
     {
-        //
+        $notice->delete();
+
+        return back()->with('success', 'Alerta eliminada correctamente.');
     }
 }

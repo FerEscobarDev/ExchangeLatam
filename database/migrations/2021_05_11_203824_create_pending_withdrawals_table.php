@@ -21,7 +21,8 @@ class CreatePendingWithdrawalsTable extends Migration
                     ->on('users')
                     ->onDelete('set null')
                     ->onUpdate('cascade');
-            $table->string('type', 30);
+            $table->string('fbs_account', 20);            
+            $table->double('amount_usd', 50, 2);
             $table->double('price_usd', 50, 2);
             $table->dateTime('application_date');
             $table->timestamps();

@@ -19,7 +19,7 @@
             <ul class="navbar-nav ml-auto">
                 @auth
                     <li class="nav-item">
-                        <a href="{{ route('user.dashboard') }}" class="nav-link">
+                        <a href="{{ route('users.deposits') }}" class="nav-link">
                             Dashboard
                         </a>
                     </li>

@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Contact;
 use App\Models\Verification;
 use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function verificationUser($id)
+    {
+        $user = User::find($id);
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+        
+        return view('admin.userVerification', compact('user', 'contact'));
+    }
+
     public function index()
     {
         //

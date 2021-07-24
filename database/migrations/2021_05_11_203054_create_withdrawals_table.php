@@ -36,12 +36,12 @@ class CreateWithdrawalsTable extends Migration
             $table->double('iva', 50, 2);
             $table->double('rebate', 50, 2);
             $table->double('total', 50, 2);
-            $table->string('status', 20);
+            $table->string('status', 20)->default('Pendiente');
             $table->string('voucher', 100)->nullable();
             $table->string('comment', 150)->nullable();
             $table->dateTime('application_date');
             $table->dateTime('expiration_date');
-            $table->dateTime('completed_date');
+            $table->dateTime('completed_date')->nullable();
             $table->timestamps();
         });
     }

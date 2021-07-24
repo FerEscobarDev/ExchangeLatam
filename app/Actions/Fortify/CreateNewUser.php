@@ -33,8 +33,13 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
-            'terms' => ['accepted']
+            'policy' => ['accepted']
         ])->validate();
+
+        if($input['policy'] == 'on')
+        {
+            $policy = 'accepted';
+        }
 
         $name = ucwords(strtolower($input['name']));
         $lastname = ucwords(strtolower($input['lastname']));
@@ -45,7 +50,8 @@ class CreateNewUser implements CreatesNewUsers
             'mobil' => $input['mobil'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-        ]);
+            'policy' => $policy
+        ])->assignRole('Usuario');
 
         $user->notify(new Welcome($name, $lastname));
 

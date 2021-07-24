@@ -3,5 +3,5 @@
 @section('title', 'Retiros')
 
 @section('content')
-    {{-- @livewire('') --}}
+    <livewire:user.withdrawals-component />
 @endsection
