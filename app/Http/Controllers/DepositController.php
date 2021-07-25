@@ -116,10 +116,10 @@ class DepositController extends Controller
 
         $ruta_img = $voucher['voucher']->store('deposit_support', 'public');
 
-        $image = Image::make(public_path('storage/'.$ruta_img));
+        /* $image = Image::make(public_path('storage/'.$ruta_img));
         $image->widen(700);
-        /* $image->rotate(-90); */
-        $image->save();
+        $image->rotate(-90);
+        $image->save(); */
 
         $cargado = $deposit->update(['voucher' => $ruta_img]);
  
