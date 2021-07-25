@@ -18,9 +18,9 @@ class RouteUsers
     public function handle(Request $request, Closure $next)
     {
         $route = $request->server->all()['HTTP_HOST'];
-        dd($route.' -- '.env('APP_URL'));
+        //dd($route.' -- '.env('APP_URL'));
 
-        if($route == 'https://www.exchangelatam.com')
+        if($route == 'exchangelatam.com')
         {
             return $next($request);
         }else
