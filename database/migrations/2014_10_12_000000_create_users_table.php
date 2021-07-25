@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('doc_num')->unique()->nullable();
             $table->unsignedBigInteger('mobil')->unique();
             $table->string('departament', 30)->nullable();
-            $table->string('city', 45)->nullable();
+            $table->string('city', 60)->nullable();
             $table->string('address', 150)->nullable();
             $table->string('email', 45)->unique();
             $table->timestamp('email_verified_at')->nullable();
