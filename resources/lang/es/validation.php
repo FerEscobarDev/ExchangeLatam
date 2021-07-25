@@ -166,6 +166,7 @@ return [
         'current_password' => 'contraseña actual',
         'subject' => 'asunto',
         'message' => 'solicitud',
+        'policy' => 'nuestra política'
     ],
 
 ];

@@ -54,7 +54,7 @@
                             <th class="text-center">Verificación de cuenta</th>
                             <td>
                                 @if (Auth::user()->verified == 0)
-                                    <a class="btn-sm btn-danger" data-toggle="modal" data-target="#checkedaccount">Verificar ahora</a>
+                                    <a class=" btn btn-sm btn-danger" data-toggle="modal" data-target="#checkedaccount">Verificar ahora</a>
                                 @elseif(Auth::user()->verified == 1)
                                     <span class="text-warning">Pendiente de verificación</span>
                                 @else

@@ -31,8 +31,9 @@ Route::get('/about', [CompanyController::class, 'about'])->name('company.about')
 Route::get('/faq', [CompanyController::class, 'faq'])->name('company.faq')->middleware('route.users');
 Route::get('/policy', [CompanyController::class, 'policy'])->name('company.policy')->middleware('route.users');
 
-//Rutas Admin  Route::domain('admin.'.env('APP_URL'))->middleware('auth', 'verified', 'data')->group(function () {
-Route::domain('admin.exchangelatam-laravel-8.test')->middleware('auth', 'verified', 'data')->group(function () {
+//Rutas Admin  
+Route::domain('admin.'.env('APP_URL'))->middleware('auth', 'verified', 'data')->group(function () {
+//Route::domain('admin.exchangelatam-laravel-8.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones
     Route::get('/admin/dashboard', [UserController::class, 'admin'])->name('admin.dashboard')->middleware('can:admin.dashboard');/* ok */

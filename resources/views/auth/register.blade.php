@@ -85,13 +85,13 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input name="policy" class="form-check-input" type="checkbox" checked>
+                                            <input name="policy" class="form-check-input" type="checkbox">
                                             Aceptar <a target="_blank" href="{{ route('company.policy') }}">política de tratamiento de datos</a>.
                                             <span class="form-check-sign">
                                                 <span class="check"></span>
                                             </span>
                                         </label>                                        
-                                        @error('terms') 
+                                        @error('policy') 
                                             <span class="error text-danger" role="alert"><b>{{ $message }} </b></span> 
                                         @enderror
                                     </div>

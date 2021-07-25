@@ -153,7 +153,7 @@ class UserController extends Controller
         $data = $request->validate([
             'doc_type' => 'required|string|max:22',
             'doc_num' => ['required',Rule::unique('users','doc_num')->ignore(Auth::user()->id),'numeric','integer','digits_between:6,30'],
-            'mobil' => ['required',Rule::unique('users')->ignore(Auth::user()->id),'numeric','integer','digits_between:10,12'],
+            'mobil' => ['required',Rule::unique('users')->ignore(Auth::user()->id),'numeric','integer','digits:10'],
             'departament' => 'required|numeric|integer|digits_between:1,2',
             'city' => 'required|numeric|integer|digits_between:1,4',
             'address' => 'required|max:190',
@@ -427,7 +427,7 @@ class UserController extends Controller
                 'lastname' => 'required|string|min:3',
                 'doc_type' => 'required|string|max:22',
                 'doc_num' => ['required',Rule::unique('users','doc_num')->ignore($user->id),'numeric','integer','digits_between:7,30'],
-                'mobil' => ['required',Rule::unique('users')->ignore($user->id),'numeric','integer','digits_between:10,12'],
+                'mobil' => ['required',Rule::unique('users')->ignore($user->id),'numeric','integer','digits:10'],
                 'departament' => 'required|numeric|integer|digits_between:1,2',
                 'city' => 'required|numeric|integer|digits_between:1,4',
                 'address' => 'max:190',
