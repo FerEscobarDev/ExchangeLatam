@@ -97,13 +97,13 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
 });
 
 //Rutas contacto
-Route::middleware(['auth', 'route.users', 'can:panel.user'])->group(function () {
+Route::middleware(['auth', 'can:panel.user'])->group(function () {
     Route::get('/profile/contact', [UserController::class, 'contact'])->name('users.contact');
     Route::post('profile/contact/message', [UserController::class, 'contactMessage'])->name('users.contactMessage');    
 });
 
 //Rutas Users protección para completar datos
-Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users', 'data'])->group(function () {
+Route::middleware(['auth', 'verified', 'can:panel.user', 'data'])->group(function () {
     Route::get('/profile/deposits', [UserController::class, 'deposits'])->name('users.deposits');
     Route::get('/profile/withdrawals', [UserController::class, 'withdrawals'])->name('users.withdrawals');
     Route::get('/profile/accounts', [UserController::class, 'accounts'])->name('users.accounts');
@@ -117,7 +117,7 @@ Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users', 'data'])
 
 });
 //Rutas Users con acceso sin completar datos
-Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users'])->group(function () {
+Route::middleware(['auth', 'verified', 'can:panel.user'])->group(function () {
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile');
     Route::get('/profile/select_city', [UserController::class, 'getCity'])->name('users.getCity');
