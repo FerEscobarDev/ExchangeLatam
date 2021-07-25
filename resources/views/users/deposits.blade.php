@@ -206,7 +206,7 @@
                                                             </div>
                                                             <div class="card-content">
                                                                 <div class="row">
-                                                                    <div class="col-md-6"><p><b>Transferir a:</b></p></div><div class="col-md-6"><p>@if($deposit->account->bank->name != 'Bancolombia') Jeison Fernando Escobar Bermudez @else ExchangeLatam S.A.S. @endif</p></div>
+                                                                    <div class="col-md-6"><p><b>Transferir a:</b></p></div><div class="col-md-6"><p>@if($deposit->account->id != 3) Jeison Fernando Escobar Bermudez @else ExchangeLatam S.A.S. @endif</p></div>
                                                                     <div class="col-md-6"><p><b>Documento para inscripción:</b></p></div><div class="col-md-6"><p>@if($deposit->account->bank->name != 'Bancolombia') C.C. 1.111.198.204 @else NIT. 901-422-406 @endif</p></div>
                                                                     <div class="col-md-6"><p><b>Banco:</b></p></div><div class="col-md-6"><p>{{$deposit->account->bank->name}}</p></div>
                                                                     <div class="col-md-6"><p><b>Numero de cuenta:</b></p></div><div class="col-md-6"><p>{{$deposit->account->number}}</p></div>

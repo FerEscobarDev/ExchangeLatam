@@ -59,7 +59,7 @@
                                             <td><strong>$ </strong>{{ number_format($withdrawal->amount_cop, 0) }}</td>
                                             <td><strong>$ </strong>{{ number_format($withdrawal->total, 0) }}</td>
                                             <td class="td-actions">
-                                                @if ($withdrawal->account_id == 1935)
+                                                @if ($withdrawal->account_id == 1)
                                                     No disponible
                                                 @else
                                                     <button type="button" data-toggle="popover" data-trigger="focus"

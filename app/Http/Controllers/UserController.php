@@ -66,7 +66,7 @@ class UserController extends Controller
     {   
         $hoy = date('Y-m-d');
         $priceUsdDeposit = DollarPrice::where('date', $hoy)->get();
-        $accounts = Account::where('user_id', 298)->where('active', 'Activa')->get();
+        $accounts = Account::where('user_id', 8)->where('active', 'Activa')->get();
         $noticeModal = Auth::user()->notices->where('type', 'modal');
         $noticesAll = Notice::where('type', 'general')->get();
         $contact = Contact::select('link')->where('company_id', 1)->get();
