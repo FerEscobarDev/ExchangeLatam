@@ -33,6 +33,7 @@ Route::get('/policy', [CompanyController::class, 'policy'])->name('company.polic
 
 //Rutas Admin  
 Route::domain('admin.'.env('APP_URL'))->middleware('auth', 'verified', 'data')->group(function () {
+//Route::domain('admin.exchangelatam-laravel-8.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones
     Route::get('/admin/dashboard', [UserController::class, 'admin'])->name('admin.dashboard')->middleware('can:admin.dashboard');/* ok */

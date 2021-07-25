@@ -18,7 +18,7 @@ class RouteUsers
     public function handle(Request $request, Closure $next)
     {
         $route = $request->server->all()['HTTP_HOST'];
-        //dd($route.' '.env('APP_URL'));
+        dd($route.' '.env('APP_URL'));
 
         if($route == env('APP_URL'))
         {
