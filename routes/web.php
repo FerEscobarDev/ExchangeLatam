@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Rutas publicas
-Route::get('/', [CompanyController::class, 'index'])->name('company.index');
+Route::get('/', [CompanyController::class, 'index'])->name('company.index')->middleware('route.users');
 Route::get('/about', [CompanyController::class, 'about'])->name('company.about');
 Route::get('/faq', [CompanyController::class, 'faq'])->name('company.faq');
 Route::get('/policy', [CompanyController::class, 'policy'])->name('company.policy');
