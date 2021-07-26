@@ -19,7 +19,7 @@ class RouteUsers
     {
         $route = $request->server->all()['HTTP_HOST'];
 
-        if($route != 'admin.exchangelatam.com')
+        if($route != 'admin.exchangelatam.com' && $route != 'www.admin.exchangelatam.com')
         {
             return $next($request);
         }else
