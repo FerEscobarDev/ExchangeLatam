@@ -72,11 +72,11 @@ class WithdrawalController extends Controller
      */
     public function store(Request $request)
     {   
-        $hoy = date('Y-m-d');
+        $fecha_tasa = date('Y-m-d', strtotime($request->application_date));
         $user = User::find($request->user_id);
         $application_date = date('Y-m-d H:i:s', strtotime($request->application_date));
         $account = $user->accounts->where('active', 'Activa')->first();
-        $dollar_price = DollarPrice::where('date', $hoy)->get();
+        $dollar_price = DollarPrice::where('date', $fecha_tasa)->get();
         $dollar_price = $dollar_price[0]->dollar_sell;
         $amount_cop = $request->amount_usd * $dollar_price;
         $basePrice = $amount_cop / 1.004;
@@ -100,6 +100,7 @@ class WithdrawalController extends Controller
             $obj->fbs_account = $withdrawal->fbs_account;
             $obj->application_date = $date->isoFormat('dddd D [de] MMMM [del] Y');
             $obj->content = 'Para cumplir con el plazo antes mencionado es necesario resolver las siguientes novedades:';
+            $obj->message = '';
 
             if($user->verified != 2)
             {
