@@ -87,7 +87,7 @@
                             
                                 <button type="button" data-toggle="modal" data-target="#updateinfo" class="btn btn-info btn-sm">Actualizar datos personales</button>
                             
-                                <button type="button" data-toggle="modal" data-target="#destroyUser" class="btn btn-danger btn-sm">Elimiar Usuario</button>
+                                <button type="button" data-toggle="modal" data-target="#destroyUser" class="btn btn-danger btn-sm">Eliminar Usuario</button>
                             </div>
                         </div>  <hr>   
                     </div>

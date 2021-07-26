@@ -15,7 +15,7 @@ class CreateDollarPricesTable extends Migration
     {
         Schema::create('dollar_prices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable()->default(1);
             $table->foreign('company_id')
                     ->references('id')
                     ->on('companies')
