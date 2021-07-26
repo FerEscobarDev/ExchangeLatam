@@ -51,6 +51,7 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     Route::get('/admin/user/{id}/verification', [VerificationController::class, 'verificationUser'])->name('admin.usersVerification');
     Route::put('/admin/user/{user}/typeChange', [UserController::class, 'typeChange'])->name('admin.typeChange');
     Route::delete('/admin/user/{user}/destroy', [UserController::class, 'destroy'])->name('admin.userDestroy');
+    Route::get('/admin/user/select_city', [UserController::class, 'getCity'])->name('admin.getCity');
 
     //Rutas notices de usuarios
     Route::post('/admin/user/{user}/notice/store', [NoticeController::class, 'store'])->name('admin.storeNotice');
@@ -67,7 +68,7 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     Route::delete('/admin/withdrawal/{withdrawal}/destroy', [WithdrawalController::class, 'destroy'])->name('admin.destroyWithdrawal');
     Route::post('/admin/withdrawal/{withdrawal}/voucher', [WithdrawalController::class, 'voucherUp'])->name('admin.voucherUpWithdrawal');
     Route::post('/admin/withdrawal/{withdrawal}/status', [WithdrawalController::class, 'status'])->name('admin.statusWithdrawal');
-
+    
     //Rutas cuentas de usuario
     Route::post('/admin/account/{account}/update', [AccountController::class, 'update'])->name('admin.updateAccount');
     Route::put('/admin/account/{account}/enrolled', [AccountController::class, 'enrolled'])->name('admin.enrolledAccount');
@@ -117,11 +118,11 @@ Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users', 'data'])
 
 });
 //Rutas Users con acceso sin completar datos
-Route::middleware(['auth', 'verified', 'can:panel.user'])->group(function () {
-    Route::get('/profile/edit', [UserController::class, 'edit'])->name('users.edit')->middleware('route.users');
-    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile')->middleware('route.users');
+Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users'])->group(function () {
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile');
     Route::get('/profile/select_city', [UserController::class, 'getCity'])->name('users.getCity');
-    Route::post('/profile/picture', [UserController::class, 'picture'])->name('users.picture')->middleware('route.users');
+    Route::post('/profile/picture', [UserController::class, 'picture'])->name('users.picture');
 });
 
 /* Route::middleware(['auth', 'verified'])->group(function () {
