@@ -219,6 +219,6 @@
         </div>
     </div>
 @endsection
-@push('js')
+@push('js-1')
     <script src="{{ asset('js/jsOld/main.js') }}" type="text/javascript"></script>
 @endpush

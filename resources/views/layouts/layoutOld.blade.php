@@ -73,7 +73,7 @@
     @include('includes.footerOld')
     @stack('js-1')
     <!--    Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc    -->
-    <script src="{{ asset('js/jsOld/main.js') }}" type="text/javascript"></script>
+    {{-- <script src="{{ asset('js/jsOld/main.js') }}" type="text/javascript"></script> --}}
     <!-- Plugin for Date Time Picker and Full Calendar Plugin -->
     <script src="{{ asset('js/jsOld/moment.min.js') }}" type="text/javascript"></script>
     <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/   -->

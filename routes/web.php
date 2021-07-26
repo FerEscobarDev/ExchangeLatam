@@ -117,11 +117,11 @@ Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users', 'data'])
 
 });
 //Rutas Users con acceso sin completar datos
-Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users'])->group(function () {
-    Route::get('/profile/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile');
+Route::middleware(['auth', 'verified', 'can:panel.user'])->group(function () {
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('users.edit')->middleware('route.users');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile')->middleware('route.users');
     Route::get('/profile/select_city', [UserController::class, 'getCity'])->name('users.getCity');
-    Route::post('/profile/picture', [UserController::class, 'picture'])->name('users.picture');
+    Route::post('/profile/picture', [UserController::class, 'picture'])->name('users.picture')->middleware('route.users');
 });
 
 /* Route::middleware(['auth', 'verified'])->group(function () {
