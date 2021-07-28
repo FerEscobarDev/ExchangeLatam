@@ -225,7 +225,7 @@
                 <br>
                 <p>Puede acceder a su dashboard de usuario desde el siguiente botón.</p>
                 <div class="action">
-                    <a class="button button-primary" style="color: #fff;" href="{{url('/dashboard')}}" target="_blank">Acceder</a>
+                    <a class="button button-primary" style="color: #fff;" href="{{url('/login')}}" target="_blank">Acceder</a>
                 </div>
 
                 <p>Gracias por elegirnos como su medio de depósitos y retiros para el bróker FBS Markets INC.</p><br>

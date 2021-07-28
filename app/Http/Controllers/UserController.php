@@ -237,7 +237,7 @@ class UserController extends Controller
             'type' => 'required|string'
         ]);
 
-        $update_auth = Account::where('user_id', Auth::user()->id)->where('active', 'Activa')->select('updated_at')->get();
+        $update_auth = Account::where('user_id', Auth::user()->id)->where('active', 'Activa')->orderBy('id' , 'desc')->select('updated_at')->get();
 
         if(count($update_auth) > 0)
         {
@@ -260,7 +260,7 @@ class UserController extends Controller
                 'active' => 'Activa'
             ]);            
 
-            $accounts = Account::where('user_id', Auth::user()->id)->where('active', 'Activa');
+            $accounts = Account::where('user_id', Auth::user()->id)->where('active', 'Activa')->get();
 
             foreach( $accounts as $account ){
                 if( $account->id != $newaccount->id ){

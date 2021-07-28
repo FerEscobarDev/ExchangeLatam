@@ -2,7 +2,7 @@ window.addEventListener("load", function(){
 
     $('#departament').on('change', function(){
        
-      var url = 'http://www.exchangelatam-laravel-8.test:8000';
+      var url = location.origin;
        var city_id = $(this).val();
 
        if($.trim(city_id) != ''){
@@ -23,12 +23,12 @@ window.addEventListener("load", function(){
 
     $('#departamentAdmin').on('change', function(){
        
-      var url = 'http://www.admin.exchangelatam-laravel-8.test:8000';
+      var url = location.origin;
        var city_id = $(this).val();
 
        if($.trim(city_id) != ''){
 
-          $.get(url+'/profile/select_city',{ city_id: city_id }, function(cities) {
+          $.get(url+'/admin/user/select_city',{ city_id: city_id }, function(cities) {
 
                 $('#city').empty();
                 $('#city').append("<option value=''>Seleccione una ciudad</option>");
