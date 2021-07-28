@@ -98,11 +98,13 @@ class DollarPriceController extends Controller
             'dollar_sell' => 'required',
         ]);
 
+        $hoy = date('Y-m-d');
+
         $exist = DollarPrice::where('date', $request->date)->get();
 
         if(!empty($exist[0]))
         {
-            if($exist[0]->date == $request->date)
+            if($request->date <= $hoy || $exist[0]->date <= $hoy)
             {
                 return back()->with('error', 'No es posible cambiar los datos del precio para una fecha pasada o en curso.');
             }

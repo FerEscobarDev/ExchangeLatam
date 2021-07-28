@@ -59,6 +59,8 @@ class UserController extends Controller
     {
         $contact = Contact::select('link')->where('company_id', 1)->get();
 
+        //Se edita la clase Illuminate\Notifications\Notifiable del modelo Users
+
         return view('admin.dashboard', compact('contact'));
     }
 

@@ -104,7 +104,7 @@
                             <h5 class="description">
                                 Haga parte de nuestro programa VIP, para esto sólo debe abrir su cuenta de trading con
                                 nuestro link de referido haciendo click <a target="_blank" class="btn-info btn-link"
-                                    href="https://esfbs.com/?ppk=exchangelatam">aquí</a>,
+                                    href="https://fbs.com/cabinet/registration/trader/?ppk=exchangelatam&lang=es">aquí</a>,
                                 realizar su depósito y mantener su cuenta de trading activa.
                             </h5>
                             <h6>Beneficios:</h6>
