@@ -32,8 +32,8 @@ Route::get('/faq', [CompanyController::class, 'faq'])->name('company.faq')->midd
 Route::get('/policy', [CompanyController::class, 'policy'])->name('company.policy')->middleware('route.users');
 
 //Rutas Admin  
-//Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
-Route::domain('admin.exchangelatam-laravel-8.test')->middleware('auth', 'verified', 'data')->group(function () {
+Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
+//Route::domain('admin.exchangelatam-laravel-8.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones
     Route::get('/admin/dashboard', [UserController::class, 'admin'])->name('admin.dashboard')->middleware('can:admin.dashboard');/* ok */
@@ -68,7 +68,7 @@ Route::domain('admin.exchangelatam-laravel-8.test')->middleware('auth', 'verifie
     Route::delete('/admin/withdrawal/{withdrawal}/destroy', [WithdrawalController::class, 'destroy'])->name('admin.destroyWithdrawal');
     Route::post('/admin/withdrawal/{withdrawal}/voucher', [WithdrawalController::class, 'voucherUp'])->name('admin.voucherUpWithdrawal');
     Route::post('/admin/withdrawal/{withdrawal}/status', [WithdrawalController::class, 'status'])->name('admin.statusWithdrawal');
-
+    
     //Rutas cuentas de usuario
     Route::post('/admin/account/{account}/update', [AccountController::class, 'update'])->name('admin.updateAccount');
     Route::put('/admin/account/{account}/enrolled', [AccountController::class, 'enrolled'])->name('admin.enrolledAccount');
