@@ -235,7 +235,7 @@
                 <p>{{ $email['message'] }}</p>
 
                 <div class="action">
-                    <a class="button button-primary" style="color: #fff;" href="{{ 'https://admin.exchangelatam.com/admin/user/'.$email['user_id'].'deposits' }}" target="_blank">Ver perfil del usuario</a>
+                    <a class="button button-primary" style="color: #fff;" href="{{ 'https://admin.exchangelatam.com/admin/user/'.$email['user_id'].'/deposits' }}" target="_blank">Ver perfil del usuario</a>
                 </div>
 
                 <p>
@@ -248,7 +248,7 @@
                 <div class="subcopy">
                     <p><span class="break-all">Realice depósitos y retiros sin comisiones y sin costo alguno siendo cliente <a href="https://fbs.com/?ppk=exchangelatam">VIP</a>.</span></p>
                     <p><span class="break-all">Vísite nuestra sección <a href="{{ url('/faq') }}">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="{{ 'https://admin.exchangelatam.com/admin/user/'.$email['user_id'].'deposits' }}">{{ 'https://admin.exchangelatam.com/admin/user/'.$email['user_id'].'deposits' }}</a></span></p>
+                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="{{ 'https://admin.exchangelatam.com/admin/user/'.$email['user_id'].'/deposits' }}">{{ 'https://admin.exchangelatam.com/admin/user/'.$email['user_id'].'deposits' }}</a></span></p>
                 </div>
             </div>
 		</div>
