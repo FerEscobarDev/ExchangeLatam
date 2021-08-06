@@ -223,7 +223,7 @@
                 <h1>Hola {{ strtok($notify->name, " ")." ".strtok($notify->lastname, " ") }},</h1><br>
                 <p>
                     Reciba un cordial saludo de parte de ExchangeLatam, hemos recibido su retiro de la cuenta de trading FBS #{{$notify->fbs_account}} aprobado el día {{$notify->application_date}}, 
-                    el tiempo de gestión de los retiros es de hasta 3 días hábiles después de ser aprobado por FBS, si su retiro es aprobado un día no hábil el tiempo se gestión empieza después del primer día hábil siguiente.
+                    el tiempo de gestión de los retiros es de hasta 3 días hábiles después de ser aprobado por FBS, si su retiro es aprobado un día no hábil el tiempo de gestión empieza después del primer día hábil siguiente.
                 </p>
                 @isset($notify->content)                    
                     <p>
