@@ -45,10 +45,10 @@
                                             <div class="form-group">
                                                 <label class="control-label">Nombre</label>
                                                 <input required="required" type="text" class="form-control" name="description" value="{{old('description' ,$permission->description)}}">
-                                            </div class="form-group">
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="control-label">Ruta</label>
                                                 <input required="required" type="text" class="form-control" name="name" value="{{old('name' ,$permission->name)}}">
-                                            <div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
