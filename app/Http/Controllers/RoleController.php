@@ -36,7 +36,7 @@ class RoleController extends Controller
 
         $role->permissions()->sync($request->permissions);
 
-        return back()->with('success', 'Rol cerado con éxito.');
+        return back()->with('success', 'Rol creado con éxito.');
     }
 
 

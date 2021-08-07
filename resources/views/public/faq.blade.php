@@ -8,6 +8,16 @@
 
     <body class="landing-page sidebar-collapse">
 
+        @production
+            <!-- Google Tag Manager (noscript) -->
+            <noscript>
+                <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GWTZ55"
+                    height="0" width="0" style="display:none;visibility:hidden"
+                ></iframe>
+            </noscript>
+            <!-- End Google Tag Manager (noscript) -->
+        @endproduction
+
         @include('includes.navbar_page')
 
         <div class="page-header header-filter header-small" data-parallax="true"

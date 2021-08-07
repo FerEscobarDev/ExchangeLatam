@@ -89,11 +89,21 @@
                                 </a>
                             </li>
                         @endcannot
-                        <li>
-                            <a href="{{-- route('admin.notifications') --}}">
-                                <i class="material-icons">how_to_reg</i> Permisos
-                            </a>
-                        </li>                      
+                        @can('admin.permissionIndex')
+                            <li>
+                                <a href="{{ route('admin.permissionIndex') }}">
+                                    <i class="material-icons">how_to_reg</i> Permisos
+                                </a>
+                            </li>
+                        @endcan
+                        @cannot('admin.permissionIndex')
+                            <li>
+                                <a class="disabled" href="#">
+                                    <i class="material-icons">how_to_reg</i> Permisos
+                                </a>
+                            </li>
+                        @endcannot
+                                              
                     </ul>
                 </li>
                 <li class="dropdown">

@@ -11,7 +11,7 @@
     </div>
     <div class="row">
         <div class="table-responsive">
-            <table id="deposits_table" class="table table-striped table-bordered texto-centrado">
+            <table id="roles_table" class="table table-striped table-bordered texto-centrado">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -33,16 +33,16 @@
                                 </p>
                             </td> --}}
                             <td class="action">
-                                <button data-toggle="modal" data-target="#addRole{{ $role->id }}" class="btn btn-warning">Editar</button>
+                                <button data-toggle="modal" data-target="#updateRole{{ $role->id }}" class="btn btn-warning">Editar</button>
                                 <button data-toggle="modal" data-target="#destroyRole{{ $role->id }}" class="btn btn-danger">Eliminar</button>
                             </td>
                         </tr>
                         {{-- Modal update --}}
-                        <div class="modal fade" id="addRole{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="#rgretiro" aria-hidden="true">
+                        <div class="modal fade" id="updateRole{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="#updateRole{{ $role->id }}" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="rgretiro"><strong>Editar Rol</strong></h5>
+                                        <h5 class="modal-title"><strong>Editar Rol</strong></h5>
                                     </div>
                                     <form class="form" method="POST" action="{{route('admin.roleUpdate', $role)}}">
                                         @method('PUT')
@@ -109,11 +109,11 @@
         </div>
     </div> <br><br>
     {{-- Modal create --}}
-    <div class="modal fade" id="addRole" tabindex="-1" role="dialog" aria-labelledby="#rgretiro" aria-hidden="true">
+    <div class="modal fade" id="addRole" tabindex="-1" role="dialog" aria-labelledby="#addRole" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="rgretiro"><strong>Crear Rol</strong></h5>
+                    <h5 class="modal-title"><strong>Crear Rol</strong></h5>
                 </div>
                 <form class="form" method="POST" action="{{route('admin.roleStore')}}">
                     @csrf

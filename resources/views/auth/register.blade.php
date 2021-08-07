@@ -5,7 +5,18 @@
 @section('description', 'Registrarse en ExchangeLatam')
 
 @section('content')
-    <body class="signup-page sidebar-collapse">  
+    <body class="signup-page sidebar-collapse"> 
+
+        @production
+            <!-- Google Tag Manager (noscript) -->
+            <noscript>
+                <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GWTZ55"
+                    height="0" width="0" style="display:none;visibility:hidden"
+                ></iframe>
+            </noscript>
+            <!-- End Google Tag Manager (noscript) -->
+        @endproduction
+         
         @include('includes.navbar_page')
         <div class="page-header header-filter" style="background-image: url('{{asset('img_web/background.jpg')}}'); background-size: cover; background-position: top center;">
             <div class="container">
