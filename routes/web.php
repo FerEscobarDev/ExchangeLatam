@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 
 //Rutas publicas
 
-Route::get('/cliente-vip', [CampaignController::class, 'pautaVip'])->name('campaign.pautaVip')->middleware('route.users');
+Route::get('/campaigns/vip', [CampaignController::class, 'pautaVip'])->name('campaign.pautaVip')->middleware('route.users');
 Route::get('/', [CompanyController::class, 'index'])->name('company.index')->middleware('route.users');
 Route::get('/about', [CompanyController::class, 'about'])->name('company.about')->middleware('route.users');
 Route::get('/faq', [CompanyController::class, 'faq'])->name('company.faq')->middleware('route.users');
