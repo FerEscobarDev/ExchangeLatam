@@ -21,7 +21,9 @@
     <!-- CSS personalizado -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
     
-    @production     
+    @production   
+         @yield('facebook') 
+            
         <!-- Google Tag Manager -->
         <script>
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

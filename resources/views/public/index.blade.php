@@ -8,6 +8,10 @@
     realizar todos los movimientos de su inversión desde cualquier cuenta bancaria en
     Colombia, siendo ExchangeLatam el exchanger oficial para el broker FBS.',)
 
+@section('facebook')
+    <meta name="facebook-domain-verification" content="dyd6abo3shrqxcwntkk3f89qey5h1g" />
+@endsection
+
 @section('content')
 
     <body class="landing-page sidebar-collapse">
