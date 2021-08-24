@@ -84,27 +84,26 @@
                                                 @enderror
                                             </div>
                                             <br>
-                                            <div class="text-center">
-                                                <table style="display: none;" id="calculate_deposit"
-                                                    class="table table-condensed table-bordered">
-                                                    <tr>
-                                                        <th>Valor en COP</th>
-                                                        <td id="totalcop"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Comisión 1.5% IVA incl</th>
-                                                        <td id="totalcomision"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Descuento VIP</th>
-                                                        <td id="totaldescuento"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Total</th>
-                                                        <td id="totaldeposit"></td>
-                                                    </tr>
-                                                </table>
+                                            <div class="card-content content-center" style="display: none;" id="calculate_deposit">
+                                                <div class="row">
+                                                    <div class="col-md-8 col-md-offset-2">
+                                                        <div class="row">
+                                                            <div class="col-md-8"><p><b>Valor en COP:</b></p></div><div class="col-md-4"><p id="totalcop"></p></div>
+                                                            <div class="col-md-8"><p><b>Comisión sin IVA:</b></p></div><div class="col-md-4"><p id="totalcomision"></p></div>
+                                                            <div class="col-md-8"><p><b>IVA:</b></p></div><div class="col-md-4"><p id="iva"></p></div>
+                                                            @if ($rate != false)                                                        
+                                                                <div class="col-md-8"><p><b>Descuento comisión por promo:</b></p></div><div class="col-md-4"><p id="rebate_comission"></p></div>
+                                                                <div class="col-md-8"><p><b>Descuento tasa de cambio VIP:</b></p></div><div class="col-md-4"><p id="rebate_rateVip"></p></div>
+                                                                <div class="col-md-8"><p><b>Descuento total:</b></p></div><div class="col-md-4"><p class="text-success" id="totaldescuento"></p></div>
+                                                            @else                                                        
+                                                                <div class="col-md-8"><p><b>Descuento VIP:</b></p></div><div class="col-md-4"><p class="text-success" id="totaldescuento"></p></div>
+                                                            @endif
+                                                                <div class="col-md-8"><p><b>Total:</b></p></div><div class="col-md-4"><p id="totaldeposit"></p></div>                                                    
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -306,7 +305,13 @@
                                                                     @if(!empty($deposit->completed_date)) <div class="col-md-6"><p><b>Fecha de realización:</b></p></div><div class="col-md-6"><p>{{ $deposit->completed_date }}</p></div> @endif
                                                                     <div class="col-md-6"><p><b>Comisión:</b></p></div><div class="col-md-6"><p>+ $ {{ number_format($deposit->comission, 0) }}</p></div>
                                                                     <div class="col-md-6"><p><b>IVA:</b></p></div><div class="col-md-6"><p>+ $ {{ number_format($deposit->iva, 0) }}</p></div>
-                                                                    <div class="col-md-6"><p><b>Descuento VIP:</b></p></div><div class="col-md-6"><p>- $ {{ number_format($deposit->rebate, 0) }}</p></p></div>
+                                                                    @isset($deposit->rebateDescription)
+                                                                        <div class="col-md-6"><p><b>Descuento comisión por promo:</b></p></div><div class="col-md-6"><p>- $ {{ number_format($deposit->rebateDescription->rebate_comission, 0) }}</p></p></div>
+                                                                        <div class="col-md-6"><p><b>Descuento tasa de cambio VIP:</b></p></div><div class="col-md-6"><p>- $ {{ number_format($deposit->rebateDescription->rebate_rate, 0) }}</p></p></div>
+                                                                        <div class="col-md-6"><p><b>Total descuento:</b></p></div><div class="col-md-6"><p>- $ {{ number_format($deposit->rebate, 0) }}</p></p></div>
+                                                                    @else
+                                                                        <div class="col-md-6"><p><b>Descuento VIP:</b></p></div><div class="col-md-6"><p>- $ {{ number_format($deposit->rebate, 0) }}</p></p></div>
+                                                                    @endisset
                                                                     @if (!empty($deposit->comment))
                                                                         <div class="col-md-6"><p><b>Comentarios:</b></p></div><div class="col-md-6">
                                                                             <p>                                                                       
@@ -376,51 +381,120 @@
 @endsection
 
 @push('js')
-    <script>
-        function calculate() {
-            var val_comission = 0.015;
-            var rebate = 0;
-            var price_dollar = {{$priceUsdDeposit[0]->dollar_buy}};
-            var amount_usd = $('input#amount_usd').val();
-            var amount_cop = (parseInt(amount_usd)*parseInt(price_dollar));
-            var comission = (parseInt(amount_cop)*val_comission);
-            var vip = '{{ auth()->user()->vip }}';
-            console.log(vip);
+    @if ($rate != false)
+        <script>
+            function calculate() {
+                var comission_all = {{ $rate[0]->comission_all }};
+                comission_all = parseFloat(comission_all/100);
+                var val_comission = 0.015;
+                var rebate_rateVip = 0;
+                var price_dollar = {{$priceUsdDeposit[0]->dollar_buy}};
+                var vip_rate = {{$rate[0]->vip_rate}};
+                var amount_usd = $('input#amount_usd').val();
+                var amount_cop = parseInt(amount_usd)*parseInt(price_dollar);
+                var comission = Math.round((parseInt(amount_cop)*val_comission)/1.19);
+                var iva = Math.round(comission*0.19);
+                var rebate_comission = comission - Math.round(((comission_all*amount_cop)/1.19));
+                var vip = '{{ auth()->user()->vip }}';
+                var rebateTotal = 0;
 
-            if(vip == 'yes'){
-                if(amount_usd >= 500){
-                    rebate = comission;
+                if(vip == 'yes')
+                {   
+                    price_dollar = price_dollar - vip_rate;                    
+                    rebate_rateVip = amount_cop - (parseInt(amount_usd)*parseInt(price_dollar));
+                }
+
+                rebateTotal = rebate_comission + rebate_rateVip;
+
+                var total = (parseInt(amount_cop)+parseInt(comission)+parseInt(iva)-parseInt(rebateTotal));
+
+                if(isNaN(amount_cop) || isNaN(comission) || isNaN(total)) {
+                amount_cop = 0;
+                rebate_rateVip = 0;
+                iva = 0;
+                comission = 0;
+                rebate_comission = 0;
+                rebateTotal = 0;
+                total = 0;
+                $("div#calculate_deposit").hide();
+                }else{
+                $("div#calculate_deposit").show();
+                amount_cop = amount_cop.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                amount_cop = amount_cop.split('').reverse().join('').replace(/^[\.]/,'');
+                comission = comission.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                comission = comission.split('').reverse().join('').replace(/^[\.]/,'');
+                iva = iva.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                iva = iva.split('').reverse().join('').replace(/^[\.]/,'');
+                rebate_rateVip = rebate_rateVip.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                rebate_rateVip = rebate_rateVip.split('').reverse().join('').replace(/^[\.]/,'');
+                rebate_comission = rebate_comission.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                rebate_comission = rebate_comission.split('').reverse().join('').replace(/^[\.]/,'');
+                rebateTotal = rebateTotal.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                rebateTotal = rebateTotal.split('').reverse().join('').replace(/^[\.]/,'');
+                total = total.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                total = total.split('').reverse().join('').replace(/^[\.]/,'');
+                }
+                $('p#totalcop').text('$ '+amount_cop);
+                $('p#totalcomision').text('$ + '+comission);
+                $('p#iva').text('$ + '+iva);
+                $('p#rebate_comission').text('$ - '+rebate_comission);
+                $('p#rebate_rateVip').text('$ - '+rebate_rateVip);
+                $('p#totaldescuento').text('$ - '+rebateTotal);
+                $('p#totaldeposit').text('$ '+total);
+
+            }
+
+        </script> 
+    @else
+        <script>
+            function calculate() {
+                var val_comission = 0.015;
+                var rebate = 0;
+                var price_dollar = {{$priceUsdDeposit[0]->dollar_buy}};
+                var amount_usd = $('input#amount_usd').val();
+                var amount_cop = (parseInt(amount_usd)*parseInt(price_dollar));
+                var comission = Math.round((parseInt(amount_cop)*val_comission)/1.19);
+                var iva = Math.round(comission*0.19);
+                var vip = '{{ auth()->user()->vip }}';
+
+                if(vip == 'yes'){
+                    if(amount_usd >= 500){
+                        rebate = comission;
+                    }else{
+                        rebate = 0;
+                    }
                 }else{
                     rebate = 0;
                 }
-            }else{
-                rebate = 0;
+
+                var total = (parseInt(amount_cop)+parseInt(comission)+parseInt(iva)-parseInt(rebate));
+
+                if(isNaN(amount_cop) || isNaN(comission) || isNaN(total)) {
+                amount_cop = 0;
+                comission = 0;
+                total = 0;
+                $("div#calculate_deposit").hide();
+                }else{
+                $("div#calculate_deposit").show();
+                amount_cop = amount_cop.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                amount_cop = amount_cop.split('').reverse().join('').replace(/^[\.]/,'');
+                comission = comission.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                comission = comission.split('').reverse().join('').replace(/^[\.]/,'');
+                iva = iva.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                iva = iva.split('').reverse().join('').replace(/^[\.]/,'');
+                rebate = rebate.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                rebate = rebate.split('').reverse().join('').replace(/^[\.]/,'');
+                total = total.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+                total = total.split('').reverse().join('').replace(/^[\.]/,'');
+                }
+                $('p#totalcop').text('$ '+amount_cop);
+                $('p#totalcomision').text('$ + '+comission);
+                $('p#iva').text('$ + '+iva);
+                $('p#totaldescuento').text('$ - '+rebate);
+                $('p#totaldeposit').text('$ '+total);
+
             }
 
-            var total = (parseInt(amount_cop)+parseInt(comission)-parseInt(rebate));
-
-            if(isNaN(amount_cop) || isNaN(comission) || isNaN(total)) {
-              amount_cop = 0;
-              comission = 0;
-              total = 0;
-              $("table#calculate_deposit").hide();
-            }else{
-              $("table#calculate_deposit").show();
-              amount_cop = amount_cop.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-              amount_cop = amount_cop.split('').reverse().join('').replace(/^[\.]/,'');
-              comission = comission.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-              comission = comission.split('').reverse().join('').replace(/^[\.]/,'');
-              rebate = rebate.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-              rebate = rebate.split('').reverse().join('').replace(/^[\.]/,'');
-              total = total.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-              total = total.split('').reverse().join('').replace(/^[\.]/,'');
-            }
-            $('td#totalcop').text('$ '+amount_cop);
-            $('td#totalcomision').text('$ + '+comission);
-            $('td#totaldescuento').text('$ - '+rebate);
-            $('td#totaldeposit').text('$ '+total);
-
-         }
-
-    </script> 
+        </script> 
+    @endif
 @endpush

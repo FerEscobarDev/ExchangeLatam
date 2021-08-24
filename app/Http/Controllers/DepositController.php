@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rate;
 use App\Models\User;
 use App\Models\Contact;
 use App\Models\Deposit;
@@ -77,17 +78,47 @@ class DepositController extends Controller
         $total = $amount_cop+$comission+$iva;
         $application_date = date('Y-m-d H:i:s');
         $expiration_date = date('Y-m-d H:i:s', strtotime($application_date.'+ 1 days'));
+        $rate = Rate::where('date', $hoy)->get();
+        $rebate_rate = 0;
 
-        if(auth()->user()->vip == 'yes'){
-            if($data['amount_usd'] >= 500){
-                $rebate = $comission+$iva;
-                $total = $total - $rebate;
-            }else{
-                $rebate = 0;
+        if(empty($rate[0]))
+        {
+            if(auth()->user()->vip == 'yes')
+            {
+                if($data['amount_usd'] >= 500)
+                {
+                    $rebate = $comission;
+                    $total = $total - $rebate;
+                }
+                else
+                {
+                    $rebate = 0;
+                }
             }
-        }else{
-            $rebate = 0;
+            else
+            {
+                $rebate = 0;
+            } 
         }
+        else
+        { 
+            $rebate_vip = $rate[0]->vip_rate;
+            $comission_all = $rate[0]->comission_all;
+
+            if(auth()->user()->vip == 'yes')
+            {
+                $rebate_rate = $amount_cop - (($dollar_price - $rebate_vip)*$data['amount_usd']);
+            }
+            else
+            {
+                $rebate_rate = 0;
+            }
+
+            $rebate_comission = $comission - ((((int)$comission_all/100)*$amount_cop)/1.19);
+            $rebate = $rebate_comission + $rebate_rate;
+
+            $total = $total - $rebate;
+        }        
         
         $deposit = auth()->user()->deposits()->create([
             'fbs_account' => $data['fbs_account'],
@@ -102,7 +133,15 @@ class DepositController extends Controller
             'total' => $total,
             'application_date' => $application_date,
             'expiration_date' => $expiration_date
-        ]);       
+        ]); 
+        
+        if(isset($rebate_vip) && isset($comission_all))
+        {
+            $deposit->rebateDescription()->create([
+                'rebate_comission' => $rebate_comission,
+                'rebate_rate' => $rebate_rate
+            ]);
+        }
         
         return redirect('profile/deposits')->with('info', $deposit)->with('success', 'Depósito solicitado correctamente.');
         

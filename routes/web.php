@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\DepositController;
-use App\Http\Controllers\DollarPriceController;
-use App\Http\Controllers\NoticeController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\VerificationController;
-use App\Http\Controllers\WithdrawalController;
 use GuzzleHttp\Middleware;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RateController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DepositController;
+use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\WithdrawalController;
+use App\Http\Controllers\DollarPriceController;
+use App\Http\Controllers\VerificationController;
 
 
 /*
@@ -105,6 +106,12 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     Route::post('/admin/dollarprice/store', [DollarPriceController::class, 'store'])->name('admin.dollarPriceStore');
     Route::put('/admin/dollarprice/{dollarPrice}/update', [DollarPriceController::class, 'update'])->name('admin.dollarPriceUpdate');
     Route::delete('/admin/dollarprice/{dollarPrice}/destroy', [DollarPriceController::class, 'destroy'])->name('admin.dollarPriceDestroy');
+
+    //Rutas configuración ofertas
+    Route::get('/admin/rate/index', [RateController::class, 'index'])->name('admin.rateIndex')->middleware('can:admin.rateIndex');/*  */
+    Route::post('/admin/rate/store', [RateController::class, 'store'])->name('admin.rateStore');
+    Route::put('/admin/rate/{rate}/update', [RateController::class, 'update'])->name('admin.rateUpdate');
+    Route::delete('/admin/rate/{rate}/destroy', [RateController::class, 'destroy'])->name('admin.rateDestroy');
 });
 
 //Rutas contacto

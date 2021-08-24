@@ -30,4 +30,9 @@ class Company extends Model
     public function fbsBalances(){
         return $this->hasMany(FbsBalance::class);
     }
+
+    //Relación de uno a muchos
+    public function rates(){
+        return $this->hasMany(Rate::class);
+    }
 }

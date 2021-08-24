@@ -20,4 +20,9 @@ class Deposit extends Model
     public function account(){
         return $this->belongsTo(Account::class);
     }
+
+    //Relacion de uno a uno
+    public function rebateDescription(){
+        return $this->hasOne(RebateDescription::class);
+    }
 }

@@ -6,6 +6,7 @@ use datatables;
 use Carbon\Carbon;
 use App\Models\Bank;
 use App\Models\City;
+use App\Models\Rate;
 use App\Models\User;
 use App\Models\Notice;
 use App\Models\Account;
@@ -73,8 +74,13 @@ class UserController extends Controller
         $noticesAll = Notice::where('type', 'general')->get();
         $contact = Contact::select('link')->where('company_id', 1)->get();
         $deposits = Deposit::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(5);
+        $rate = Rate::where('date', $hoy)->get();
+        if(empty($rate[0]))
+        {
+            $rate = false;
+        }
 
-        return view('users.deposits', compact('contact', 'noticesAll', 'noticeModal', 'accounts', 'priceUsdDeposit', 'deposits'));
+        return view('users.deposits', compact('contact', 'noticesAll', 'noticeModal', 'accounts', 'priceUsdDeposit', 'deposits', 'rate'));
     }
 
     public function withdrawals()

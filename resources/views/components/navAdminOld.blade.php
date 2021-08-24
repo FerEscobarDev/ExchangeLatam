@@ -103,7 +103,20 @@
                                 </a>
                             </li>
                         @endcannot
-                                              
+                        @can('admin.rateIndex')
+                            <li>
+                                <a href="{{ route('admin.rateIndex') }}">
+                                    <i class="material-icons">card_giftcard</i> Ofertas
+                                </a>
+                            </li>
+                        @endcan
+                        @cannot('admin.rateIndex')
+                            <li>
+                                <a class="disabled" href="#">
+                                    <i class="material-icons">card_giftcard</i> Ofertas
+                                </a>
+                            </li>
+                        @endcannot            
                     </ul>
                 </li>
                 <li class="dropdown">
