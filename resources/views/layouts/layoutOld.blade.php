@@ -20,15 +20,24 @@
     <link href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css" rel="stylesheet">
     <link href="{{ asset('css/cssOld/style.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/jsOld/jquery.min.js') }}" type="text/javascript"></script>
-    @production   
+    @production
 
         <!-- Google Tag Manager -->
         <script>
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-5GWTZ55');
+            (function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-5GWTZ55');
         </script>
         <!-- End Google Tag Manager -->
 
@@ -43,43 +52,50 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-174915949-1');
-
         </script>
 
-        
+
         <!-- Facebook Pixel Code -->
         <script>
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '3341788526047762');
+            ! function(f, b, e, v, n, t, s) {
+                if (f.fbq) return;
+                n = f.fbq = function() {
+                    n.callMethod ?
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                };
+                if (!f._fbq) f._fbq = n;
+                n.push = n;
+                n.loaded = !0;
+                n.version = '2.0';
+                n.queue = [];
+                t = b.createElement(e);
+                t.async = !0;
+                t.src = v;
+                s = b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t, s)
+            }(window, document, 'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '1006698386813427');
             fbq('track', 'PageView');
         </script>
         <noscript><img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=3341788526047762&ev=PageView&noscript=1"
-        /></noscript>
+                src="https://www.facebook.com/tr?id=1006698386813427&ev=PageView&noscript=1" /></noscript>
         <!-- End Facebook Pixel Code -->
-    @endproduction 
+    @endproduction
 
 </head>
 
 <body class="profile-page">
-    
+
     @production
         <!-- Google Tag Manager (noscript) -->
         <noscript>
-            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GWTZ55"
-                height="0" width="0" style="display:none;visibility:hidden"
-            ></iframe>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GWTZ55" height="0" width="0"
+                style="display:none;visibility:hidden"></iframe>
         </noscript>
         <!-- End Google Tag Manager (noscript) -->
     @endproduction
-    
+
     <x-navOld />
     <div class="page-header header-filter" data-parallax="true"
         style="background-image: url('{{ asset('img_web/city.jpg') }}');"></div>
@@ -113,7 +129,7 @@
     <script src="{{ asset('js/jsOld/bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/jsOld/material.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/jsOld/material-kit.js?v=1.2.1') }}" type="text/javascript"></script>
-    
+
     @stack('js')
 </body>
 
