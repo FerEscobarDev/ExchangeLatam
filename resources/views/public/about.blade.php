@@ -40,7 +40,7 @@
                     <div class="col-md-10 ml-auto mr-auto text-center">
                         <h2 class="title">¿Quienes somos?</h2>
                         <h5 class="description">
-                            Somos un exchanger en Colombia para el broker FBS Markets Inc. desde marzo del 2017, operamos 100% de manera virtual y como persona jurídica bajo la razón social de ExchangeLatam SAS con NIT. 901.422.406-6. 
+                            Somos un exchanger en Colombia para el broker FBS Markets Inc. desde septiembre del 2017, operamos 100% de manera virtual y como persona jurídica bajo la razón social de ExchangeLatam SAS con NIT. 901.422.406-6. 
                             En ExchangeLatam nos encargamos de todo el proceso correspondiente al intercambio de divisas al momento de depositar o retirar su inversión, de esta manera facilitamos que pueda realizar todas las transacciones desde su cuenta bancaria 
                             evitando todo el tramite de las transferencias internacionales ya que nosotros lo hacemos por usted.
                         </h5>
