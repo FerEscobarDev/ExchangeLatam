@@ -2,7 +2,7 @@
 
 @section('title', 'Registro')
 
-@section('description', 'Registrarse en ExchangeLatam')
+@section('description', 'Registrese en ExchangeLatam y empiece a depositar y retirar su inversión en forex sin necesidad de tarjetas de crédito y a las mejores tarifas.')
 
 @section('content')
     <body class="signup-page sidebar-collapse"> 
