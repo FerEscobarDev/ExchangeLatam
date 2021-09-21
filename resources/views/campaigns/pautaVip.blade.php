@@ -235,6 +235,15 @@
                             </div>
                         </div>
                     </form>
+                    
+                    <div class="info text-center">
+                        <div class="icon icon-success">
+                            <i class="fa fa-whatsapp"></i>
+                        </div>
+                        <h4 class="info-title text-white">Contáctanos</h4>
+                        <p>Si necesitas mayor información, puedes escribirnos a nuestro <a target="_blank"  class="info-title text-success" href="{{ $contact[2]->link }}">WhatsApp: 3223105578 </a>.</p>
+                        <p>Conoce más sobre nosotros en nuestro sitio web <a target="_blank"  class="info-title text-info" href="{{ route('company.about') }}">www.exchangelatam.com</a>.</p>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-12 mr-auto">
                     <div class="info info-horizontal">
@@ -243,6 +252,7 @@
                         </div>
                         <img class="" src="{{asset('campaigns/sidebar-right.png')}}" alt="ExchangeLatam" style="max-width: 100%">
                     </div>
+                    
                 </div>
             </div>
         </div>
