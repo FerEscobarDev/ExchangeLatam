@@ -22,6 +22,13 @@ class DollarPriceController extends Controller
         return view('admin.dollarPriceIndex', compact('dollarPrices', 'contact', 'hoy'));
     }
 
+    public function indexPublic(){
+        $dollarPrices = DollarPrice::orderBy('id', 'desc')->paginate(7);
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+
+        return view('public.pricesDollar', compact('dollarPrices', 'contact'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -26,7 +26,7 @@
                             @csrf
                             <div class="card card-login card-hidden">
                             <div class="card-body login-card">
-                                <h4 class="card-title text-center">Login</h4>
+                                <h4 class="card-title text-center">Iniciar Sesión</h4>
                                 <hr>
                                 @if (session('status'))
                                     <span class="error text-success" role="alert"><b>{{ session('status') }} </b></span>

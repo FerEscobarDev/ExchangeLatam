@@ -6,7 +6,7 @@
     <x-tabOld />
     {{-- Sección withdrawals --}}
     <div class="tab-content">
-        <div class="tab-pane active work">
+        <div class="">
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="title">Listado de retiros</h3>
@@ -29,6 +29,9 @@
                                             <p class="card-description">
                                                 Esta es la tasa a la que se pagarán todos los retiros aprobados por FBS el
                                                 día de hoy.
+                                            </p>
+                                            <p class="card-description">
+                                                Puede consultar el histórico <a href="{{ route('public.dollarPrices') }}" target="_blank" class="text-info">aquí</a>.
                                             </p>
                                         </div>
                                     </div>

@@ -1,7 +1,7 @@
 @extends('layouts.layoutAdminOld')
 @section('titulo', 'Dollar Price - ')
 @section('content')
-    <h3 class="title">Listado del precio del dolar</h3><br>
+    <h3 class="title">Listado del precio del dólar</h3><br>
     @include('includes.successNotificationOld')
     @include('includes.errorsNotificationOld')
     <div class="row">
