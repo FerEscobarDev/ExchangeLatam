@@ -102,7 +102,8 @@
     <div class="main main-raised">
         <div class="profile-content">
             <div class="container">
-                @include('includes.alertModalOld')
+                {{-- @include('includes.alertModalOld') --}}
+                @include('includes.aniversaryModal')
                 @include('includes.profileOld')
                 @yield('content')
             </div>
