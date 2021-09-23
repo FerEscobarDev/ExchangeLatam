@@ -1,6 +1,6 @@
-@extends('layouts.layoutAdminOld')
+@extends('layouts.dashboard')
 @section('titulo', 'Dashboard - ')
-@section('content')
+{{-- @section('content')
     <h3 class="title">Notificaciones</h3><br>
     @include('includes.successNotificationOld')
     @include('includes.errorsNotificationOld')
@@ -20,4 +20,4 @@
             @endif            
         </div>
     </div> <br><br>
-@endsection
+@endsection --}}
