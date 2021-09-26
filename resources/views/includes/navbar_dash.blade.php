@@ -1,75 +1,78 @@
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-wrapper">
-            <div class="navbar-minimize">
-                <button id="minimizeSidebar" class="btn btn-just-icon btn-white btn-fab btn-round">
-                    <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
-                    <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
-                </button>
-            </div>
-            <a class="navbar-brand" href="{{--route('user.dashboard')--}}">Dashboard</a>
+<nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
+    <div class="container-fluid py-1 px-3">
+        <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none ">
+            <a href="javascript:;" class="nav-link text-body p-0">
+                <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                </div>
+            </a>
         </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
-                <!-- <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search...">
-                    <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                        <i class="material-icons">search</i>
-                        <div class="ripple-container"></div>
-                    </button>
-                </div> -->
-            </form>
-            <ul class="navbar-nav">
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="javascript:;">
-                        <i class="material-icons">dashboard</i>
-                        <p class="d-lg-none d-md-block">
-                            Stats
-                        </p>
-                    </a>
-                </li> -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" id="navbarDropdownMenuLink"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">notifications</i>
-                        <span class="notification">0</span>
-                        <p class="d-lg-none d-md-block">
-                            Notificaciones
-                        </p>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        {{-- <a class="dropdown-item" href="#">Depósito pendiente</a> --}}
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="javascript:;" id="navbarDropdownProfile"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">person</i>
-                        <p class="d-lg-none d-md-block">
-                            Cuenta
-                        </p>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                        <a class="dropdown-item" href="#">Cambiar contraseña</a>
-                        <a class="dropdown-item" href="#">Contáctenos</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                <div class="input-group input-group-outline">
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </div>
+                </div>
+            </div>
+            <ul class="navbar-nav  justify-content-between">
+                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                        <div class="sidenav-toggler-inner">
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item dropdown pe-2">
+                    <a href="javascript:;" class="nav-link text-body p-0 position-relative" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="material-icons cursor-pointer">
+                            notifications
+                        </i>
+                        <span class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
+                            <span class="small">{{count(Auth::user()->unreadNotifications)}}</span>
+                        <span class="visually-hidden">unread notifications</span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end p-2 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                        <li class="mb-2">
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                <div class="d-flex align-items-center py-1">
+                                    <span class="material-icons">email</span>
+                                    <div class="ms-2">
+                                        <h6 class="text-sm font-weight-normal my-auto">
+                                            Notificaciones pendientes
+                                        </h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                <div class="d-flex align-items-center py-1">
+                                    <span class="material-icons">podcasts</span>
+                                    <div class="ms-2">
+                                        <h6 class="text-sm font-weight-normal my-auto">
+                                            Notificaciones realizadas
+                                        </h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                <div class="d-flex align-items-center py-1">
+                                    <span class="material-icons">shopping_cart</span>
+                                    <div class="ms-2">
+                                        <h6 class="text-sm font-weight-normal my-auto">
+                                            Todas las notificaciones
+                                        </h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

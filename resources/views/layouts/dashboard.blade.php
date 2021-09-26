@@ -9,13 +9,16 @@
         <title>ExchangeLatam | @yield('title')</title>
         <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
         <!--     Fonts and icons     -->
-        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+        <!-- Nucleo Icons -->
+        <link href="{{asset('css/cssDash/nucleo-icons.css')}}" rel="stylesheet" />
+        <link href="{{asset('css/cssDash/nucleo-svg.css')}}" rel="stylesheet" />
         <!-- Font Awesome Icons -->
         <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
         <!-- Material Icons -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
         <!-- CSS Files -->
-        <link href="{{asset('css/material-dashboard.css')}}" rel="stylesheet" />
+        <link href="{{asset('css/cssDash/material-dashboard.css')}}" rel="stylesheet" />
         <!-- CSS personalizado -->
         <link href="{{asset('css/app.css')}}" rel="stylesheet" />
         {{-- Alpine --}}
@@ -85,28 +88,38 @@
     <body class="g-sidenav-show  bg-gray-100">
         {{-- Aside --}}
         <x-sidebarDash/>
-        {{-- <div class="wrapper ">
-
             
-            
-            <div class="main-panel">
-                <!-- Navbar -->
-                @include('includes.navbar_dash')
-                <!-- End Navbar -->
-                <div class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            @yield('content')
-                        </div>                
-                    </div>
+        <main class="main-content border-radius-lg ">
+            <!-- Navbar -->
+            @include('includes.navbar_dash')
+            <!-- End Navbar -->
+            <div class="container-fluid py-4">
+                <div class="row">
+                    @yield('content')
                 </div>
-                @include('includes.footer_dash')
             </div>
-        </div> --}}
+            {{-- Footer --}}
+            @include('includes.footer_dash')
+        </main>
+
         {{-- js adicional --}}
         @stack('scripts')
-        
-        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/jsDash/core/popper.min.js') }}"></script>
+        <script src="{{ asset('js/jsDash/core/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/jsDash/plugins/perfect-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('js/jsDash/plugins/smooth-scrollbar.min.js') }}"></script>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="{{ asset('js/jsDash/material-dashboard.js') }}"></script>
 
         {{-- @if($errors->any())
             @foreach($errors->all() as $error)
