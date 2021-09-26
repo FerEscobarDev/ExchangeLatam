@@ -23,9 +23,8 @@ class WithdrawalController extends Controller
      */
     public function index()
     {
-        $contact = Contact::select('link')->where('company_id', 1)->get();
-        
-        return view('admin.withdrawals', compact('contact'));
+        $withdrawals = Withdrawal::where('application_date','>=','2020-10-16 00:00:00')->orderBy('expiration_date', 'asc')->paginate(10);        
+        return view('admin.withdrawals.index', compact('withdrawals'));
     }
 
     public function withdrawalsData()

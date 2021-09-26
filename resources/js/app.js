@@ -1,2 +1,1 @@
-require('./bootstrap');
-require('./material-dashboard');
+/* require('./bootstrap'); */
