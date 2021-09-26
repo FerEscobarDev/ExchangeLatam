@@ -11,16 +11,29 @@
             registros
         </p>
     </div> --}}
+    
     <nav>
-        <ul class="pagination justify-content-center">
+        <ul class="pagination pagination-info justify-content-center">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                    <span class="page-link" aria-hidden="true">Anterior</span>
+                    <span class="page-link" aria-hidden="true">
+                        <span aria-hidden="true">
+                          <span class="material-icons">
+                            keyboard_arrow_left
+                          </span>
+                        </span>
+                    </span>
                 </li>
             @else
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">Anterior</a>
+                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">
+                        <span aria-hidden="true">
+                          <span class="material-icons">
+                            keyboard_arrow_left
+                          </span>
+                        </span>
+                    </a>
                 </li>
             @endif
 
@@ -46,11 +59,23 @@
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">Siguiente</a>
+                    <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">
+                        <span aria-hidden="true">
+                            <span class="material-icons">
+                                keyboard_arrow_right
+                            </span>
+                        </span>
+                    </a>
                 </li>
             @else
                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                    <span class="page-link" aria-hidden="true">Siguiente</span>
+                    <span class="page-link" aria-hidden="true">
+                        <span aria-hidden="true">
+                            <span class="material-icons">
+                                keyboard_arrow_right
+                            </span>
+                        </span>
+                    </span>
                 </li>
             @endif
         </ul>
