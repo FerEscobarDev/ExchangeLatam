@@ -24,10 +24,9 @@ class DepositController extends Controller
     }
 
     public function index()
-    {
-        $contact = Contact::select('link')->where('company_id', 1)->get();
-
-        return view('admin.deposits', compact('contact'));
+    {        
+        $deposits = Deposit::where('application_date','>=','2020-10-16 00:00:00')->orderBy('id', 'desc')->paginate(10);
+        return view('admin.deposits.index', compact('deposits'));
     }
 
     public function depositsData()
