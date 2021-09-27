@@ -57,7 +57,13 @@
             @endcan
             @can('withdrawal.index')
                 <li class="nav-item">
-                    <a href="{{route('withdrawal.index')}}" class="nav-link text-white {{ request()->routeIs('withdrawal.index') ? 'active' : '' }}">
+                    <a href="{{route('withdrawal.index')}}" 
+                        class="
+                            nav-link text-white
+                            @if(request()->routeIs('withdrawal.index') || request()->routeIs('withdrawal.indexPendientes') || request()->routeIs('withdrawal.indexRealizados'))
+                                active
+                            @endif
+                        ">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">arrow_downward</i>
                         <span class="nav-link-text ms-2 ps-1">Retiros</span>
                     </a>

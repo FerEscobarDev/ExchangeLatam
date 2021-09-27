@@ -88,6 +88,8 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
 
     //Rutas vista general de retiros
     Route::get('/admin/withdrawals', [WithdrawalController::class, 'index'])->name('withdrawal.index')->middleware('can:withdrawal.index');/* ok */
+    Route::get('/admin/withdrawals/today', [WithdrawalController::class, 'indexPendientes'])->name('withdrawal.indexPendientes')->middleware('can:withdrawal.index');
+    Route::get('/admin/withdrawals/success', [WithdrawalController::class, 'indexRealizados'])->name('withdrawal.indexRealizados')->middleware('can:withdrawal.index');
     Route::get('/admin/withdrawals/data', [WithdrawalController::class, 'withdrawalsData'])->name('admin.withdrawalsData');
 
     //Rutas gestión de roles

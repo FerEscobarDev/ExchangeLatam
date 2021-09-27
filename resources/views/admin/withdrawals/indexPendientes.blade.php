@@ -8,21 +8,21 @@
         <div class="nav-wrapper position-relative end-0">
             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link mb-0 px-0 py-1 active" href="{{route('withdrawal.index')}}" role="tab" aria-controls="index" aria-selected="true">
+                    <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.index')}}" role="tab" aria-controls="index" aria-selected="false">
                         <span class="material-icons align-middle mb-1 text-warning">
                             query_builder
                         </span>
                         Pendientes
                     </a>
-                </li>
+                </li>  
                 <li class="nav-item">
-                    <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexPendientes')}}" role="tab" aria-controls="today" aria-selected="false">
+                    <a class="nav-link active mb-0 px-0 py-1 " href="{{route('withdrawal.indexPendientes')}}" role="tab" aria-controls="today" aria-selected="true">
                         <span class="material-icons align-middle mb-1 text-info">
                             published_with_changes
                         </span>
                         Para hoy
                     </a>
-                </li>                
+                </li>              
                 <li class="nav-item">
                     <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexRealizados')}}" role="tab" aria-controls="realizados" aria-selected="false">
                         <span class="material-icons align-middle mb-1 text-success">

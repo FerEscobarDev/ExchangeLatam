@@ -23,8 +23,20 @@ class WithdrawalController extends Controller
      */
     public function index()
     {
-        $withdrawals = Withdrawal::where('application_date','>=','2020-10-16 00:00:00')->orderBy('expiration_date', 'asc')->paginate(10);        
+        $withdrawals = Withdrawal::where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Pendiente')->orderBy('application_date', 'asc')->paginate(10);        
         return view('admin.withdrawals.index', compact('withdrawals'));
+    }
+
+    public function indexPendientes()
+    {
+        $withdrawals = Withdrawal::where('expiration_date', date('Y-m-d'))->where('status', 'Pendiente')->orderBy('application_date', 'asc')->paginate(10);        
+        return view('admin.withdrawals.indexPendientes', compact('withdrawals'));
+    }
+
+    public function indexRealizados()
+    {
+        $withdrawals = Withdrawal::where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Realizado')->orderBy('application_date', 'desc')->paginate(10);        
+        return view('admin.withdrawals.indexRealizados', compact('withdrawals'));
     }
 
     public function withdrawalsData()
