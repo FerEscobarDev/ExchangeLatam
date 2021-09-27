@@ -45,8 +45,8 @@
                         <th class="text-uppercase text-secondary text-sm opacity-7">Monto COP</th>
                         <th class="text-uppercase text-secondary text-sm opacity-7">Total</th>
                         <th class="text-uppercase text-secondary text-sm opacity-7">Fecha Límite</th>
-                        <th class="text-uppercase text-secondary text-sm opacity-7">Estado</th>
-                        <th class="text-uppercase text-secondary text-sm opacity-7">Acciones</th>
+                        <th class="text-uppercase text-secondary text-sm opacity-7">Estado</th>{{-- 
+                        <th class="text-uppercase text-secondary text-sm opacity-7">Acciones</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -78,16 +78,16 @@
                                     @endif
                                 </button>
                             </td>
-                            <td class="text-sm font-weight-normal align-middle">{{ number_format($withdrawal->amount_usd,0) }}</td>
+                            <td class="text-sm font-weight-normal align-middle">{{ number_format($withdrawal->amount_usd,2) }}</td>
                             <td class="text-sm font-weight-normal align-middle">{{ number_format($withdrawal->amount_cop,0) }}</td>
                             <td class="text-sm font-weight-normal align-middle">{{ number_format($withdrawal->total,0) }}</td>
-                            <td class="text-sm font-weight-normal align-middle">{{ $withdrawal->application_date }}</td>
-                            <td class="text-sm font-weight-normal align-middle">{{ $withdrawal->status }}</td>
+                            <td class="text-sm font-weight-normal align-middle">{{ date('d-M-Y',strtotime($withdrawal->expiration_date)) }}</td>
+                            <td class="text-sm font-weight-normal align-middle text-success">{{ $withdrawal->status }}</td>{{-- 
                             <td class="text-sm font-weight-normal align-middle">
                                 <a target="_blank" href="{{route('admin.usersShowWithdrawals', $withdrawal->user_id)}}" type="button" class="btn btn-icon btn-2 btn-info mb-0">
                                     <span class="btn-inner--icon"><i class="material-icons">visibility</i></span>
                                 </a>
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach                    
                 </tbody>
