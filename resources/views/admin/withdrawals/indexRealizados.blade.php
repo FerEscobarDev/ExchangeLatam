@@ -54,7 +54,7 @@
                         <tr>
                             <td class="text-sm font-weight-normal align-middle">{{ $withdrawal->id }}</td>
                             <td class="text-sm font-weight-normal align-middle">
-                                <a href="{{route('admin.usersShowDeposits', $withdrawal->user_id)}}" target="_blank" class="text-info">
+                                <a href="{{route('admin.usersShowWithdrawals', $withdrawal->user_id)}}" target="_blank" class="text-info">
                                     {{  strtok($withdrawal->user->name, " ")." ".strtok($withdrawal->user->lastname, " ") }}
                                 </a>
                             </td>
