@@ -20,4 +20,10 @@ class DollarPurchase extends Model
     public function account(){
         return $this->belongsTo(Account::class);
     }
+
+    //Relación uno a uno polimorfica
+    public function transaction()
+    {
+        return $this->morphOne(Transaction::class, 'transactionable');
+    }
 }

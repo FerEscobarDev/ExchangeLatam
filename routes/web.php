@@ -14,6 +14,7 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\DollarPriceController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VerificationController;
 
 
@@ -40,8 +41,8 @@ Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name
 
 
 //Rutas Admin  
-Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
-//Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
+//Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
+Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones 
     Route::get('/admin/dashboard', [UserController::class, 'admin'])->name('admin.dashboard')->middleware('can:admin.dashboard');/* ok */
@@ -117,6 +118,15 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     Route::post('/admin/rate/store', [RateController::class, 'store'])->name('admin.rateStore');
     Route::put('/admin/rate/{rate}/update', [RateController::class, 'update'])->name('admin.rateUpdate');
     Route::delete('/admin/rate/{rate}/destroy', [RateController::class, 'destroy'])->name('admin.rateDestroy');
+
+    //Rutas modulo contabilidad
+    Route::get('/admin/accounting/reports', [ReportController::class, 'index'])->name('admin.reportIndex')->middleware('can:admin.reportIndex');
+    Route::get('/admin/accounting/reports/create', [ReportController::class, 'create'])->name('admin.reportCreate');
+    Route::post('/admin/accounting/reports/store', [ReportController::class, 'store'])->name('admin.reportStore');
+    Route::get('/admin/accounting/reports/show/{report}', [ReportController::class, 'show'])->name('admin.reportShow');
+    Route::delete('/admin/accounting/reports/destroy/{report}', [ReportController::class, 'destroy'])->name('admin.reportDestroy');
+    //Rutas exportación de reportes
+    Route::get('/admin/accounting/reports/export/{report}', [ReportController::class, 'export'])->name('admin.reportExport');
 });
 
 //Rutas contacto

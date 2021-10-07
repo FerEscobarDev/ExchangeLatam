@@ -812,10 +812,10 @@
                     hiddenHeader: !1,
                     footer: !1,
                     labels: {
-                        placeholder: "Search...",
-                        perPage: "Mostrar {select} registros",
+                        placeholder: "Buscar...",
+                        perPage: "{select} entradas por página",
                         noRows: "No existen registros",
-                        info: "Registros del {start} al {end} de {rows} registros"
+                        info: "Registro del {start} al {end} de {rows} entradas"
                     },
                     layout: {
                         top: "{select}{search}",

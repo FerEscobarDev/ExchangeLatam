@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('titulo', 'Norifications - ')
+@section('title', 'Notifications')
 @section('content')
     <h3 class="title">Notificaciones</h3><br>
     @include('includes.successNotification')

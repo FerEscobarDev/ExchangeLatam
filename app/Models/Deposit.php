@@ -25,4 +25,11 @@ class Deposit extends Model
     public function rebateDescription(){
         return $this->hasOne(RebateDescription::class);
     }
+
+    //Relación uno a uno polimorfica
+    public function transaction()
+    {
+        return $this->morphOne(Transaction::class, 'transactionable');
+    }
+
 }

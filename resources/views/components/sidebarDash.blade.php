@@ -88,7 +88,15 @@
                         <span class="nav-link-text ms-2 ps-1">Usuarios</span>
                     </a>
                 </li>
-            @endcan                
+            @endcan                                                
+            @can('admin.reportIndex')  
+                <li class="nav-item">
+                    <a href="{{route('admin.reportIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.reportIndex') ? 'active' : '' }}">
+                        <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">leaderboard</i>
+                        <span class="nav-link-text ms-2 ps-1">Reportes Contables</span>
+                    </a>
+                </li>
+            @endcan              
             <li class="nav-item">
                 <hr class="horizontal light" />
                 <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Configuración web</h6>

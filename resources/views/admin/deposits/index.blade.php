@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('titulo', 'Deposits - ')
+@section('title', 'Deposits')
 @section('content')
     <h3 class="title">Listado de depositos</h3>
     @include('includes.successNotification')
