@@ -14,6 +14,7 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\DollarPriceController;
+use App\Http\Controllers\DollarPurchaseController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VerificationController;
 
@@ -127,6 +128,14 @@ Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data'
     Route::delete('/admin/accounting/reports/destroy/{report}', [ReportController::class, 'destroy'])->name('admin.reportDestroy');
     //Rutas exportación de reportes
     Route::get('/admin/accounting/reports/export/{report}', [ReportController::class, 'export'])->name('admin.reportExport');
+
+    //Rutas compra de dolares
+    Route::get('/admin/dollarpurchase/index', [DollarPurchaseController::class, 'index'])->name('admin.dollarPurchaseIndex')->middleware('can:admin.dollarPurchaseIndex');/* ok */
+    Route::get('/admin/dollarpurchase/create', [DollarPurchaseController::class, 'create'])->name('admin.dollarPurchaseCreate');
+    Route::get('/admin/dollarpurchase/edit', [DollarPurchaseController::class, 'edit'])->name('admin.dollarPurchaseEdit');
+    Route::post('/admin/dollarpurchase/store', [DollarPurchaseController::class, 'store'])->name('admin.dollarPurchaseStore');
+    Route::put('/admin/dollarpurchase/{dollarPrice}/update', [DollarPurchaseController::class, 'update'])->name('admin.dollarPurchaseUpdate');
+    Route::delete('/admin/dollarpurchase/{dollarPrice}/destroy', [DollarPurchaseController::class, 'destroy'])->name('admin.dollarPurchaseDestroy');
 });
 
 //Rutas contacto

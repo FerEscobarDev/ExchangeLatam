@@ -14,7 +14,8 @@ class DollarPurchaseController extends Controller
      */
     public function index()
     {
-        //
+        $dollarPurchases = DollarPurchase::paginate(10);
+        return view('admin.dollarPurchase.index', compact('dollarPurchases'));
     }
 
     /**
@@ -24,7 +25,7 @@ class DollarPurchaseController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.dollarPurchase.create');
     }
 
     /**
@@ -35,7 +36,11 @@ class DollarPurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'doc_num' => ['required','numeric','integer','digits_between:6,30'],
+        ]);
+
+        return redirect()->route('admin.dollarPurchaseIndez')->with('success', 'Transacción de compra de USD registrada correctamente.');
     }
 
     /**

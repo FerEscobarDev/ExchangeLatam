@@ -29,8 +29,8 @@ class CreateDollarPurchasesTable extends Migration
                     ->onUpdate('cascade');
             $table->string('type', 30);
             $table->double('price_usd', 50, 2);
-            $table->double('monto_usd', 50, 2);
-            $table->double('monto_cop', 50, 2);
+            $table->double('amount_usd', 50, 2);
+            $table->double('amount_cop', 50, 2);
             $table->double('iva', 50,2);
             $table->double('cuatro_por_mil', 50,2);
             $table->double('total', 50, 2);
