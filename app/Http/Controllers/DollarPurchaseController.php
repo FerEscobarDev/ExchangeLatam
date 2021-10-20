@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DollarPurchase;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DollarPurchaseController extends Controller
@@ -38,9 +39,35 @@ class DollarPurchaseController extends Controller
     {
         $request->validate([
             'doc_num' => ['required','numeric','integer','digits_between:6,30'],
+            'type' => ['required','string','max:30'],/* 
+            'price_usd' => ['numeric','integer'], */
+            'amount_usd' => ['required','numeric','integer'],
+            'amount_cop' => ['required','numeric','integer'],
+            'cuatro_por_mil' => ['required','numeric','integer'],
+            'voucher' => ['required','image'],
+            'date' => ['required','date']
         ]);
 
-        return redirect()->route('admin.dollarPurchaseIndez')->with('success', 'Transacción de compra de USD registrada correctamente.');
+        //Se añade el 4x1000 pero no se debe tener en cuenta para reporte y contabilidad
+
+        $user = User::where('doc_num', $request->doc_num)->get();
+        $account = $user->accounts->where('active', 'Activa')->first();
+        $price_usd = $request->amount_cop / $request->amount_usd;
+        $total = $request->amount_cop + $request->cuatro_por_mil;
+
+        $transaction = DollarPurchase::create([
+            'user_id' => $user->id,
+            'account_id' => $account->id,
+            'type' => $request->type,
+            'price_usd' => $price_usd,
+            'amount_usd' => $request->amount_usd,
+            'amount_cop' => $request->amount_cop,
+            'iva' => 0,
+            'cuatro_por_mil' => $request->cuatro_por_mil,
+            'total' => $total
+        ]);
+
+        return redirect()->route('admin.dollarPurchaseIndez')->with('success', 'Transacción de '.$request->type.' registrada correctamente.');
     }
 
     /**
