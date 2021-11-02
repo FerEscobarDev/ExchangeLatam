@@ -115,7 +115,7 @@
                 <li class="nav-item">
                     <a href="{{route('admin.reportIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.reportIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">leaderboard</i>
-                        <span class="nav-link-text ms-2 ps-1">Reportes Contables</span>
+                        <span class="nav-link-text ms-2 ps-1">Reportes Transacciones</span>
                     </a>
                 </li>
             @endcan              
