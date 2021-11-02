@@ -149,6 +149,7 @@ return [
     'attributes' => [
         'name' => 'nombres',
         'lastname' => 'apellidos',
+        'doc_num' => 'número de documento',
         'mobil' => 'celular',
         'password' => 'contraseña',
         'terms' => 'terminos y condiciones',
@@ -166,7 +167,10 @@ return [
         'current_password' => 'contraseña actual',
         'subject' => 'asunto',
         'message' => 'solicitud',
-        'policy' => 'nuestra política'
+        'policy' => 'nuestra política',
+        'voucher' => 'comprobante',
+        'date' => 'fecha',
+        'type_transaction' => 'tipo de transacción',
     ],
 
 ];

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ReportsExport;
-use App\Models\Deposit;
-use App\Models\DollarPurchase;
+use Throwable;
 use App\Models\Month;
 use App\Models\Report;
+use App\Models\Deposit;
 use App\Models\ReportType;
 use App\Models\Withdrawal;
 use Illuminate\Http\Request;
+use App\Exports\ReportsExport;
+use App\Models\DollarPurchase;
 
 class ReportController extends Controller
 {
@@ -54,6 +55,7 @@ class ReportController extends Controller
         $month_id = Month::find($month);
         $year = date('Y', strtotime($request->month));
         $day = '01';
+        $transactions = [];
 
         if($request->month == '2020-10')
         {
@@ -72,28 +74,68 @@ class ReportController extends Controller
 
         if($request->reportType == 1)
         {
-            $report = Report::create([
-                'report_type_id' => $request->reportType,
-                'month_id' => $month_id->id,
-                'year' => $year
-            ]);
-   
-            $transactions = Withdrawal::where('status', '!=', 'Cancelado')->where('application_date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('application_date', '<=', $year.'-'.$month.'-31 23:59:59')->orderBy('application_date', 'ASC')->get();
-
-            foreach($transactions as $transaction)
-            {
-                $transaction->transaction()->create([
-                    'report_id' => $report->id
+            try { 
+                $report = Report::create([
+                    'report_type_id' => $request->reportType,
+                    'month_id' => $month_id->id,
+                    'year' => $year
                 ]);
-            }            
 
-            $transactions = DollarPurchase::where('date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('date', '<=', $year.'-'.$month.'-31 23:59:59')->orderBy('date', 'ASC')->get();
+    
+                $withdrawals = Withdrawal::where('status', '!=', 'Cancelado')->where('application_date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('application_date', '<=', $year.'-'.$month.'-31 23:59:59')->get();
 
-            foreach($transactions as $transaction)
-            {
-                $transaction->transaction()->create([
-                    'report_id' => $report->id
-                ]);
+                foreach($withdrawals as $index => $withdrawal)
+                {
+                    $transactions[$index] = [
+                        'type' => 'withdrawal',
+                        'id' => $withdrawal->id,
+                        'date' => $withdrawal->application_date
+                    ];
+                } 
+
+                $dollarPurchases = DollarPurchase::where('date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('date', '<=', $year.'-'.$month.'-31 23:59:59')->where('type', '!=', 'Retiro TC')->get();
+                
+                $count = count($transactions);
+
+                foreach($dollarPurchases as $index => $dollarPurchase)
+                {
+                    $transactions[$count] = [
+                        'type' => 'dollarPurchase',
+                        'id' => $dollarPurchase->id,
+                        'date' => $dollarPurchase->date
+                    ];
+                    $count++;
+                }
+
+                $transactions = collect($transactions);
+                        
+                foreach($transactions->sortBy('date') as $transaction)
+                {
+                    if($transaction['type'] == 'withdrawal')
+                    {
+                        $transactionReport = Withdrawal::find($transaction['id']);
+                        $transactionReport->transaction()->create([
+                            'report_id' => $report->id
+                        ]);
+                    }else
+                    {
+                        $transactionReport = DollarPurchase::find($transaction['id']);
+                        $transactionReport->transaction()->create([
+                            'report_id' => $report->id
+                        ]);
+                    }                
+                }
+                
+            } catch (Throwable $e) {
+
+                report($e);
+                
+                if(isset($report))
+                {
+                    $report->delete();
+                }
+                        
+                return back()->with('error', 'Error al generar el reporte, es posible que ya exista, por favor verifique que toda la información sea correcta.');
             }
 
             return redirect()->route('admin.reportShow', [$report])->with('success', 'Reporte generado correctamente.');
@@ -101,22 +143,71 @@ class ReportController extends Controller
         }
         elseif ($request->reportType == 2) 
         {
-            $report = Report::create([
-                'report_type_id' => $request->reportType,
-                'month_id' =>  $month_id->id,
-                'year' => $year
-            ]);
-
-            $transactions = Deposit::where('status', 'Realizado')->where('completed_date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('completed_date', '<=', $year.'-'.$month.'-31 23:59:59')->orderBy('completed_date', 'ASC')->get();
-
-            foreach($transactions as $transaction)
+            try
             {
-                $transaction->transaction()->create([
-                    'report_id' => $report->id
+                $report = Report::create([
+                    'report_type_id' => $request->reportType,
+                    'month_id' =>  $month_id->id,
+                    'year' => $year
                 ]);
-            }
 
-            return redirect()->route('admin.reportShow', [$report])->with('success', 'Reporte generado correctamente.');
+                $deposits = Deposit::where('status', 'Realizado')->where('completed_date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('completed_date', '<=', $year.'-'.$month.'-31 23:59:59')->get();
+
+                foreach($deposits as $index => $deposit)
+                {
+                    $transactions[$index] = [
+                        'type' => 'deposit',
+                        'id' => $deposit->id,
+                        'date' => $deposit->completed_date
+                    ];
+                }
+
+                $dollarPurchases = DollarPurchase::where('date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('date', '<=', $year.'-'.$month.'-31 23:59:59')->where('type', 'Retiro TC')->get();
+                
+                $count = count($transactions);
+
+                foreach($dollarPurchases as $index => $dollarPurchase)
+                {
+                    $transactions[$count] = [
+                        'type' => 'dollarPurchase',
+                        'id' => $dollarPurchase->id,
+                        'date' => $dollarPurchase->date
+                    ];
+                    $count++;
+                }
+
+                $transactions = collect($transactions);
+                        
+                foreach($transactions->sortBy('date') as $transaction)
+                {
+                    if($transaction['type'] == 'deposit')
+                    {
+                        $transactionReport = Deposit::find($transaction['id']);
+                        $transactionReport->transaction()->create([
+                            'report_id' => $report->id
+                        ]);
+                    }else
+                    {
+                        $transactionReport = DollarPurchase::find($transaction['id']);
+                        $transactionReport->transaction()->create([
+                            'report_id' => $report->id
+                        ]);
+                    }                
+                }
+
+                return redirect()->route('admin.reportShow', [$report])->with('success', 'Reporte generado correctamente.');
+            }
+            catch (Throwable $e)
+            {
+                report($e);
+
+                if(isset($report))
+                {
+                    $report->delete();
+                }
+                        
+                return back()->with('error', 'Error al generar el reporte, es posible que ya exista, por favor verifique que toda la información sea correcta.');
+            }
 
         }
 

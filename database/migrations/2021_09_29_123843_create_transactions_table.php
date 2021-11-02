@@ -14,9 +14,10 @@ class CreateTransactionsTable extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('transactionable_id');
             $table->string('transactionable_type');
-            $table->primary(['transactionable_id', 'transactionable_type']);
+            /* $table->primary(['transactionable_id', 'transactionable_type']); */
             $table->unsignedBigInteger('report_id');
             $table->foreign('report_id')
                                     ->references('id')

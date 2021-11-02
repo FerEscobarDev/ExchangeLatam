@@ -95,6 +95,8 @@
                                             CE
                                         @elseif($transaction->transactionable->user->doc_type == 'Pasaporte')
                                             PS
+                                        @elseif($transaction->transactionable->user->doc_type == 'NIT')
+                                        NIT
                                         @else
                                             No tiene
                                         @endif
@@ -146,6 +148,8 @@
                                             CE
                                         @elseif($transaction->transactionable->user->doc_type == 'Pasaporte')
                                             PS
+                                        @elseif($transaction->transactionable->user->doc_type == 'NIT')
+                                        NIT
                                         @else
                                             No tiene
                                         @endif
@@ -192,24 +196,8 @@
 
         const dataTableSearch = new simpleDatatables.DataTable("#report", {
             searchable: true,
-            fixedHeight: false
-        });
-
-        document.querySelectorAll(".export").forEach(function(el) {
-            el.addEventListener("click", function(e) {
-                var type = el.dataset.type;
-
-                var data = {
-                    type: type,
-                    filename: "fhgf-" + type,
-                };
-
-                if (type === "csv") {
-                    data.columnDelimiter = ",";
-                }
-
-                dataTableSearch.export(data);
-            });
+            fixedHeight: false,
+            sortable: false
         });
         
         
