@@ -34,7 +34,7 @@ class CreateDollarPurchasesTable extends Migration
             $table->double('iva', 50,2);
             $table->double('cuatro_por_mil', 50,2);
             $table->double('total', 50, 2);
-            $table->string('voucher', 80);
+            $table->string('voucher', 80)->nullable();
             $table->dateTime('date');
             $table->timestamps();
         });
