@@ -16,6 +16,7 @@ use App\Models\Withdrawal;
 use App\Notifications\Vip;
 use App\Models\Departament;
 use App\Models\DollarPrice;
+use App\Exports\UsersExport;
 use App\Mail\contactMessage;
 use App\Models\Verification;
 use Illuminate\Http\Request;
@@ -40,6 +41,27 @@ class UserController extends Controller
         $contact = Contact::select('link')->where('company_id', 1)->get();
 
         return view('admin.users', compact('contact'));
+    }
+
+    public function exportIndex()
+    {
+        $users = User::where(function ($query) {
+            $query->where(function ($query) {
+                $query->select('status')
+                    ->from('deposits')
+                    ->whereColumn('user_id', 'users.id')
+                    ->where('completed_date', '>=', '2021-01-01 00:00:00')
+                    ->limit(1);
+            }, 'Realizado')->orWhere(function ($query) {
+                $query->select('status')
+                    ->from('withdrawals')
+                    ->whereColumn('user_id', 'users.id')
+                    ->where('application_date', '>=', '2021-01-01 00:00:00')
+                    ->limit(1);
+            }, '!=', 'Cancelado');
+        })->where('exported', 0)->paginate(10);
+
+        return view('admin.users.index', compact('users'));
     }
 
     public function usersData()
@@ -513,6 +535,41 @@ class UserController extends Controller
                 return redirect('/admin/user/'.$user->id.'/edit')->with('success', 'Cuenta no verificada, se ha notificado al usuario los motivos del rechazo.');
             }
         }
+    }
+
+    public function export()
+    {
+        $export = new UsersExport;
+        $export->users();
+        return $export->download('Clientes ExchangeLatam.xlsx');
+    }
+
+    public function checkRegister()
+    {
+        $users = User::where(function ($query) {
+            $query->where(function ($query) {
+                $query->select('status')
+                    ->from('deposits')
+                    ->whereColumn('user_id', 'users.id')
+                    ->where('completed_date', '>=', '2021-01-01 00:00:00')
+                    ->limit(1);
+            }, 'Realizado')->orWhere(function ($query) {
+                $query->select('status')
+                    ->from('withdrawals')
+                    ->whereColumn('user_id', 'users.id')
+                    ->where('application_date', '>=', '2021-01-01 00:00:00')
+                    ->limit(1);
+            }, '!=', 'Cancelado');
+        })->where('exported', 0)->get();
+
+        foreach($users as $user)
+        {
+            $user->update([
+                'exported' => 1
+            ]);
+        }
+
+        return back()->with('success', 'Usuarios marcados cómo registrados en loggro.');
     }
 
     /*  

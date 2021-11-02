@@ -69,6 +69,20 @@
                     </a>
                 </li>
             @endcan
+            @can('admin.dollarPurchaseIndex')
+                <li class="nav-item">
+                    <a href="{{route('admin.dollarPurchaseIndex')}}" 
+                        class="
+                            nav-link text-white
+                            @if(request()->routeIs('admin.dollarPurchaseIndex') || request()->routeIs('admin.dollarPurchaseIndex') || request()->routeIs('admin.dollarPurchaseIndex'))
+                                active
+                            @endif
+                        ">
+                        <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">currency_exchange</i>
+                        <span class="nav-link-text ms-2 ps-1">Compra y Venta USD</span>
+                    </a>
+                </li>
+            @endcan
             <li class="nav-item">
                 <hr class="horizontal light" />
                 <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Consultas</h6>
@@ -88,7 +102,15 @@
                         <span class="nav-link-text ms-2 ps-1">Usuarios</span>
                     </a>
                 </li>
-            @endcan                                                
+            @endcan
+            @can('user.exportIndex')  
+                <li class="nav-item">
+                    <a href="{{route('user.exportIndex')}}" class="nav-link text-white  {{ request()->routeIs('user.exportIndex') ? 'active' : '' }}">
+                        <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">supervised_user_circle</i>
+                        <span class="nav-link-text ms-2 ps-1">Exportar usuarios</span>
+                    </a>
+                </li>
+            @endcan                                                 
             @can('admin.reportIndex')  
                 <li class="nav-item">
                     <a href="{{route('admin.reportIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.reportIndex') ? 'active' : '' }}">

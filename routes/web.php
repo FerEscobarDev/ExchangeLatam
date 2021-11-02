@@ -42,8 +42,8 @@ Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name
 
 
 //Rutas Admin  
-//Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
-Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
+Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
+//Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones 
     Route::get('/admin/dashboard', [UserController::class, 'admin'])->name('admin.dashboard')->middleware('can:admin.dashboard');/* ok */
@@ -51,6 +51,7 @@ Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data'
 
     //Rutas Gestión de usuarios
     Route::get('/admin/users', [UserController::class, 'index'])->name('user.index')->middleware('can:user.index');/* ok */
+    Route::get('/admin/users/export/index', [UserController::class, 'exportIndex'])->name('user.exportIndex')->middleware('can:user.exportIndex');/*  */
     Route::get('/admin/users/data', [UserController::class, 'usersData'])->name('admin.usersData');
     //Por usuario
     Route::get('/admin/user/{id}/edit', [UserController::class, 'editData'])->name('admin.usersEditData')->middleware('can:admin.usersEditData'); /* ok */
@@ -62,6 +63,7 @@ Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data'
     Route::put('/admin/user/{user}/typeChange', [UserController::class, 'typeChange'])->name('admin.typeChange')->middleware('can:admin.typeChange');/* ok */
     Route::delete('/admin/user/{user}/destroy', [UserController::class, 'destroy'])->name('admin.userDestroy');
     Route::get('/admin/user/select_city', [UserController::class, 'getCity'])->name('admin.getCity');
+    Route::post('/admin/users/check/register/loggro', [UserController::class, 'checkRegister'])->name('admin.userCheckRegister');
 
     //Rutas notices de usuarios
     Route::post('/admin/user/{user}/notice/store', [NoticeController::class, 'store'])->name('admin.storeNotice');
@@ -120,22 +122,25 @@ Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data'
     Route::put('/admin/rate/{rate}/update', [RateController::class, 'update'])->name('admin.rateUpdate');
     Route::delete('/admin/rate/{rate}/destroy', [RateController::class, 'destroy'])->name('admin.rateDestroy');
 
-    //Rutas modulo contabilidad
+    //Rutas modulo reportes
     Route::get('/admin/accounting/reports', [ReportController::class, 'index'])->name('admin.reportIndex')->middleware('can:admin.reportIndex');
     Route::get('/admin/accounting/reports/create', [ReportController::class, 'create'])->name('admin.reportCreate');
     Route::post('/admin/accounting/reports/store', [ReportController::class, 'store'])->name('admin.reportStore');
     Route::get('/admin/accounting/reports/show/{report}', [ReportController::class, 'show'])->name('admin.reportShow');
     Route::delete('/admin/accounting/reports/destroy/{report}', [ReportController::class, 'destroy'])->name('admin.reportDestroy');
-    //Rutas exportación de reportes
+
+    //Rutas exportacion de datos
     Route::get('/admin/accounting/reports/export/{report}', [ReportController::class, 'export'])->name('admin.reportExport');
+    Route::get('/admin/users/export', [UserController::class, 'export'])->name('admin.usersExport');
 
     //Rutas compra de dolares
     Route::get('/admin/dollarpurchase/index', [DollarPurchaseController::class, 'index'])->name('admin.dollarPurchaseIndex')->middleware('can:admin.dollarPurchaseIndex');/* ok */
     Route::get('/admin/dollarpurchase/create', [DollarPurchaseController::class, 'create'])->name('admin.dollarPurchaseCreate');
-    Route::get('/admin/dollarpurchase/edit', [DollarPurchaseController::class, 'edit'])->name('admin.dollarPurchaseEdit');
+    Route::get('/admin/dollarpurchase/edit/{dollarPurchase}', [DollarPurchaseController::class, 'edit'])->name('admin.dollarPurchaseEdit');
     Route::post('/admin/dollarpurchase/store', [DollarPurchaseController::class, 'store'])->name('admin.dollarPurchaseStore');
-    Route::put('/admin/dollarpurchase/{dollarPrice}/update', [DollarPurchaseController::class, 'update'])->name('admin.dollarPurchaseUpdate');
-    Route::delete('/admin/dollarpurchase/{dollarPrice}/destroy', [DollarPurchaseController::class, 'destroy'])->name('admin.dollarPurchaseDestroy');
+    Route::get('/admin/dollarpurchase/show/{dollarPurchase}', [DollarPurchaseController::class, 'show'])->name('admin.dollarPurchaseShow');
+    Route::put('/admin/dollarpurchase/{dollarPurchase}/update', [DollarPurchaseController::class, 'update'])->name('admin.dollarPurchaseUpdate');
+    Route::delete('/admin/dollarpurchase/{dollarPurchase}/destroy', [DollarPurchaseController::class, 'destroy'])->name('admin.dollarPurchaseDestroy');
 });
 
 //Rutas contacto
