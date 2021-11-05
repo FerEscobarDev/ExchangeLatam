@@ -27,7 +27,7 @@
                                     <li class="list-group-item px-0 border-0">
                                         <div class="row align-items-center">
                                             <div class="col">
-                                                <p class="text-xs font-weight-bold mb-0">Facturas {{ $report->reportType->name }}:</p>
+                                                <p class="text-xs font-weight-bold mb-0">Reporte {{ $report->reportType->name }}:</p>
                                                 <h6 class="text-sm font-weight-normal mb-0">{{ $report->month->name.' '.$report->year }}</h6>
                                             </div>
                                             <div class="col text-center">

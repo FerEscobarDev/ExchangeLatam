@@ -56,13 +56,13 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Reporte facturas de {{ $report->reportType->name.' de '.$report->month->name.' del '.$report->year }}</h5>
+                <h5 class="mb-0">Reporte {{ $report->reportType->name.' de '.$report->month->name.' del '.$report->year }}</h5>
                 <p class="text-sm mb-0">
                     Listado de transacciones del mes de {{ $report->month->name.' del '.$report->year }}
                 </p>
             </div> 
             <div class="table-responsive">                    
-                @if ($report->report_type_id == 1)
+                @if ($report->report_type_id == 1 || $report->report_type_id == 2 || $report->report_type_id == 4)
                     <table id="report" class="table table-flush" style="width:100%">
                         <thead class="thead-light">
                             <tr>
@@ -188,7 +188,7 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/jsDash/plugins/dataTables.js') }}"></script>
+<script src="{{ asset('js/jsDash/plugins/datatables.js') }}"></script>
 @endpush
 
 @push('script-plus')

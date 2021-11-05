@@ -5,7 +5,7 @@
     @include('includes.successNotification')
     @include('includes.errorsNotification')
     <div class="row">
-        <div class="col-6 mt-lg-0 mt-4 mx-auto">
+        <div class="col-6 col-lg-3 mt-lg-0 mt-4 mx-auto">
             <div class="card">
                 <div class="card-body p-3">
                     <form method="POST" action="{{ route('admin.reportStore') }}" >
