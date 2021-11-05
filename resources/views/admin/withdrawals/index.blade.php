@@ -22,15 +22,23 @@
                             </span>
                             Para hoy
                         </a>
-                    </li>                
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexRealizados')}}" role="tab" aria-controls="realizados" aria-selected="false">
-                            <span class="material-icons align-middle mb-1 text-success">
-                                download_done
-                            </span>
-                            Realizados
+                        <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexVoucher')}}" role="tab" aria-controls="voucher" aria-selected="false">
+                            <span class="material-icons align-middle mb-1 text-danger">
+                                upcoming
+                            </span>                        
+                            Sin comprobante
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexAll')}}" role="tab" aria-controls="all" aria-selected="false">
+                            <span class="material-icons align-middle mb-1 text-success">
+                                published_with_changes
+                            </span>
+                            Todos
+                        </a>
+                    </li> 
                 </ul>
             </div>
             <div class="table-responsive pt-3">

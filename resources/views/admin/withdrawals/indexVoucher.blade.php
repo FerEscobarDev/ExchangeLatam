@@ -14,23 +14,23 @@
                         </span>
                         Pendientes
                     </a>
-                </li>  
+                </li>             
                 <li class="nav-item">
-                    <a class="nav-link active mb-0 px-0 py-1 " href="{{route('withdrawal.indexPendientes')}}" role="tab" aria-controls="today" aria-selected="true">
+                    <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexPendientes')}}" role="tab" aria-controls="today" aria-selected="false">
                         <span class="material-icons align-middle mb-1 text-info">
                             published_with_changes
                         </span>
                         Para hoy
                     </a>
-                </li>
+                </li>  
                 <li class="nav-item">
-                    <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexVoucher')}}" role="tab" aria-controls="voucher" aria-selected="false">
+                    <a class="nav-link mb-0 px-0 py-1 active" href="{{route('withdrawal.indexVoucher')}}" role="tab" aria-controls="voucher" aria-selected="true">
                         <span class="material-icons align-middle mb-1 text-danger">
                             upcoming
-                        </span>                        
+                        </span>
                         Sin comprobante
                     </a>
-                </li>
+                </li>                   
                 <li class="nav-item">
                     <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexAll')}}" role="tab" aria-controls="all" aria-selected="false">
                         <span class="material-icons align-middle mb-1 text-success">
@@ -90,7 +90,7 @@
                             <td class="text-sm font-weight-normal align-middle">{{ number_format($withdrawal->amount_cop,0) }}</td>
                             <td class="text-sm font-weight-normal align-middle">{{ number_format($withdrawal->total,0) }}</td>
                             <td class="text-sm font-weight-normal align-middle">{{ date('d-M-Y',strtotime($withdrawal->expiration_date)) }}</td>
-                            <td class="text-sm font-weight-normal align-middle text-warning">{{ $withdrawal->status }}</td>{{-- 
+                            <td class="text-sm font-weight-normal align-middle text-success">{{ $withdrawal->status }}</td>{{-- 
                             <td class="text-sm font-weight-normal align-middle">
                                 <a target="_blank" href="{{route('admin.usersShowWithdrawals', $withdrawal->user_id)}}" type="button" class="btn btn-icon btn-2 btn-info mb-0">
                                     <span class="btn-inner--icon"><i class="material-icons">visibility</i></span>

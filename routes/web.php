@@ -41,7 +41,7 @@ Route::get('/policy', [CompanyController::class, 'policy'])->name('company.polic
 Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name('public.dollarPrices')->middleware('route.users');
 
 
-//Rutas Admin  
+//Rutas Admin
 Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
 //Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
 
@@ -93,7 +93,8 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     //Rutas vista general de retiros
     Route::get('/admin/withdrawals', [WithdrawalController::class, 'index'])->name('withdrawal.index')->middleware('can:withdrawal.index');/* ok */
     Route::get('/admin/withdrawals/today', [WithdrawalController::class, 'indexPendientes'])->name('withdrawal.indexPendientes')->middleware('can:withdrawal.index');
-    Route::get('/admin/withdrawals/success', [WithdrawalController::class, 'indexRealizados'])->name('withdrawal.indexRealizados')->middleware('can:withdrawal.index');
+    Route::get('/admin/withdrawals/voucher', [WithdrawalController::class, 'indexVoucher'])->name('withdrawal.indexVoucher')->middleware('can:withdrawal.index');
+    Route::get('/admin/withdrawals/all', [WithdrawalController::class, 'indexAll'])->name('withdrawal.indexAll')->middleware('can:withdrawal.index');
     Route::get('/admin/withdrawals/data', [WithdrawalController::class, 'withdrawalsData'])->name('admin.withdrawalsData');
 
     //Rutas gestión de roles

@@ -21,7 +21,7 @@
             @else
                 <div class="card card-frame">
                     <div class="card-body text-center">
-                        <h5 class="text-success">!Felicitaciones...! </h5>
+                        <h5 class="text-success">¡Felicitaciones...! </h5>
                         <h6 class="text-info">Excelente trabajo, no tienes tareas pendientes.</h6>
                     </div>
                 </div>

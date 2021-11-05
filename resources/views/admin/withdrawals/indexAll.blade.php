@@ -24,11 +24,19 @@
                     </a>
                 </li>  
                 <li class="nav-item">
-                    <a class="nav-link mb-0 px-0 py-1 active" href="{{route('withdrawal.indexRealizados')}}" role="tab" aria-controls="realizados" aria-selected="true">
+                    <a class="nav-link mb-0 px-0 py-1" href="{{route('withdrawal.indexVoucher')}}" role="tab" aria-controls="voucher" aria-selected="false">
+                        <span class="material-icons align-middle mb-1 text-danger">
+                            upcoming
+                        </span>                        
+                        Sin comprobante
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-0 px-0 py-1 active" href="{{route('withdrawal.indexAll')}}" role="tab" aria-controls="all" aria-selected="true">
                         <span class="material-icons align-middle mb-1 text-success">
-                            download_done
+                            published_with_changes
                         </span>
-                        Realizados
+                        Todos
                     </a>
                 </li> 
             </ul>
@@ -82,7 +90,14 @@
                             <td class="text-sm font-weight-normal align-middle">{{ number_format($withdrawal->amount_cop,0) }}</td>
                             <td class="text-sm font-weight-normal align-middle">{{ number_format($withdrawal->total,0) }}</td>
                             <td class="text-sm font-weight-normal align-middle">{{ date('d-M-Y',strtotime($withdrawal->expiration_date)) }}</td>
-                            <td class="text-sm font-weight-normal align-middle text-success">{{ $withdrawal->status }}</td>{{-- 
+                            @if ($withdrawal->status == 'Pendiente')
+                                <td class="text-sm font-weight-normal align-middle text-warning">{{ $withdrawal->status }}</td>
+                            @elseif($withdrawal->status == 'Realizado')
+                                <td class="text-sm font-weight-normal align-middle text-success">{{ $withdrawal->status }}</td>
+                            @elseif($withdrawal->status == 'Cancelado')
+                                <td class="text-sm font-weight-normal align-middle text-success">{{ $withdrawal->status }}</td>
+                            @endif
+                            {{-- 
                             <td class="text-sm font-weight-normal align-middle">
                                 <a target="_blank" href="{{route('admin.usersShowWithdrawals', $withdrawal->user_id)}}" type="button" class="btn btn-icon btn-2 btn-info mb-0">
                                     <span class="btn-inner--icon"><i class="material-icons">visibility</i></span>
