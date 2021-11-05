@@ -211,7 +211,7 @@ class ReportController extends Controller
             }
 
         }
-        elseif ($request->reportType == 2) 
+        elseif ($request->reportType == 4) 
         {
             try
             {

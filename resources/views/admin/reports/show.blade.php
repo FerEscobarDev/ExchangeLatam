@@ -119,7 +119,7 @@
                             @endforeach                    
                         </tbody>
                     </table> 
-                @elseif($report->report_type_id == 2) 
+                @elseif($report->report_type_id == 3) 
                     <table id="report" class="table table-striped" style="width:100%">                       
                         <thead class="thead-light">
                             <tr>
