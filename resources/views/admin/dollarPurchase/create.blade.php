@@ -2,7 +2,7 @@
 @section('title', 'Registro de transacción')
 @section('content')
     <div class="row">
-        <div class="col-md-6 col-lg-3 mx-auto">
+        <div class="col-6 col-xxl-3 mx-auto">
             <div class="card mb-4">
                 <div class="card-body p-3 pt-0">
                     <div class="card-header text-center">
