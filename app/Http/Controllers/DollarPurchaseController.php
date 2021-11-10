@@ -54,7 +54,7 @@ class DollarPurchaseController extends Controller
         $user = User::where('doc_num', $request->doc_num)->get();
         $account = $user[0]->accounts->where('active', 'Activa')->first();
         $price_usd = $request->amount_cop / $request->amount_usd;
-        $total = $request->amount_cop + $request->cuatro_por_mil;
+        $total = $request->amount_cop;
 
         $transaction = DollarPurchase::create([
             'user_id' => $user[0]->id,
@@ -146,7 +146,7 @@ class DollarPurchaseController extends Controller
         $user = User::where('doc_num', $request->doc_num)->get();
         $account = $user[0]->accounts->where('active', 'Activa')->first();
         $price_usd = $request->amount_cop / $request->amount_usd;
-        $total = $request->amount_cop + $request->cuatro_por_mil;
+        $total = $request->amount_cop;
 
         $dollarPurchase->update([
             'user_id' => $user[0]->id,
@@ -160,10 +160,9 @@ class DollarPurchaseController extends Controller
             'total' => $total,
             'date' => $request->date,
         ]);
-        dump(!empty($request->voucher));
+
         if(!empty($request->voucher))
         {
-            dump(!empty($dollarPurchase->voucher));
             if(!empty($dollarPurchase->voucher))
             {
                 Storage::delete('public/'.$dollarPurchase->voucher);
