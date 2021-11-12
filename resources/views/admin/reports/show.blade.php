@@ -66,6 +66,7 @@
                     <table id="report" class="table table-flush" style="width:100%">
                         <thead class="thead-light">
                             <tr>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Id</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Tipo</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Tipo documento</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Numero</th>
@@ -79,6 +80,7 @@
                         <tbody>
                             @foreach ($transactions as $index => $transaction)
                                 <tr>
+                                    <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
                                     @if (substr($transaction->transactionable_type, 11) == 'DollarPurchase')                                        
                                         <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->type }}</td>
                                     @else
