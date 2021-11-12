@@ -66,7 +66,6 @@
                     <table id="report" class="table table-flush" style="width:100%">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Estado</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Tipo</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Tipo documento</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Numero</th>
@@ -80,7 +79,6 @@
                         <tbody>
                             @foreach ($transactions as $index => $transaction)
                                 <tr>
-                                    <td>{{$transaction->transactionable->status}}</td>
                                     @if (substr($transaction->transactionable_type, 11) == 'DollarPurchase')                                        
                                         <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->type }}</td>
                                     @else
@@ -128,7 +126,16 @@
                                                     <div class="card mt-4">
                                                         <!-- Card image -->
                                                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                                            <img class="border-radius-lg w-100" src="{{ asset('storage/' . $transaction->transactionable->voucher) }}" alt="Comprobante">
+                                                            @if(substr($transaction->transactionable->voucher, -4) === '.pdf')                                                                     
+                                                                    <object data="{{ asset('storage/' . $transaction->transactionable->voucher).'#zoom=150' }}" type="application/pdf" width="100%" height="700px">
+
+                                                                    <p>Tu navegador no tiene el plugin para previsualizar documentos pdf.</p>
+                                                                    <p>Puedes descargarte el archivo desde <a target="_blank" href="{{ asset('storage/' . $transaction->transactionable->voucher).'#zoom=150' }}">aquí</a></p>
+                                                                    
+                                                                    </object>
+                                                                @else
+                                                                    <img class="border-radius-lg w-100" src="{{ asset('storage/' . $transaction->transactionable->voucher) }}" alt="Comprobante">
+                                                                @endif
                                                             <!-- List group -->
                                                             <ul class="list-group list-group-flush mt-2">
                                                                 <li class="list-group-item"><b>Banco:  </b>{{$transaction->transactionable->account->bank->name}}</li>
