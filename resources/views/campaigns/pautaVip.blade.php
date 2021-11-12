@@ -131,9 +131,7 @@
                         <div class="description">
                             <h4 class="info-title text-white">Abre tu cuenta de trading aquí</h4>
                         </div>
-                        <script type="text/javascript"
-                                                   src="https://my.fbs.com/js/fbsReg?language=es&cabinet=https://fbs.com&tariff=cent&currency=USD&partnerId=1184898">
-                        </script></p>
+                        <script src="https://fbs.partners/banner/7898714c0e29bdc04dc0c006b4636528bd9cddb91b6f0d0cccfc6b1fe2db3485/1552/script.js?ibp=1184898" id="7898714c0e29bdc04dc0c006b4636528bd9cddb91b6f0d0cccfc6b1fe2db3485" async></script>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12">
@@ -263,10 +261,7 @@
                     <img class="" src="{{asset('campaigns/footer.png')}}" alt="ExchangeLatam" style="max-width: 100%">
                 </div>
                 <div class="content-center visible-xs-block visible-sm-block">
-                    <a href="https://fbs.com/cabinet/registration/trader/?ppk=exchangelatam&lang=es" target="_blank"
-                        style="outline: none"><img
-                            src="https://fbs.com/upload/promo/banner/4c17bd9fafa8af99f36672678d67dd2b.jpg?ppu=1184898"
-                            width="336" height="280" border="0"></a>
+                    <script src="https://fbs.partners/banner/6c70d1f6f9cdc25e15da8e13d69c415c6977928d48b361c661fd3f58045fed01/2113/script.js?ibp=1184898" id="6c70d1f6f9cdc25e15da8e13d69c415c6977928d48b361c661fd3f58045fed01" async></script>
                 </div>
             </div>
         </footer>
