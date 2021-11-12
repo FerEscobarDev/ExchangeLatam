@@ -93,7 +93,11 @@ class ReportController extends Controller
                     ];
                 } 
 
-                $dollarPurchases = DollarPurchase::where('date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('date', '<=', $year.'-'.$month.'-31 23:59:59')->where('type', 'Compra Socio')->orWhere('type', 'Compra Skrill')->get();
+                $dollarPurchases = DollarPurchase::where('date', '>=', $year.'-'.$month.'-'.$day.' 00:00:00')->where('date', '<=', $year.'-'.$month.'-31 23:59:59')->where(function ($query) {
+                                                                                                                                                                            $query->where('type', 'Compra Socio')
+                                                                                                                                                                                ->orWhere('type', 'Compra Skrill')
+                                                                                                                                                                                ->limit(1);;
+                                                                                                                                                                        })->get();
                 
                 $count = count($transactions);
 

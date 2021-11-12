@@ -66,28 +66,26 @@
                     <table id="report" class="table table-flush" style="width:100%">
                         <thead class="thead-light">
                             <tr>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Estado</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Tipo</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Encabezado</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Tipo documento</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Numero</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Fecha factura</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Encabezado</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Ítem</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Descripción</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Cant</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Vr Unitario</th>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Monto USD</th>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Precio USD</th>                                
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Total</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($transactions as $index => $transaction)
                                 <tr>
+                                    <td>{{$transaction->transactionable->status}}</td>
                                     @if (substr($transaction->transactionable_type, 11) == 'DollarPurchase')                                        
                                         <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->type }}</td>
                                     @else
                                         <td class="text-sm font-weight-normal align-middle">{{ substr($transaction->transactionable_type, 11) }}</td>
                                     @endif
-                                    <td class="text-sm font-weight-normal align-middle text-center">{{ $index + 1 }}</td>
                                     <td class="text-sm font-weight-normal align-middle text-center">
                                         @if($transaction->transactionable->user->doc_type == 'Cedula de ciudadania')
                                             CC
@@ -107,14 +105,44 @@
                                     @else
                                         <td class="text-sm font-weight-normal align-middle text-center">{{ date('d/m/Y', strtotime($transaction->transactionable->application_date)) }}</td>
                                     @endif
-                                    <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">003</td>
-                                    <td class="text-sm font-weight-normal align-middle">Compra de {{ $transaction->transactionable->amount_usd}} USD</td>
-                                    <td class="text-sm font-weight-normal align-middle">1</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->amount_usd }}</td>
+                                    @if (substr($transaction->transactionable_type, 11) == 'DollarPurchase')                                          
+                                        <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->price_usd}}</td>
+                                    @else
+                                        <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->price}}</td>
+                                    @endif
                                     <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->amount_cop }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">
-                                        <button class="btn btn-info btn-sm mb-0">Ver Detalles</button>
+                                    <td class="text-sm font-weight-normal align-middle">    
+                                        <button type="button" class="btn btn-info btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#details{{$transaction->id}}">Detalles de pago</button>
                                     </td>
+                                    <div class="modal fade" id="details{{$transaction->id}}" tabindex="-1" role="dialog" aria-labelledby="details{{$transaction->id}}" aria-hidden="true">
+                                        <div class="modal-dialog voucher" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title font-weight-normal">Detalles del pago</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body font-weight-light">
+                                                    <div class="card mt-4">
+                                                        <!-- Card image -->
+                                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                            <img class="border-radius-lg w-100" src="{{ asset('storage/' . $transaction->transactionable->voucher) }}" alt="Comprobante">
+                                                            <!-- List group -->
+                                                            <ul class="list-group list-group-flush mt-2">
+                                                                <li class="list-group-item"><b>Banco:  </b>{{$transaction->transactionable->account->bank->name}}</li>
+                                                                <li class="list-group-item"><b>Cuenta:  </b>{{$transaction->transactionable->account->number}}</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </tr>
                             @endforeach                    
                         </tbody>
