@@ -140,6 +140,7 @@
                                                             <ul class="list-group list-group-flush mt-2">
                                                                 <li class="list-group-item"><b>Banco:  </b>{{$transaction->transactionable->account->bank->name}}</li>
                                                                 <li class="list-group-item"><b>Cuenta:  </b>{{$transaction->transactionable->account->number}}</li> 
+                                                                <li class="list-group-item"><b>Tipo:  </b>{{$transaction->transactionable->account->type}}</li> 
                                                                 @if (substr($transaction->transactionable_type, 11) == 'Withdrawal') 
                                                                     @if (!empty($transaction->transactionable->comment))
                                                                         <li class="list-group-item"><b>Comentarios:  </b>{{$transaction->transactionable->comment}}</li>
@@ -164,15 +165,13 @@
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Tipo</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Encabezado</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Tipo documento</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Numero</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Fecha factura</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Encabezado</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Ítem</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Descripción</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Cant</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Vr Unitario</th>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Monto USD</th>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Precio USD</th>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Total</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Acciones</th>
                             </tr>
                         </thead>
@@ -180,7 +179,6 @@
                             @foreach ($transactions as $index => $transaction)
                                 <tr>
                                     <td class="text-sm font-weight-normal align-middle">{{ substr($transaction->transactionable_type, 11) }}</td>
-                                    <td class="text-sm font-weight-normal align-middle text-center">{{ $index + 1 }}</td>
                                     <td class="text-sm font-weight-normal align-middle text-center">
                                         @if($transaction->transactionable->user->doc_type == 'Cedula de ciudadania')
                                             CC
@@ -196,25 +194,34 @@
                                     </td>
                                     <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->user->doc_num }}</td>
                                     <td class="text-sm font-weight-normal align-middle text-center">{{ date('d/m/Y', strtotime($transaction->transactionable->completed_date)) }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">002</td>
-                                    <td class="text-sm font-weight-normal align-middle">Venta de {{ $transaction->transactionable->amount_usd}} USD</td>
-                                    <td class="text-sm font-weight-normal align-middle">1</td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->amount_cop }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">Venta de {{ number_format($transaction->transactionable->amount_usd, 2) }} USD</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->amount_usd, 2) }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->price_usd, 2) }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->total, 2) }}</td>
                                     <td class="text-sm font-weight-normal align-middle">
                                         <button class="btn btn-info btn-sm mb-0">Ver Detalles</button>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-sm font-weight-normal align-middle"></td>
-                                    <td class="text-sm font-weight-normal align-middle text-center"></td>
-                                    <td class="text-sm font-weight-normal align-middle text-center"></td>
-                                    <td class="text-sm font-weight-normal align-middle"></td>
-                                    <td class="text-sm font-weight-normal align-middle text-center"></td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">001</td>
+                                    <td class="text-sm font-weight-normal align-middle">Comisión 1.5%</td>
+                                    <td class="text-sm font-weight-normal align-middle text-center">
+                                        @if($transaction->transactionable->user->doc_type == 'Cedula de ciudadania')
+                                            CC
+                                        @elseif($transaction->transactionable->user->doc_type == 'Cedula de extranjería')
+                                            CE
+                                        @elseif($transaction->transactionable->user->doc_type == 'Pasaporte')
+                                            PS
+                                        @elseif($transaction->transactionable->user->doc_type == 'NIT')
+                                        NIT
+                                        @else
+                                            No tiene
+                                        @endif
+                                    </td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->user->doc_num }}</td>
+                                    <td class="text-sm font-weight-normal align-middle text-center">{{ date('d/m/Y', strtotime($transaction->transactionable->completed_date)) }}</td>
                                     <td class="text-sm font-weight-normal align-middle">Comisión 1.5% por servicio de intercambio</td>
-                                    <td class="text-sm font-weight-normal align-middle">1</td>
+                                    <td class="text-sm font-weight-normal align-middle"></td>
+                                    <td class="text-sm font-weight-normal align-middle"></td>
                                     <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->comission }}</td>
                                     <td class="text-sm font-weight-normal align-middle"></td>
                                 </tr>
