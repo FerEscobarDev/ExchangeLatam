@@ -103,13 +103,13 @@
                                     @else
                                         <td class="text-sm font-weight-normal align-middle text-center">{{ date('d/m/Y', strtotime($transaction->transactionable->application_date)) }}</td>
                                     @endif
-                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->amount_usd }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->amount_usd, 2) }}</td>
                                     @if (substr($transaction->transactionable_type, 11) == 'DollarPurchase')                                          
-                                        <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->price_usd}}</td>
+                                        <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->price_usd, 2) }}</td>
                                     @else
-                                        <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->price}}</td>
+                                        <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->total / $transaction->transactionable->amount_usd, 2) }}</td>
                                     @endif
-                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->total }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->total) }}</td>
                                     <td class="text-sm font-weight-normal align-middle">    
                                         <button type="button" class="btn btn-info btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#details{{$transaction->id}}">Detalles de pago</button>
                                     </td>
@@ -139,7 +139,12 @@
                                                             <!-- List group -->
                                                             <ul class="list-group list-group-flush mt-2">
                                                                 <li class="list-group-item"><b>Banco:  </b>{{$transaction->transactionable->account->bank->name}}</li>
-                                                                <li class="list-group-item"><b>Cuenta:  </b>{{$transaction->transactionable->account->number}}</li>
+                                                                <li class="list-group-item"><b>Cuenta:  </b>{{$transaction->transactionable->account->number}}</li> 
+                                                                @if (substr($transaction->transactionable_type, 11) == 'Withdrawal') 
+                                                                    @if (!empty($transaction->transactionable->comment))
+                                                                        <li class="list-group-item"><b>Comentarios:  </b>{{$transaction->transactionable->comment}}</li>
+                                                                    @endif
+                                                                @endif
                                                             </ul>
                                                         </div>
                                                     </div>
