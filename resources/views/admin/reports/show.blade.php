@@ -109,7 +109,7 @@
                                     @else
                                         <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->price}}</td>
                                     @endif
-                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->amount_cop }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->total }}</td>
                                     <td class="text-sm font-weight-normal align-middle">    
                                         <button type="button" class="btn btn-info btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#details{{$transaction->id}}">Detalles de pago</button>
                                     </td>
