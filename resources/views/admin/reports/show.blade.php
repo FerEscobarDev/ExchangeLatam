@@ -166,6 +166,7 @@
                     <table id="report" class="table table-striped" style="width:100%">                       
                         <thead class="thead-light">
                             <tr>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Id</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Tipo</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Tipo documento</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Numero</th>
@@ -179,7 +180,8 @@
                         </thead>
                         <tbody>
                             @foreach ($transactions as $index => $transaction)
-                                <tr>
+                                <tr>                                    
+                                    <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
                                     <td class="text-sm font-weight-normal align-middle">{{ substr($transaction->transactionable_type, 11) }}</td>
                                     <td class="text-sm font-weight-normal align-middle text-center">
                                         @if($transaction->transactionable->user->doc_type == 'Cedula de ciudadania')
@@ -204,7 +206,8 @@
                                         <button class="btn btn-info btn-sm mb-0">Ver Detalles</button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr>                                    
+                                    <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
                                     <td class="text-sm font-weight-normal align-middle">Comisión 1.5%</td>
                                     <td class="text-sm font-weight-normal align-middle text-center">
                                         @if($transaction->transactionable->user->doc_type == 'Cedula de ciudadania')
