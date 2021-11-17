@@ -23,7 +23,7 @@
         <link href="{{asset('css/app.css')}}" rel="stylesheet" />
         {{-- Alpine --}}
         {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script> --}}
-        @production
+        {{-- @production
             <!-- Google Tag Manager -->
             <script>
                 (function(w, d, s, l, i) {
@@ -82,7 +82,7 @@
             </script>
             <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1006698386813427&ev=PageView&noscript=1" /></noscript>
             <!-- End Facebook Pixel Code -->
-        @endproduction
+        @endproduction --}}
         {{-- @livewireStyles --}}
     </head>
     <body class="g-sidenav-show  bg-gray-100">

@@ -200,11 +200,54 @@
                                     <td class="text-sm font-weight-normal align-middle text-center">{{ date('d/m/Y', strtotime($transaction->transactionable->completed_date)) }}</td>
                                     <td class="text-sm font-weight-normal align-middle">Venta de {{ number_format($transaction->transactionable->amount_usd, 2) }} USD</td>
                                     <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->amount_usd, 2) }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->price_usd, 2) }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->price, 2) }}</td>
                                     <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->total, 2) }}</td>
                                     <td class="text-sm font-weight-normal align-middle">
-                                        <button class="btn btn-info btn-sm mb-0">Ver Detalles</button>
+                                        <button type="button" class="btn btn-info btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#details{{$transaction->id}}">Detalles de pago</button>
                                     </td>
+                                    <div class="modal fade" id="details{{$transaction->id}}" tabindex="-1" role="dialog" aria-labelledby="details{{$transaction->id}}" aria-hidden="true">
+                                        <div class="modal-dialog voucher" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title font-weight-normal">Detalles del pago</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body font-weight-light">
+                                                    <div class="card mt-4">
+                                                        <!-- Card image -->
+                                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                            @if(substr($transaction->transactionable->voucher, -4) === '.pdf')                                                                     
+                                                                    <object data="{{ asset('storage/' . $transaction->transactionable->voucher).'#zoom=150' }}" type="application/pdf" width="100%" height="700px">
+
+                                                                    <p>Tu navegador no tiene el plugin para previsualizar documentos pdf.</p>
+                                                                    <p>Puedes descargarte el archivo desde <a target="_blank" href="{{ asset('storage/' . $transaction->transactionable->voucher).'#zoom=150' }}">aquí</a></p>
+                                                                    
+                                                                    </object>
+                                                                @else
+                                                                    <img class="border-radius-lg w-100" src="{{ asset('storage/' . $transaction->transactionable->voucher) }}" alt="Comprobante">
+                                                                @endif
+                                                            <!-- List group -->
+                                                            <ul class="list-group list-group-flush mt-2">
+                                                                <li class="list-group-item"><b>Banco:  </b>{{$transaction->transactionable->account->bank->name}}</li>
+                                                                <li class="list-group-item"><b>Cuenta:  </b>{{$transaction->transactionable->account->number}}</li> 
+                                                                <li class="list-group-item"><b>Tipo:  </b>{{$transaction->transactionable->account->type}}</li> 
+                                                                @if (substr($transaction->transactionable_type, 11) == 'Withdrawal') 
+                                                                    @if (!empty($transaction->transactionable->comment))
+                                                                        <li class="list-group-item"><b>Comentarios:  </b>{{$transaction->transactionable->comment}}</li>
+                                                                    @endif
+                                                                @endif
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </tr>
                                 <tr>                                    
                                     <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
