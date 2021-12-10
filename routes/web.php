@@ -15,6 +15,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\DollarPriceController;
 use App\Http\Controllers\DollarPurchaseController;
+use App\Http\Controllers\MessagingController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VerificationController;
 
@@ -142,6 +143,10 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     Route::get('/admin/dollarpurchase/show/{dollarPurchase}', [DollarPurchaseController::class, 'show'])->name('admin.dollarPurchaseShow');
     Route::put('/admin/dollarpurchase/{dollarPurchase}/update', [DollarPurchaseController::class, 'update'])->name('admin.dollarPurchaseUpdate');
     Route::delete('/admin/dollarpurchase/{dollarPurchase}/destroy', [DollarPurchaseController::class, 'destroy'])->name('admin.dollarPurchaseDestroy');
+
+    //Rutas de mensajería
+    Route::get('/admin/messaging/index', [MessagingController::class, 'index'])->name('admin.messagingIndex')->middleware('can:admin.messagingIndex');
+    Route::post('/admin/messaging/massive',[MessagingController::class, 'massive'])->name('admin.messagingMassive');
 });
 
 //Rutas contacto

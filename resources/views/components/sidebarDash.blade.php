@@ -107,7 +107,7 @@
                 <li class="nav-item">
                     <a href="{{route('user.exportIndex')}}" class="nav-link text-white  {{ request()->routeIs('user.exportIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">supervised_user_circle</i>
-                        <span class="nav-link-text ms-2 ps-1">Exportar usuarios</span>
+                        <span class="nav-link-text ms-2 ps-1">Exportar Usuarios</span>
                     </a>
                 </li>
             @endcan                                                 
@@ -152,6 +152,18 @@
                     <a href="{{route('admin.rateIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.rateIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">card_giftcard</i>
                         <span class="nav-link-text ms-2 ps-1">Ofertas</span>
+                    </a>
+                </li>
+            @endcan
+            <li class="nav-item">
+                <hr class="horizontal light" />
+                <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Mensajería</h6>
+            </li>
+            @can('admin.messagingIndex')                 
+                <li class="nav-item">
+                    <a href="{{route('admin.messagingIndex')}}" class="nav-link text-white {{ request()->routeIs('admin.messagingIndex') ? 'active' : '' }}">
+                        <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">markunread</i>
+                        <span class="nav-link-text ms-2 ps-1">Mensajería Masiva</span>
                     </a>
                 </li>
             @endcan

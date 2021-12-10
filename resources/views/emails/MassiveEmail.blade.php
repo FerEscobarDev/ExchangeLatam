@@ -213,28 +213,43 @@
 </head>
 <body>
     <div class="header" style="background-color: #2c3e50;">
-        <a href="{{ url('/') }}" style="display: inline-block;">
+        <a href="{{ 'https://admin.exchangelatam.com' }}" style="display: inline-block;">
             <img src="{{ asset('img_web/logo.png') }}" class="logo">
         </a>	
     </div>
 	<div class="body" style="-webkit-text-size-adjust: none; max-width: 100%; background-color: #2c3e50;-webkit-text-size-adjust: none; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; ">
 		<div class="inner-body">
             <div class="content-cell">
-                <h1>Hola {{ strtok($name, " ")." ".strtok($lastname, " ") }},</h1><br>
-                <p>Se ha realizado el cambio de su contraseña, si usted no ha realizado dicho cambio por favor comuníquese con soporte o a nuestra línea de whatsapp.</p>
-                <br>
+                <h1>Hola {{ strtok($email['name'], " ")." ".strtok($email['lastname'], " ") }},</h1><br>                
                 
-                <p>Gracias por elegirnos como su medio de depósitos y retiros para el bróker FBS Markets INC.</p><br>
+                {!! $email['content'] !!}
+
+                <br>
+
+                <p class="mt-3">Puede acceder al área de usuario desde el siguiente botón.</p>
+                
+                <div class="action">
+                    <a class="button button-primary" style="color: #fff;" href="https://exchangelatam.com/profile" target="_blank">Acceder</a>
+                </div>
+
+                <p>Gracias por elegirnos como su medio de depósitos y retiros para el broker FBS Markets INC.</p><br>
 
                 <p>Saludos y buen trading,</p><br>
-                <p><span class="subtitle">ExchangeLatam</span><br> 
-                <a class="whatsapp" style="text-decoration: none; font-size: 14px; color: #718096;" href="https://api.whatsapp.com/send?phone=573223105578">Whatsapp: 3223105578</a></p>
+
+                <p>
+                    <span class="subtitle">
+                        ExchangeLatam
+                    </span><br> 
+                    <a class="whatsapp" style="text-decoration: none; font-size: 14px; color: #718096;"href="https://api.whatsapp.com/send?phone=573223105578">
+                        Whatsapp: 3223105578
+                    </a>
+                </p>
 
 
                 <div class="subcopy">
                     <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
-                    <p><span class="break-all">Vísite nuestra sección <a href="{{ url('/faq') }}">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="{{url('/login')}}">{{url('/login')}}</a></span></p>
+                    <p><span class="break-all">Vísite nuestra sección <a href="https://exchangelatam.com/faq">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
+                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="https://www.exchangelatam.com/profile/deposits">https://www.exchangelatam.com/profile/deposits</a></span></p>
                 </div>
             </div>
 		</div>

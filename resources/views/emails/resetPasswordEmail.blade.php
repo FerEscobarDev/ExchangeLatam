@@ -238,7 +238,7 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Realice depósitos y retiros sin comisiones y sin costo alguno siendo cliente <a href="https://fbs.com/?ppk=exchangelatam">VIP</a>.</span></p>
+                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
                     <p><span class="break-all">Vísite nuestra sección <a href="{{ url('/faq') }}">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
                     <p><span class="break-all">Si tiene problemas haciendo click en el botón "Restablecer contraseña", copie y pegue el siguiente enlace en su navegador: <a href="{{route('password.reset',['token' => $token, 'email' => $email])}}">{{route('password.reset',['token' => $token, 'email' => $email])}}</a></span></p>
                 </div>

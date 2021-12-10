@@ -268,7 +268,7 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Realice depósitos y retiros sin comisiones y sin costo alguno siendo cliente <a href="https://fbs.com/?ppk=exchangelatam">VIP</a>.</span></p>
+                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
                     <p><span class="break-all">Vísite nuestra sección <a href="https://exchangelatam.com/faq">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
                     <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="https://exchangelatam.com/profile/deposits">https://exchangelatam.com/profile/deposits</a></span></p>
                 </div>
