@@ -21,7 +21,7 @@
                 <div class="collapse" id="ProfileNav">
                     <ul class="nav ">
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('admin.changePassword') }}">
+                            <a class="nav-link text-white unique" href="{{ route('admin.changePassword') }}">
                                 <span class="sidenav-mini-icon"> <i class="material-icons">lock</i> </span>
                                 <span class="sidenav-normal  ms-3  ps-1"> Cambiar Contraseña </span>
                             </a>
@@ -38,7 +38,7 @@
             </li>
             <hr class="horizontal light mt-0">
             <li class="nav-item">
-                <a href="" class="nav-link text-white">
+                <a href="" class="nav-link text-white unique">
                     <i class="material-icons-round opacity-10">dashboard</i>
                     <span class="nav-link-text ms-2 ps-1">Dashboard</span>
                 </a>
@@ -49,7 +49,7 @@
             </li>
             @can('deposit.index')
                 <li class="nav-item">
-                    <a href="{{route('deposit.index')}}" class="nav-link text-white {{ request()->routeIs('deposit.index') ? 'active' : '' }}">
+                    <a href="{{route('deposit.index')}}" class="nav-link text-white unique {{ request()->routeIs('deposit.index') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">arrow_upward</i>
                         <span class="nav-link-text ms-2 ps-1">Depósitos</span>
                     </a>
@@ -59,7 +59,7 @@
                 <li class="nav-item">
                     <a href="{{route('withdrawal.index')}}" 
                         class="
-                            nav-link text-white
+                            nav-link text-white unique
                             @if(request()->routeIs('withdrawal.index') || request()->routeIs('withdrawal.indexPendientes') || request()->routeIs('withdrawal.indexRealizados'))
                                 active
                             @endif
@@ -73,7 +73,7 @@
                 <li class="nav-item">
                     <a href="{{route('admin.dollarPurchaseIndex')}}" 
                         class="
-                            nav-link text-white
+                            nav-link text-white unique
                             @if(request()->routeIs('admin.dollarPurchaseIndex') || request()->routeIs('admin.dollarPurchaseIndex') || request()->routeIs('admin.dollarPurchaseIndex'))
                                 active
                             @endif
@@ -89,7 +89,7 @@
             </li>
             @can('admin.dashboard')                 
                 <li class="nav-item">
-                    <a href="{{route('admin.dashboard')}}" class="nav-link text-white {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <a href="{{route('admin.dashboard')}}" class="nav-link text-white unique {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">notification_important</i>
                         <span class="nav-link-text ms-2 ps-1">Notificaciones</span>
                     </a>
@@ -97,7 +97,7 @@
             @endcan                
             @can('user.index')  
                 <li class="nav-item">
-                    <a href="{{route('user.index')}}" class="nav-link text-white  {{ request()->routeIs('user.index') ? 'active' : '' }}">
+                    <a href="{{route('user.index')}}" class="nav-link text-white unique {{ request()->routeIs('user.index') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">supervised_user_circle</i>
                         <span class="nav-link-text ms-2 ps-1">Usuarios</span>
                     </a>
@@ -105,7 +105,7 @@
             @endcan
             @can('user.exportIndex')  
                 <li class="nav-item">
-                    <a href="{{route('user.exportIndex')}}" class="nav-link text-white  {{ request()->routeIs('user.exportIndex') ? 'active' : '' }}">
+                    <a href="{{route('user.exportIndex')}}" class="nav-link text-white unique {{ request()->routeIs('user.exportIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">supervised_user_circle</i>
                         <span class="nav-link-text ms-2 ps-1">Exportar Usuarios</span>
                     </a>
@@ -113,7 +113,7 @@
             @endcan                                                 
             @can('admin.reportIndex')  
                 <li class="nav-item">
-                    <a href="{{route('admin.reportIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.reportIndex') ? 'active' : '' }}">
+                    <a href="{{route('admin.reportIndex')}}" class="nav-link text-white unique {{ request()->routeIs('admin.reportIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">leaderboard</i>
                         <span class="nav-link-text ms-2 ps-1">Reportes Transacciones</span>
                     </a>
@@ -125,7 +125,7 @@
             </li>                               
             @can('admin.dollarPriceIndex')  
                 <li class="nav-item">
-                    <a href="{{route('admin.dollarPriceIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.dollarPriceIndex') ? 'active' : '' }}">
+                    <a href="{{route('admin.dollarPriceIndex')}}" class="nav-link text-white unique {{ request()->routeIs('admin.dollarPriceIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">paid</i>
                         <span class="nav-link-text ms-2 ps-1">Precio Dolar</span>
                     </a>
@@ -133,7 +133,7 @@
             @endcan                                   
             @can('admin.roleIndex')  
                 <li class="nav-item">
-                    <a href="{{route('admin.roleIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.roleIndex') ? 'active' : '' }}">
+                    <a href="{{route('admin.roleIndex')}}" class="nav-link text-white unique {{ request()->routeIs('admin.roleIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">manage_accounts</i>
                         <span class="nav-link-text ms-2 ps-1">Roles</span>
                     </a>
@@ -141,7 +141,7 @@
             @endcan                                  
             @can('admin.permissionIndex')  
                 <li class="nav-item">
-                    <a href="{{route('admin.permissionIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.permissionIndex') ? 'active' : '' }}">
+                    <a href="{{route('admin.permissionIndex')}}" class="nav-link text-white unique {{ request()->routeIs('admin.permissionIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">how_to_reg</i>
                         <span class="nav-link-text ms-2 ps-1">Permisos</span>
                     </a>
@@ -149,19 +149,20 @@
             @endcan                                    
             @can('admin.rateIndex')  
                 <li class="nav-item">
-                    <a href="{{route('admin.rateIndex')}}" class="nav-link text-white  {{ request()->routeIs('admin.rateIndex') ? 'active' : '' }}">
+                    <a href="{{route('admin.rateIndex')}}" class="nav-link text-white unique  {{ request()->routeIs('admin.rateIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">card_giftcard</i>
                         <span class="nav-link-text ms-2 ps-1">Ofertas</span>
                     </a>
                 </li>
             @endcan
-            <li class="nav-item">
-                <hr class="horizontal light" />
-                <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Mensajería</h6>
-            </li>
-            @can('admin.messagingIndex')                 
+            @can('admin.messagingIndex')
                 <li class="nav-item">
-                    <a href="{{route('admin.messagingIndex')}}" class="nav-link text-white {{ request()->routeIs('admin.messagingIndex') ? 'active' : '' }}">
+                    <hr class="horizontal light" />
+                    <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Mensajería</h6>
+                </li>
+                             
+                <li class="nav-item">
+                    <a href="{{route('admin.messagingIndex')}}" class="nav-link text-white unique {{ request()->routeIs('admin.messagingIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">markunread</i>
                         <span class="nav-link-text ms-2 ps-1">Mensajería Masiva</span>
                     </a>
