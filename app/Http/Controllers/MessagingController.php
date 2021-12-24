@@ -18,7 +18,7 @@ class MessagingController extends Controller
         $request->validate([
             'subject' => ['required', 'string', 'max:100', 'min:3'],
             'addressee' => ['required','numeric','integer','integer','min:0','max:3'],
-            'content' => 'required|string'
+            
         ]);
 
         if($request->addressee == 0){

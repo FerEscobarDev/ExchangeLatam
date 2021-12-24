@@ -17,6 +17,24 @@
             .button {
                 width: 80% !important;
             }
+
+            .p-0{
+                padding: 0px !important;
+                border-radius:inherit !important;
+                margin: 0px !important;
+                max-height: fit-content !important;
+            }
+
+            .img-peque{
+                padding: 0px !important;
+                border-radius:inherit !important;
+                margin: 0px !important;
+                max-height: fit-content !important;
+            }
+
+            .inner-body{
+                background-color: unset !important;
+            }
         }
 
         p,
@@ -209,18 +227,33 @@
         .text-color{
             color: #3869d4;
         }
+
+        .gracias{
+            color: #FBD500;
+        }
+
+        .min-h-screen{
+            min-height: 100vh;
+        }
+
+        .border-img{
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="header" style="background-color: #2c3e50;">
-        <a href="{{ 'https://admin.exchangelatam.com' }}" style="display: inline-block;">
-            <img src="{{ asset('img_web/logo.png') }}" class="logo">
+        <a href="{{ 'https://exchangelatam.com' }}" style="display: inline-block;">
+            <img src="https://exchangelatam.com/img_web/logo.png" class="logo">
         </a>	
     </div>
 	<div class="body" style="-webkit-text-size-adjust: none; max-width: 100%; background-color: #2c3e50;-webkit-text-size-adjust: none; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; ">
 		<div class="inner-body">
-            <div class="content-cell">
-                <h1>Hola {{ strtok($email['name'], " ")." ".strtok($email['lastname'], " ") }},</h1><br>                
+            <div class="content-cell p-0">
+                
+                <img class="border-img img-peque" src="https://exchangelatam.com/img_web/feliznavidad.jpg">
+                
+                {{-- <h1>Hola {{ strtok($email['name'], " ")." ".strtok($email['lastname'], " ") }},</h1><br>                
                 
                 {!! $email['content'] !!}
 
@@ -250,7 +283,7 @@
                     <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
                     <p><span class="break-all">Vísite nuestra sección <a href="https://exchangelatam.com/faq">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
                     <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="https://www.exchangelatam.com/profile/deposits">https://www.exchangelatam.com/profile/deposits</a></span></p>
-                </div>
+                </div> --}}
             </div>
 		</div>
     </div>
