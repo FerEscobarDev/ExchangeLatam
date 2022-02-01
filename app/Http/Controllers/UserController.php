@@ -123,8 +123,8 @@ class UserController extends Controller
 
         $ruta_img = $picture['picture']->store('img_profile', 'public');
 
-       /*  $img = Image::make(public_path('storage/'.$ruta_img))->fit(400,400);
-        $img->save(); */
+       $img = Image::make(public_path('storage/'.$ruta_img))->fit(400,400);
+        $img->save();
         
         if(!empty(Auth::user()->picture))
         {
