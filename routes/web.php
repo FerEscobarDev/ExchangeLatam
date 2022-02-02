@@ -43,7 +43,7 @@ Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name
 
 
 //Rutas Admin
-Route::domain('admin.tradingautomaticofx.com')->middleware('auth', 'verified', 'data')->group(function () {
+Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
 //Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones 
