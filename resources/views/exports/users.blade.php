@@ -3,10 +3,8 @@
         <tr>
             <th>Tipo documento</th>
             <th>Número</th>
-            <th>Primer Nombre</th>
-            <th>Segundo Nombre</th>
-            <th>Primer Apellido</th>
-            <th>Segundo Apellido</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
             <th>Ciudad</th>
             <th>Dirección</th>
             <th>Correo</th>
@@ -30,10 +28,8 @@
                     @endif
                 </td>
                 <td>{{ $user->doc_num }}</td>
-                <td>{{ strtok($user->name, " ") }}</td>
-                <td>{{ strtok(" ") }}</td>
-                <td>{{ strtok($user->lastname, " ") }}</td>
-                <td>{{ strtok(" ") }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->lastname }}</td>
                 <td>{{ $user->city }}</td>
                 <td>{{ $user->address }}</td>
                 <td>{{ $user->email }}</td>
