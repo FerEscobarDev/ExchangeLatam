@@ -167,22 +167,19 @@
                         <thead class="thead-light">
                             <tr>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Id</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Tipo</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Tipo documento</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Numero</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Fecha factura</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Descripción</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Monto USD</th>
-                                <th class="text-uppercase text-secondary text-sm opacity-7">Precio USD</th>
+                                <th class="text-uppercase text-secondary text-sm opacity-7 text-center">Nombres</th>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Fecha factura</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Total</th>
                                 <th class="text-uppercase text-secondary text-sm opacity-7">Acciones</th>
+                                <th class="text-uppercase text-secondary text-sm opacity-7">Descripción</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($transactions as $index => $transaction)
                                 <tr>                                    
                                     <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ substr($transaction->transactionable_type, 11) }}</td>
                                     <td class="text-sm font-weight-normal align-middle text-center">
                                         @if($transaction->transactionable->user->doc_type == 'Cedula de ciudadania')
                                             CC
@@ -197,14 +194,17 @@
                                         @endif
                                     </td>
                                     <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->user->doc_num }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">
+                                        <a href="{{route('admin.usersEditData', $transaction->transactionable->user->id)}}" target="_blank" class="text-info">
+                                            {{ strtok($transaction->transactionable->user->name, " ")." ".strtok($transaction->transactionable->user->lastname, " ") }}
+                                        </a>
+                                    </td>
                                     <td class="text-sm font-weight-normal align-middle text-center">{{ date('d/m/Y', strtotime($transaction->transactionable->completed_date)) }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">Venta de {{ number_format($transaction->transactionable->amount_usd, 2) }} USD</td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->amount_usd, 2) }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->price, 2) }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ number_format($transaction->transactionable->total, 2) }}</td>
+                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->comission }}</td>
                                     <td class="text-sm font-weight-normal align-middle">
                                         <button type="button" class="btn btn-info btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#details{{$transaction->id}}">Detalles de pago</button>
                                     </td>
+                                    <td class="text-sm font-weight-normal align-middle">Venta de {{ number_format($transaction->transactionable->amount_usd, 2) }} USD, Comisión 1.5%</td>
                                     <div class="modal fade" id="details{{$transaction->id}}" tabindex="-1" role="dialog" aria-labelledby="details{{$transaction->id}}" aria-hidden="true">
                                         <div class="modal-dialog voucher" role="document">
                                             <div class="modal-content">
@@ -248,30 +248,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </tr>
-                                <tr>                                    
-                                    <td class="text-sm font-weight-normal align-middle">{{ $index + 1 }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">Comisión 1.5%</td>
-                                    <td class="text-sm font-weight-normal align-middle text-center">
-                                        @if($transaction->transactionable->user->doc_type == 'Cedula de ciudadania')
-                                            CC
-                                        @elseif($transaction->transactionable->user->doc_type == 'Cedula de extranjería')
-                                            CE
-                                        @elseif($transaction->transactionable->user->doc_type == 'Pasaporte')
-                                            PS
-                                        @elseif($transaction->transactionable->user->doc_type == 'NIT')
-                                        NIT
-                                        @else
-                                            No tiene
-                                        @endif
-                                    </td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->user->doc_num }}</td>
-                                    <td class="text-sm font-weight-normal align-middle text-center">{{ date('d/m/Y', strtotime($transaction->transactionable->completed_date)) }}</td>
-                                    <td class="text-sm font-weight-normal align-middle">Comisión 1.5% por servicio de intercambio</td>
-                                    <td class="text-sm font-weight-normal align-middle"></td>
-                                    <td class="text-sm font-weight-normal align-middle"></td>
-                                    <td class="text-sm font-weight-normal align-middle">{{ $transaction->transactionable->comission }}</td>
-                                    <td class="text-sm font-weight-normal align-middle"></td>
                                 </tr>
                             @endforeach                    
                         </tbody>
