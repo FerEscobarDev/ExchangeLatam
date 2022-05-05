@@ -47,7 +47,7 @@
                 @else
                     <td>{{ $transaction->transactionable->total }}</td>
                 @endif
-                <td>{{ $transaction->transactionable->amount_usd}} USD</td>
+                <td>{{ $transaction->transactionable->amount_usd }}</td>
             </tr>
         @endforeach                    
     </tbody>
