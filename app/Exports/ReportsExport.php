@@ -21,17 +21,29 @@ class ReportsExport implements FromView
 
     public function view(): View
     {
-        if($this->report->report_type_id == 1)
+        /* if($this->report->report_type_id == 1)
+        { */
+            return view('exports.reports', [
+                'transactions' => $this->transactions
+            ]);
+        /* }
+        elseif($this->report->report_type_id == 2)
         {
             return view('exports.reportsBuy', [
                 'transactions' => $this->transactions
             ]);
         }
-        elseif($this->report->report_type_id == 2)
+        elseif($this->report->report_type_id == 3)
+        {
+            return view('exports.reportsBuy', [
+                'transactions' => $this->transactions
+            ]);
+        }
+        elseif($this->report->report_type_id == 4)
         {
             return view('exports.reportsSell', [
                 'transactions' => $this->transactions
             ]);
-        }
+        } */
     }
 }
