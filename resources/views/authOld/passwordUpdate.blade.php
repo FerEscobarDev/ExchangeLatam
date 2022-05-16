@@ -2,6 +2,7 @@
 @section('titulo', 'Change password - ')
 @section('content')
     @include('includes.alertsOld')
+    @include('includes.alertModalOld')
     @include('includes.successNotificationOld')
     @include('includes.errorsNotificationOld')
     <div class="contact-page">

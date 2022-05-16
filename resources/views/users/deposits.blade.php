@@ -2,6 +2,7 @@
 @section('titulo', 'Deposits - ')
 @section('content')
     @include('includes.alertsOld')
+    @include('includes.alertModalOld')
     @include('includes.successNotificationOld')
     @include('includes.errorsNotificationOld')
     <x-tabOld />

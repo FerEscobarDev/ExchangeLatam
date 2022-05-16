@@ -2,6 +2,7 @@
 @section('titulo', 'Edit Profile - ')
 @section('content')
     @include('includes.alertsOld')
+    @include('includes.alertModalOld')
     @include('includes.successNotificationOld')
     @include('includes.errorsNotificationOld')
     @include('includes.modalCompletedDataOld')
