@@ -13,7 +13,7 @@
                     <h3 class="title">Listado de depósitos</h3>
                     <div class="row">
                         {{-- Modal solicitud deposito --}}
-                        <button type="button" class="btn btn-success pull-right" data-toggle="modal"
+                        <button type="button" disabled class="btn btn-success pull-right" data-toggle="modal"
                             data-target="#rg_deposit_modal">
                             Solicitar depósito
                         </button>
