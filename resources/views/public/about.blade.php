@@ -2,7 +2,7 @@
 
 @section('title', 'Acerca de nosotros')
 
-@section('description',  'Somos un exchanger en Colombia para el broker FBS Markets Inc. desde marzo del 2017, operamos 100% de manera virtual y como persona jurídica bajo la razón social de ExchangeLatam SAS con NIT. 901.422.406-6.')
+@section('description',  'Somos un exchanger en Colombia para brokers desde marzo del 2017, operamos 100% de manera virtual y como persona jurídica bajo la razón social de ExchangeLatam SAS con NIT. 901.422.406-6.')
 
 @section('content')
     <body class="landing-page sidebar-collapse">
@@ -40,7 +40,7 @@
                     <div class="col-md-10 ml-auto mr-auto text-center">
                         <h2 class="title">¿Quienes somos?</h2>
                         <h5 class="description">
-                            Somos un exchanger en Colombia para el broker FBS Markets Inc. desde septiembre del 2017, operamos 100% de manera virtual y como persona jurídica bajo la razón social de ExchangeLatam SAS con NIT. 901.422.406-6. 
+                            Somos un exchanger para brokers en Colombia desde septiembre del 2017, operamos 100% de manera virtual y como persona jurídica bajo la razón social de ExchangeLatam SAS con NIT. 901.422.406-6. 
                             En ExchangeLatam nos encargamos de todo el proceso correspondiente al intercambio de divisas al momento de depositar o retirar su inversión, de esta manera facilitamos que pueda realizar todas las transacciones desde su cuenta bancaria 
                             evitando todo el tramite de las transferencias internacionales ya que nosotros lo hacemos por usted.
                         </h5>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="description">
                                 <h4 class="info-title">Misión</h4>
-                                <p>Trabajamos para ofrecer un servicio de excelente calidad en el intercambio de divisas en Colombia manejando depósitos y retiros para el broker FBS Markets INC. 
+                                <p>Trabajamos para ofrecer un servicio de excelente calidad en el intercambio de divisas en Colombia manejando depósitos y retiros para brokers 
                                     buscando diariamente la optimización de los procesos y los tiempos de gestión informados a nuestros clientes, garantizando seguridad en cada transacción, 
                                     siendo para nosotros un eje fundamental la atención personalizada en nuestros canales de contacto con los miles de inversores que hoy confían en nosotros. 
                                 </p>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="description">
                             <h4 class="info-title">Visión</h4>
-                            <p>Para el año 2024 seremos la empresa líder en intercambio para Colombia y Latinoamerica. Ampliando nuestra cobertura a otros brokers y monederos virtuales. Logrando un impacto positivo en el servicio ofrecido a nuestros clientes.</p>
+                            <p>Para el año 2024 seremos la empresa líder en intercambio para Colombia y Latinoamerica. Ampliando nuestra cobertura a monederos virtuales. Logrando un impacto positivo en el servicio ofrecido a nuestros clientes.</p>
                         </div>
                     </div>
                     </div>
@@ -83,7 +83,7 @@
                         <h2 class="text-center title">Contáctenos</h2>
                         <h4>
                             <a target="_blank" href="{{$contact[2]->link}}" class="btn btn-success btn-link btn-lg">
-                                <i class="fa fa-whatsapp"></i> +57 320 924 00 56
+                                <i class="fa fa-whatsapp"></i> +57 322 310 55 78
                              </a> 
                         </h4>
                         <h4>
@@ -94,11 +94,17 @@
                     </div>
                 </div> <div class="row">
                     <div class="col-md-8">
-                        <h4 class="title ml-5">
-                            <a target="_blank" href="{{ route('company.policy') }}" class="btn btn-link btn-lg">
+                        <h4 class="title ml-5 mb-0">
+                            <a target="_blank" href="{{ route('company.policyData') }}" class="btn btn-link btn-lg">
                                 <i class="fa fa-gavel"></i> Política de tratamiento de datos
                             </a>  
-                        </h4>{{-- 
+                        </h4>
+                        <h4 class="title ml-5 mt-0">
+                            <a target="_blank" href="{{ route('company.policyMoney') }}" class="btn btn-link btn-lg">
+                                <i class="fa fa-gavel"></i> Política SAGRILAFT
+                            </a>  
+                        </h4>
+                        {{-- 
                         <h6 class="title ml-5">
                             <a target="_blank" href="{{ route('company.policy') }}" class="">
                                 Política de tratamiento de datos

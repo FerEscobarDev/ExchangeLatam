@@ -36,10 +36,16 @@ class CompanyController extends Controller
         return view('admin.config', compact('contact'));
     }
 
-    public function policy()
+    public function policyData()
     {
         $contact = Contact::select('link')->where('company_id', 1)->get();
-        return view('public.policy', compact('contact'));
+        return view('public.policyData', compact('contact'));
+    }
+
+    public function policyMoney()
+    {
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+        return view('public.policyMoney', compact('contact'));
     }
     
     public function create()

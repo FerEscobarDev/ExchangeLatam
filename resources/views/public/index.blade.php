@@ -6,7 +6,7 @@
     'Consiga un exchanger para depositar y retirar sus ganancias de trading que le
     ayude a encargarse de todos los trámites con los bancos, cuenta con la facilidad de
     realizar todos los movimientos de su inversión desde cualquier cuenta bancaria en
-    Colombia, siendo ExchangeLatam el exchanger oficial para el broker FBS.',)
+    Colombia.',)
 
 @section('facebook')
     <meta name="facebook-domain-verification" content="dyd6abo3shrqxcwntkk3f89qey5h1g" />
@@ -42,13 +42,13 @@
                             <div class="row">
                                 <div class="col-md-6 ml-auto mr-auto text-center">
                                     <h1 class="title">ExchangeLatam</h1>
-                                    <h4>Exchanger en Colombia para el broker FBS Markets INC.</h4>
+                                    <h4>Exchanger para brokers en Colombia.</h4>
                                     <br>
-                                    <div class="buttons">
+                                    {{-- <div class="buttons">
                                         <div class="card mr-auto ml-auto" style="width: 100px;">
                                             <img class="img" src="{{ asset('img_web/logo-fbs.png') }}" alt="">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                         <div class="col-md-8 ml-auto mr-auto">
                             <h2 class="title">Nuestro servicio</h2>
                             <h5 class="description" id="vip">
-                                Prestamos el servicio de intercambio de divisas desde y hacia la plataforma del broker FBS
+                                Prestamos el servicio de intercambio de divisas desde y hacia su broker
                                 para que pueda administrar su inversión sin necesidad de transferencias internacionales
                                 costosas o tarjetas de crédito,
                                 todas sus transacciones serán de manera local y con medios de pago locales o directamente
