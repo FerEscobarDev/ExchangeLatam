@@ -42,7 +42,8 @@
                             <div class="row">
                                 <div class="col-md-6 ml-auto mr-auto text-center">
                                     <h1 class="title">ExchangeLatam</h1>
-                                    <h4>Exchanger para brokers en Colombia.</h4>
+                                    <h4>Exchanger para brokers en Colombia.</h4>                                    
+                                    <h4>Preocúpate solo por operar, nosotros hacemos el resto.</h4>
                                     <br>
                                     {{-- <div class="buttons">
                                         <div class="card mr-auto ml-auto" style="width: 100px;">
