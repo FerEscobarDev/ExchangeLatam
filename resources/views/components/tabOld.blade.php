@@ -6,13 +6,13 @@
                     <li class="{{ request()->routeIs('users.deposits') ? 'active' : '' }}">
                         <a href="{{route('users.deposits')}}">
                             <i class="material-icons">arrow_upward</i>
-                            Depósitos a FBS
+                            Depósitos a Broker
                         </a>
                     </li>
                     <li class="{{ request()->routeIs('users.withdrawals') ? 'active' : '' }}">
                         <a href="{{route('users.withdrawals')}}">
                             <i class="material-icons">arrow_downward</i>
-                            Retiros de FBS
+                            Retiros de Broker
                         </a>
                     </li>
                     <li class="{{ request()->routeIs('users.edit') ? 'active' : '' }}">
