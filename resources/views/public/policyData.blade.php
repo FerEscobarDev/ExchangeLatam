@@ -58,7 +58,7 @@
                                             Exchange Latam como responsable del tratamiento de los datos personales hará su mejor esfuerzo profesional por mantener bajo adecuados estándares de calidad de protección y seguridad de la 
                                             información, todos los Datos que reciba. Así mismo, propenderá por garantizar que la información recolectada se mantenga en dispositivos y bajo mecanismos idóneos que garanticen la seguridad, 
                                             integralidad, acceso y confidencialidad de los Datos. 
-                                            <h4>I.- REPSONSABLE DEL TRATAMIENTO</h4>
+                                            <h4>I.- RESPONSABLE DEL TRATAMIENTO</h4>
                                             
                                             Razón Social: Exchange Latam S.A.S <br>
                                             NIT. No.: 901.422.406 – 6  <br>
