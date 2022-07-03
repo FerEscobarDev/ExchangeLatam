@@ -30,5 +30,13 @@
     "If you did not receive the email": "Si no has recibido el email",
     "click here to request another": "pulsa aquí para que te enviemos otro",
     "All rights reserved.":  "Todos los derechos reservados.",
-    "The provided password does not match your current password.": "La contraseña proporcionada no coincide con su contraseña actual."
+    "The provided password does not match your current password.": "La contraseña proporcionada no coincide con su contraseña actual.",
+    "The :attribute must be at least :length characters and contain at least one uppercase character.": "Ls :attribute debe tener al menos :length caracteres y al menos un carácter en mayúscula.",
+    "The :attribute must be at least :length characters and contain at least one number.": "La :attribute debe tener al menos :length caracteres y al menos un número.",
+    "The :attribute must be at least :length characters and contain at least one special character.": "La :attribute debe tener al menos :length caracteres y contener al menos un carácter especial.",
+    "The :attribute must be at least :length characters and contain at least one uppercase character and one number.": "La :attribute debe tener al menos :length caracteres y contener al menos un carácter en mayúscula y un número.",
+    "The :attribute must be at least :length characters and contain at least one uppercase character and one special character.": "La :attribute debe tener al menos :length caracteres y contener al menos un carácter en mayúscula y un carácter especial.",
+    "The :attribute must be at least :length characters and contain at least one uppercase character, one number, and one special character.": "La :attribute debe tener al menos :length caracteres y contener al menos un carácter en mayúscula, un número y un carácter especial.",
+    "The :attribute must be at least :length characters and contain at least one special character and one number.": "La :attribute debe tener al menos :length caracteres y contener al menos un carácter especial y un número.",
+    "The :attribute must be at least :length characters.": "El :attribute debe tener al menos :length caracteres."
 }
