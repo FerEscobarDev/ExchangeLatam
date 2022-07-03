@@ -225,7 +225,7 @@
                 <p><strong>El usuario</strong> {{$name}} {{$lastname}} ha cargado el comprobante para el deposito por {{ $amount_usd }} USD.</p>
                 <p><strong>ID del deposito:</strong> {{$deposit_id}}.</p>
 
-                <p>Puede acceder a la solicitud desde el siguiente botón.</p>
+                <p>Puedes acceder a la solicitud desde el siguiente botón.</p>
 
                 <div class="action">
                     <a class="button button-primary" style="color: #fff;" href="{{'https://admin.exchangelatam.com/admin/user/'.$user_id.'/deposits'}}" target="_blank">Acceder</a>
@@ -239,9 +239,9 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
-                    <p><span class="break-all">Vísite nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="{{'https://admin.exchangelatam.com/admin/user/'.$user_id.'/deposits'}}">{{'https://admin.exchangelatam.com/admin/user/'.$user_id.'/deposits'}}</a></span></p>
+                    <p><span class="break-all">Registrate <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertete en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
+                    <p><span class="break-all">Vísita nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelve todas tus dudas antes de usar nuestros servicios.</span></p>
+                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="{{'https://admin.exchangelatam.com/admin/user/'.$user_id.'/deposits'}}">{{'https://admin.exchangelatam.com/admin/user/'.$user_id.'/deposits'}}</a></span></p>
                 </div>
             </div>
 		</div>

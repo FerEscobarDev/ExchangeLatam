@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faq;
+use Inertia\Inertia;
 use App\Models\Company;
 use App\Models\Contact;
-use App\Models\Faq;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\Route;
 
 class CompanyController extends Controller
 {
@@ -13,20 +17,33 @@ class CompanyController extends Controller
     public function index()
     {
         $contact = Contact::select('link')->where('company_id', 1)->get();
-        return view('public.index', compact('contact'));
+        return Inertia::render('Publics/Welcome', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'contact' => $contact
+        ]);
     }
 
     public function about()
     {
         $contact = Contact::select('link')->where('company_id', 1)->get();
-        return view('public.about', compact('contact'));
+        return Inertia::render('Publics/About', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'contact' => $contact
+        ]);
     }
 
     public function faq()
     {
         $contact = Contact::select('link')->where('company_id', 1)->get();
         $faqs = Faq::all();
-        return view('public.faq', compact('contact', 'faqs'));
+        return Inertia::render('Publics/Faq', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'contact' => $contact,
+            'faqs' => $faqs
+        ]);
     }
 
     public function config()
@@ -38,14 +55,11 @@ class CompanyController extends Controller
 
     public function policyData()
     {
-        $contact = Contact::select('link')->where('company_id', 1)->get();
-        return view('public.policyData', compact('contact'));
-    }
+        $policyFile = Jetstream::localizedMarkdownPath('sagrilaft.md');
 
-    public function policyMoney()
-    {
-        $contact = Contact::select('link')->where('company_id', 1)->get();
-        return view('public.policyMoney', compact('contact'));
+        return Inertia::render('SagrilaftPolicy', [
+            'policy' => Str::markdown(file_get_contents($policyFile)),
+        ]);
     }
     
     public function create()

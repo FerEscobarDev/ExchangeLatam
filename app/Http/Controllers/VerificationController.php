@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Contact;
 use App\Models\Verification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\AdminVerification;
 
 class VerificationController extends Controller
 {
@@ -19,7 +22,7 @@ class VerificationController extends Controller
 
     public function index()
     {
-        //
+        return Inertia::render('Profile/Verification');
     }
 
     /**
@@ -29,7 +32,15 @@ class VerificationController extends Controller
      */
     public function create()
     {
-        return view('user.verificationCreate');
+        $requirementUser = Auth::user()->requirementUser;
+        $formFund = Auth::user()->formFund;
+        $formKnowledgeClient = Auth::user()->formKnowledgeClient;
+
+        return Inertia::render('Profile/Verification', [
+            'requirementUser' => $requirementUser,
+            'formFund' => $formFund,
+            'formKnowledgeClient' => $formKnowledgeClient,
+        ]);
     }
 
     /**
@@ -40,7 +51,41 @@ class VerificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'front' => 'required|image|max:5000',
+            'back' => 'required|image|max:5000'
+        ]);
+
+        $route_front = $data['front']->store('verified_support', 'public');
+        $route_back = $data['back']->store('verified_support', 'public');
+
+        $user = Auth::user();
+
+        Verification::create([
+            'user_id' => $user->id,
+            'front' => $route_front,
+            'back' => $route_back
+        ]);
+
+        $user->requirementUser()->update([
+            'verified' => 1
+        ]);
+
+        if(($user->requirementUser->verified == 1 || $user->requirementUser->verified == 0) && $user->requirementUser->formFunds == 1 && $user->requirementUser->formKnowledge == 1)
+        {
+            $obj = new \stdClass();
+            $obj->name = Auth::user()->name;
+            $obj->lastname = Auth::user()->lastname;
+            $obj->user_id = Auth::user()->id;
+
+            $users = User::role('Verification')->get();
+
+            foreach($users as $user){
+                $user->notify(new AdminVerification($obj));
+            }
+        }
+
+        return back()->with('success', 'Tus documentos han sido subidos, el proceso de verificación puede tomar hasta 48 horas.');
     }
 
     /**

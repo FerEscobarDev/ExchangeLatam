@@ -44,11 +44,12 @@
                                         <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group">                                    
+                                    <label for="doc_num" class="control-label">Tipo de documento</label>
                                     <select class="selectpicker " data-style="select-with-transition" name="doc_type">
-                                        <option value="Cedula de ciudadania" {{ old('doc_type', $user->doc_type) == 'Cedula de ciudadania' ? 'selected' : '' }}>Cedula de ciudadania</option>
-                                        <option value="Pasaporte" {{ old('doc_type', $user->doc_type) == 'Pasaporte' ? 'selected' : '' }}>Pasaporte</option>
-                                        <option value="Cedula de extranjería" {{ old('doc_type', $user->doc_type) == 'Cedula de extranjería' ? 'selected' : '' }}>Cedula de extranjería</option>
+                                        <option value="1" {{ old('doc_type', $user->dataUser->doc_type) == '1' ? 'selected' : '' }}>Cedula de ciudadania</option>
+                                        <option value="3" {{ old('doc_type', $user->dataUser->doc_type) == '3' ? 'selected' : '' }}>Pasaporte</option>
+                                        <option value="2" {{ old('doc_type', $user->dataUser->doc_type) == '2' ? 'selected' : '' }}>Cedula de extranjería</option>
                                     </select>
                                     @error('doc_type') 
                                     <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
@@ -56,7 +57,7 @@
                                 </div>                                                        
                                 <div class="form-group label-floating">
                                     <label for="doc_num" class="control-label">Número de documento</label>
-                                    <input type="number" class="form-control" name="doc_num" value="{{ old('doc_num', $user->doc_num) }}">
+                                    <input type="number" class="form-control" name="doc_num" value="{{ old('doc_num', $user->dataUser->doc_num) }}">
                                     @error('doc_num') 
                                         <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
                                     @enderror
@@ -66,23 +67,36 @@
                             </div>
                         </div> 
                         <div class="col-md-6">
+                            <div class="card-content mb-0">
+                                <h5 class="card-title">Revisar Formularios</h5>
+                                <h6 class="title ml-5">
+                                    <a target="_blank" href="{{ route('formFund.showAdmin', $user->formFund->id) }}" class="btn-link">
+                                        Declaración de fondos
+                                    </a>  
+                                </h6>
+                                <h6 class="title ml-5 mb-0">
+                                    <a target="_blank" href="{{ route('formKnowledgeClient.showAdmin', $user->formKnowledgeClient->id) }}" class="btn-link">
+                                        Conocimiento del cliente
+                                    </a>  
+                                </h6>
+                            </div>
                             <div class="card-content">
-                            <h5 class="card-title">Aprobación de verificación</h5>
-                            <form class="form" method="POST" action="{{ route('admin.userVerified', $user) }}">
-                                @method('put')
-                                @csrf
-                                <div class="form-group">
-                                    <select class="selectpicker " data-style="select-with-transition" data-title="Aprobar verificación?" name="verified">
-                                        <option value="1">Si</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                </div>                                                         
-                                <div class="form-group">
-                                    <label for="note"></label>
-                                    <textarea class="form-control" name="note" placeholder="En caso de no aprobar verificación, escriba aquí los motivos para notificar al cliente."></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-success">Finalizar</button>
-                            </form>
+                                <h5 class="card-title mt-0">Aprobación de verificación</h5>
+                                <form class="form" method="POST" action="{{ route('admin.userVerified', $user) }}">
+                                    @method('put')
+                                    @csrf
+                                    <div class="form-group">
+                                        <select class="selectpicker " data-style="select-with-transition" data-title="Aprobar verificación?" name="verified">
+                                            <option value="1">Si</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>                                                         
+                                    <div class="form-group">
+                                        <label for="note"></label>
+                                        <textarea class="form-control" name="note" placeholder="En caso de no aprobar verificación, escriba aquí los motivos para notificar al cliente."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Finalizar</button>
+                                </form>
                             </div>
                         </div> 
                     </div>

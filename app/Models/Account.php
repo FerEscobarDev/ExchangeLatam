@@ -35,4 +35,9 @@ class Account extends Model
     public function dollarPurchases(){
         return $this->hasMany(DollarPurchase::class);
     }
+
+    //Relación de uno a muchos
+    public function transactions(){
+        return $this->hasMany(Transaction::class);
+    }
 }

@@ -64,7 +64,7 @@ class DollarPriceController extends Controller
         }
         DollarPrice::create($request->all());
 
-        return back()->with('success', 'El precio del dolar para le día '.$request->date.' se ha registrado correctamente.');
+        return back()->with('success', 'El precio del dolar para el día '.$request->date.' se ha registrado correctamente.');
 
     }
 
@@ -118,7 +118,7 @@ class DollarPriceController extends Controller
         }
         $dollarPrice->update($request->all());
 
-        return back()->with('success', 'El precio del dolar para le día '.$request->date.' se ha actualizado correctamente.');
+        return back()->with('success', 'El precio del dolar para el día '.$request->date.' se ha actualizado correctamente.');
     }
 
     /**
@@ -139,6 +139,6 @@ class DollarPriceController extends Controller
 
         $dollarPrice->delete();
 
-        return back()->with('success', 'El precio del dolar para le día '.$date.' se ha eliminado correctamente.');
+        return back()->with('success', 'El precio del dolar para el día '.$date.' se ha eliminado correctamente.');
     }
 }

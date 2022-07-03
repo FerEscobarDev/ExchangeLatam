@@ -21,25 +21,32 @@
                             <div class="col-md-3"><p><b>Apellido:</b></p></div><div class="col-md-3"><p>{{ $user->lastname }}</p></div>
                         </div>  <hr>  
                         <div class="row">
-                            <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>{{ $user->doc_type }}</p></div>
-                            <div class="col-md-3"><p><b>Número de documento:</b></p></div><div class="col-md-3"><p>{{ $user->doc_num }}</p></div>
+                            @if ($user->dataUser->doc_type == 1)
+                                <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Cédula de ciudadanía</p></div> 
+                            @elseif ($user->dataUser->doc_type == 2)
+                                <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Cédula de extranjería</p></div>
+                            @elseif ($user->dataUser->doc_type == 3)
+                                <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Pasaporte</p></div>
+                            @endif
+                            
+                            <div class="col-md-3"><p><b>Número de documento:</b></p></div><div class="col-md-3"><p>{{ $user->dataUser->doc_num }}</p></div>
                         </div>  <hr>  
                         <div class="row">
                             <div class="col-md-3"><p><b>Correo:</b></p></div><div class="col-md-3"><p>{{ $user->email }}</p></div>
                             <div class="col-md-3"><p><b>Celular:</b></p></div><div class="col-md-3"><p>{{ $user->mobil }}</p></div>
                         </div>  <hr>       
                         <div class="row">
-                            <div class="col-md-3"><p><b>Departamento:</b></p></div><div class="col-md-3"><p>{{ $user->departament }}</p></div>
-                            <div class="col-md-3"><p><b>Ciudad:</b></p></div><div class="col-md-3"><p>{{ $user->city }}</p></div>
+                            <div class="col-md-3"><p><b>Departamento:</b></p></div><div class="col-md-3"><p>{{ $user->dataUser->departament }}</p></div>
+                            <div class="col-md-3"><p><b>Ciudad:</b></p></div><div class="col-md-3"><p>{{ $user->dataUser->city }}</p></div>
                         </div>  <hr>    
                         <div class="row">
-                            <div class="col-md-3"><p><b>Dirección:</b></p></div><div class="col-md-9"><p>{{ $user->address }}</p></div>
+                            <div class="col-md-3"><p><b>Dirección:</b></p></div><div class="col-md-9"><p>{{ $user->dataUser->address }}</p></div>
                         </div>  <hr>        
                         <div class="row">
                             <div class="col-md-3"><p><b>Información Completa:</b></p></div>
                             <div class="col-md-3">
                                 <p>
-                                    @if ($user->info_ok == 1)
+                                    @if ($user->requirementUser->info_ok == 1)
                                         <span class="text-success">Información completa</span>
                                     @else
                                         <span class="text-danger">Información incompleta</span>
@@ -49,9 +56,9 @@
                             <div class="col-md-3"><p><b>Verificación de cuenta:</b></p></div>
                             <div class="col-md-3">
                                 <p>
-                                    @if ($user->verified == 0)
+                                    @if ($user->requirementUser->verified == 0)
                                         <span class="text-danger">Cuenta sin verificar</span>
-                                    @elseif($user->verified == 1)
+                                    @elseif($user->requirementUser->verified == 1)
                                         <span class="text-warning">Pendiente de verificación</span>
                                     @else
                                         <span class="text-success">Cuenta verificada</span>
@@ -71,7 +78,7 @@
                             <div class="col-md-3"><p><b>Tipo de cliente:</b></p></div>
                             <div class="col-md-3">
                                 <p>
-                                    @if ($user->vip == 'yes')
+                                    @if ($user->dataUser->vip == 'yes')
                                         <span class="text-primary">Cliente VIP</span>
                                     @else
                                         <span class="text-warning">Cliente Normal</span>
@@ -127,9 +134,9 @@
                                     </div>
                                     <div class="form-group">
                                         <select class="selectpicker " data-style="select-with-transition" name="doc_type">
-                                            <option value="Cedula de ciudadania" {{ old('doc_type', $user->doc_type) == 'Cedula de ciudadania' ? 'selected' : '' }}>Cedula de ciudadania</option>
-                                            <option value="Pasaporte" {{ old('doc_type', $user->doc_type) == 'Pasaporte' ? 'selected' : '' }}>Pasaporte</option>
-                                            <option value="Cedula de extranjería" {{ old('doc_type', $user->doc_type) == 'Cedula de extranjería' ? 'selected' : '' }}>Cedula de extranjería</option>
+                                            <option value="1" {{ old('doc_type', $user->dataUser->doc_type) == '1' ? 'selected' : '' }}>Cedula de ciudadania</option>
+                                            <option value="3" {{ old('doc_type', $user->dataUser->doc_type) == '3' ? 'selected' : '' }}>Pasaporte</option>
+                                            <option value="2" {{ old('doc_type', $user->dataUser->doc_type) == '2' ? 'selected' : '' }}>Cedula de extranjería</option>
                                         </select>
                                         @error('doc_type') 
                                         <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
@@ -137,7 +144,7 @@
                                     </div>                                                        
                                     <div class="form-group label-floating">
                                         <label for="doc_num" class="control-label">Número de documento</label>
-                                        <input type="number" class="form-control" name="doc_num" value="{{ old('doc_num', $user->doc_num) }}">
+                                        <input type="number" class="form-control" name="doc_num" value="{{ old('doc_num', $user->dataUser->doc_num) }}">
                                         @error('doc_num') 
                                             <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
                                         @enderror
@@ -148,37 +155,10 @@
                                         @error('mobil') 
                                             <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
                                         @enderror
-                                    </div>  
-                                    <div class="form-group">
-                                        <select class="selectpicker" data-style="select-with-transition" title="Seleccionar departamento" id="departamentAdmin" name="departament">
-                                            @if($user->departament == 'Agregar')
-                                                <option value=" ">Seleccione departamento</option>
-                                            @else
-                                                <option value="{{$user->departament}}">{{$user->departament}}</option>
-                                            @endif
-                                            @foreach($departaments as $departament)
-                                                <option value="{{ $departament->id }}" {{ old('departament') == $departament->id ? 'selected' : '' }}>{{ $departament->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('departament') 
-                                        <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <select class="selectpicker" data-style="select-with-transition" title="Seleccionar ciudad" id="city" name="city">
-                                            @if($user->departament == 'Agregar' && empty(old('city')))
-                                                <option value=" ">Seleccione ciudad</option>
-                                            @else
-                                                @if(!empty(old('city'))) <option value="{{old('city')}}">{{old('city')}}</option> @else <option value="{{$user->city}}">{{$user->city}}</option> @endif
-                                            @endif
-                                        </select>
-                                        @error('city') 
-                                        <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
-                                    </div>   
+                                    </div> 
                                     <div class="form-group label-floating">
                                         <label for="address" class="control-label">Dirección de correspondencia (opcional)</label>
-                                        <input type="text" class="form-control" name="address" value="{{ old('address', $user->address) }}">
+                                        <input type="text" class="form-control" name="address" value="{{ old('address', $user->dataUser->address) }}">
                                         @error('address') 
                                             <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
                                         @enderror

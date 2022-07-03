@@ -222,8 +222,8 @@
             <div class="content-cell">
                 <h1>Hola {{ strtok($notify->name, " ")." ".strtok($notify->lastname, " ") }},</h1><br>
                 <p>
-                    Reciba un cordial saludo de parte de ExchangeLatam, hemos recibido su retiro de la cuenta de trading FBS #{{$notify->fbs_account}} aprobado el día {{$notify->application_date}}, 
-                    el tiempo de gestión de los retiros es de hasta 3 días hábiles después de ser aprobado por FBS, si su retiro es aprobado un día no hábil el tiempo de gestión empieza después del primer día hábil siguiente.
+                    Recibe un cordial saludo de parte de ExchangeLatam, hemos recibido tu retiro de la cuenta de trading #{{$notify->fbs_account}} aprobado el día {{$notify->application_date}}, 
+                    el tiempo de gestión de los retiros es de hasta 3 días hábiles después de ser aprobado por el broker, si tu retiro es aprobado un día no hábil el tiempo de gestión empieza después del primer día hábil siguiente.
                 </p>
                 @isset($notify->content)                    
                     <p>
@@ -236,13 +236,13 @@
                     </p>
                 @endisset
 
-                <p>Puede acceder al área de usuario desde el siguiente botón.</p>
+                <p>Puedes acceder al área de usuario desde el siguiente botón.</p>
 
                 <div class="action">
                     <a class="button button-primary" style="color: #fff;" href="https://exchangelatam.com/profile/withdrawals" target="_blank">Acceder</a>
                 </div>
 
-                <p>Gracias por elegirnos como su medio de depósitos y retiros para el broker FBS Markets INC.</p><br>
+                <p>Gracias por elegirnos como tu medio de depósitos y retiros.</p><br>
 
                 <p>Saludos y buen trading,</p><br>
 
@@ -257,9 +257,9 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
-                    <p><span class="break-all">Vísite nuestra sección <a href="https://exchangelatam.com/faq">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="https://exchangelatam.com/profile/withdrawals">https://exchangelatam.com/profile/withdrawals</a></span></p>
+                    <p><span class="break-all">Registrate <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertete en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
+                    <p><span class="break-all">Vísita nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelve todas tus dudas antes de usar nuestros servicios.</span></p>
+                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="https://exchangelatam.com/profile/withdrawals">https://exchangelatam.com/profile/withdrawals</a></span></p>
                 </div>
             </div>
 		</div>

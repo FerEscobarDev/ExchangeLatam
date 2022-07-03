@@ -20,7 +20,7 @@
         <!-- CSS Files -->
         <link href="{{asset('css/cssDash/material-dashboard.css')}}" rel="stylesheet" />
         <!-- CSS personalizado -->
-        <link href="{{asset('css/app.css')}}" rel="stylesheet" />
+        <link href="{{asset('css/app2.css')}}" rel="stylesheet" />
         {{-- CSS opcional --}}
         @yield('css')
 
@@ -91,7 +91,7 @@
     <body class="g-sidenav-show  bg-gray-100">
         {{-- Aside --}}
         <x-sidebarDash/>
-            
+
         <main class="main-content border-radius-lg ">
             <!-- Navbar -->
             @include('includes.navbar_dash')
@@ -148,5 +148,5 @@
         {{-- @livewireScripts --}}
         @stack('script-plus')
     </body>
-    
+
 </html>

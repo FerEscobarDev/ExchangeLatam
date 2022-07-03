@@ -222,25 +222,23 @@
             <div class="content-cell">
                 <h1>Hola {{ strtok($name, " ")." ".strtok($lastname, " ") }},</h1><br>
                 <p>
-                    Hemos recibido su solicitud de depósito, ahora debe realizar la respectiva transferencia o consignación a la cuenta bancaria indicada al momento de la solicitud, puede consultar la información de dicha cuenta 
-                    para inscribirla haciendo click sobre el nombre del banco el cual aparece en la solicitud que realizó.
+                    Hemos recibido tu solicitud de depósito, ahora debes realizar el pago transferencia o consignación a la cuenta bancaria indicada en la solicitud, puedes consultar los detalles en la vista detallada.
                 </p>
                 <p>
-                    Una vez realice la transferencia o consignación debe subir el comprobante en la respectiva solicitud. 
-                    El depósito lo verá reflejado en su cuenta de trading en un plazo de 10 a 20 minutos máximo 48 horas después de subir el comprobante. 
+                    Una vez realices la transferencia o consignación debes subir el comprobante en la respectiva solicitud. 
+                    El depósito se verá reflejado en tu cuenta de trading en un plazo de 10 a 20 minutos máximo 48 horas después de subir el comprobante. 
                 </p>
                 <p>
-                    La solicitud estará vigente durante las siguientes 48 horas, después de este tiempo sin recibir un comprobante de la transacción este se cancelará automáticamente o 
-                    se cancelará antes si hay algún cambio en la tasa del dolar. Usted puede cancelar dicha solicitud en cualquier momento desde su área de usuario.
+                    La solicitud estará vigente hasta la media noche, después de este tiempo sin recibir un comprobante, la transacción se cancelará automáticamente.
                 </p>
 
-                <p>Puede acceder al área de usuario desde el siguiente botón.</p>
+                <p>Puedes acceder al área de usuario desde el siguiente botón.</p>
 
                 <div class="action">
                     <a class="button button-primary" style="color: #fff;" href="{{url('/login')}}" target="_blank">Acceder</a>
                 </div>
 
-                <p>Gracias por elegirnos como su medio de depósitos y retiros para el bróker FBS Markets INC.</p><br>
+                <p>Gracias por elegirnos como tu medio de depósitos y retiros.</p><br>
 
                 <p>Saludos y buen trading,</p><br>
 
@@ -255,9 +253,9 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
-                    <p><span class="break-all">Vísite nuestra sección <a href="{{ url('/faq') }}">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="{{url('/login')}}">{{url('/login')}}</a></span></p>
+                    <p><span class="break-all">Registrate <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertete en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
+                    <p><span class="break-all">Vísita nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelve todas tus dudas antes de usar nuestros servicios.</span></p>
+                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="{{url('/login')}}">{{url('/login')}}</a></span></p>
                 </div>
             </div>
 		</div>

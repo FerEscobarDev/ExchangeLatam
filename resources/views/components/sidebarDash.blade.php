@@ -103,22 +103,22 @@
                     </a>
                 </li>
             @endcan
-            @can('user.exportIndex')  
+            {{-- @can('user.exportIndex')  
                 <li class="nav-item">
                     <a href="{{route('user.exportIndex')}}" class="nav-link text-white unique {{ request()->routeIs('user.exportIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">supervised_user_circle</i>
                         <span class="nav-link-text ms-2 ps-1">Exportar Usuarios</span>
                     </a>
                 </li>
-            @endcan                                                 
-            @can('admin.reportIndex')  
+            @endcan  --}}                                                
+            {{-- @can('admin.reportIndex')  
                 <li class="nav-item">
                     <a href="{{route('admin.reportIndex')}}" class="nav-link text-white unique {{ request()->routeIs('admin.reportIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">leaderboard</i>
                         <span class="nav-link-text ms-2 ps-1">Reportes Transacciones</span>
                     </a>
                 </li>
-            @endcan              
+            @endcan   --}}            
             <li class="nav-item">
                 <hr class="horizontal light" />
                 <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Configuración web</h6>
@@ -147,14 +147,14 @@
                     </a>
                 </li>
             @endcan                                    
-            @can('admin.rateIndex')  
+            {{-- @can('admin.rateIndex')  
                 <li class="nav-item">
                     <a href="{{route('admin.rateIndex')}}" class="nav-link text-white unique  {{ request()->routeIs('admin.rateIndex') ? 'active' : '' }}">
                         <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">card_giftcard</i>
                         <span class="nav-link-text ms-2 ps-1">Ofertas</span>
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
             @can('admin.messagingIndex')
                 <li class="nav-item">
                     <hr class="horizontal light" />

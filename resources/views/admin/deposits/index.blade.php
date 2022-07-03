@@ -12,7 +12,8 @@
                         <tr>
                             <th class="text-uppercase text-secondary text-sm opacity-7">Id</th>
                             <th class="text-uppercase text-secondary text-sm opacity-7">Usuario</th>
-                            <th class="text-uppercase text-secondary text-sm opacity-7">Cuenta FBS</th>
+                            <th class="text-uppercase text-secondary text-sm opacity-7">Broker</th>
+                            <th class="text-uppercase text-secondary text-sm opacity-7">Cuenta Trading</th>
                             <th class="text-uppercase text-secondary text-sm opacity-7">Monto USD</th>
                             <th class="text-uppercase text-secondary text-sm opacity-7">Monto COP</th>
                             <th class="text-uppercase text-secondary text-sm opacity-7">Total</th>
@@ -30,7 +31,8 @@
                                         {{  strtok($deposit->user->name, " ")." ".strtok($deposit->user->lastname, " ") }}
                                     </a>
                                 </td>
-                                <td class="text-sm font-weight-normal align-middle">{{ $deposit->fbs_account }}</td>
+                                <td class="text-sm font-weight-normal align-middle">{{ $deposit->tradingaccount->broker->name }}</td>
+                                <td class="text-sm font-weight-normal align-middle">{{ $deposit->tradingaccount->number }}</td>
                                 <td class="text-sm font-weight-normal align-middle">{{ number_format($deposit->amount_usd,0) }}</td>
                                 <td class="text-sm font-weight-normal align-middle">{{ number_format($deposit->amount_cop,0) }}</td>
                                 <td class="text-sm font-weight-normal align-middle">{{ number_format($deposit->total,0) }}</td>

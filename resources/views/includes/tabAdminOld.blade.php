@@ -27,13 +27,13 @@
                             Datos Bancarios
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('admin.usersNotices', ['id' => $user]) ? 'active' : '' }}">
+                    {{-- <li class="{{ request()->routeIs('admin.usersNotices', ['id' => $user]) ? 'active' : '' }}">
                         <a href="{{route('admin.usersNotices', ['id' => $user])}}">
                             <i class="material-icons">notification_important</i>
                             Alertas
                         </a>
-                    </li>
-                    @if($user->verified == 1)
+                    </li> --}}
+                    @if($user->requirementUser->verified == 1)
                         <li class="{{ request()->routeIs('admin.usersVerification', ['id' => $user]) ? 'active' : '' }}">
                             <a href="{{route('admin.usersVerification', ['id' => $user])}}">
                                 <i class="material-icons">verified_user</i>

@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\Rate;
 use App\Models\User;
+use Inertia\Inertia;
+use App\Models\Broker;
+use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Deposit;
 use App\Models\DollarPrice;
+use App\Models\TradingAccount;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 use App\Notifications\AdminDepositVoucher;
 use App\Notifications\UserStatusChangeDeposit;
 use App\Notifications\UserStatusChangeWithdrawal;
@@ -23,10 +31,33 @@ class DepositController extends Controller
         $this->middleware('user.data.completed')->only('store');
     }
 
-    public function index()
+    public function adminIndex()
     {        
-        $deposits = Deposit::where('application_date','>=','2020-10-16 00:00:00')->orderBy('id', 'desc')->paginate(10);
+        $deposits = Transaction::where('type', 1)->where('application_date','>=','2020-10-16 00:00:00')->orderBy('id', 'desc')->paginate(10);
         return view('admin.deposits.index', compact('deposits'));
+    }
+
+    public function userIndex()
+    {   
+        /* 
+        $hoy = date('Y-m-d');
+        $exchange = DollarPrice::where('date', $hoy)->get();
+        $noticeModal = Auth::user()->notices->where('type', 'modal');
+        $noticesAll = Notice::where('type', 'general')->get();
+        $contact = Contact::select('link')->where('company_id', 1)->get();
+        $accounts = Account::where('user_id', 8)->where('active', 'Activa')->get(); */
+        $deposits = Transaction::where('user_id', Auth::user()->id)->where('type', 1)->with('tradingAccount', 'tradingAccount.broker')->orderBy("application_date","desc")->paginate(5);
+        /* $rate = Rate::where('date', $hoy)->get();
+        if(empty($rate[0]))
+        { 
+            $rate = false; 
+        } */
+
+        return Inertia::render('Deposits/Index',[
+            'deposits' => $deposits,
+        ]);
+
+        /* return view('users.deposits', compact('contact', 'noticesAll', 'noticeModal', 'accounts', 'priceUsdDeposit', 'deposits', 'rate')); */
     }
 
     public function depositsData()
@@ -56,74 +87,89 @@ class DepositController extends Controller
 
     public function create()
     {
-        //
+        $hoy = date('Y-m-d');
+        $exchange = DollarPrice::where('date', $hoy)->get();
+        $accounts = Account::where('user_id', 8)->where('active', 'Activa')->get();
+        $tradingAccounts = auth()->user()->tradingAccounts;
+        $brokers = Broker::where('status', 1)->get();
+        $dataUser = auth()->user()->dataUser;
+
+        return Inertia::render('Deposits/Create',[            
+            'exchange' => $exchange[0]->dollar_buy,
+            'accounts' => $accounts->map(function ($account) {
+                return [
+                    'id' => $account->id,
+                    'name' => $account->bank->name,
+                ];
+            }),
+            'tradingAccounts' => $tradingAccounts,
+            'brokers' => $brokers,
+            'dataUser' => $dataUser,
+        ]);
     }
 
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'fbs_account' => 'required|numeric|integer|digits_between:5,12',
+    {   
+        $request->validate([
+            'broker' => ['required', 'array:id,name,status,created_at,updated_at'],
+            'tradingAccount' => ['required', 'numeric', 'integer', 'digits_between:5,12'],
             'amount_usd' => 'required|numeric|integer|min:10|max:10000',
-            'account' => 'required|numeric'
+            'account' => ['required', 'array:id,name']
         ]);
 
         $hoy = date('Y-m-d');
         $dollar_price = DollarPrice::where('date', $hoy)->get();
         $dollar_price = $dollar_price[0]->dollar_buy;
-        $amount_cop = ((int)$dollar_price*$data['amount_usd']);
+        $amount_cop = ((int)$dollar_price*$request['amount_usd']);
         $comission_iva_inclu = ($amount_cop*0.015);
         $comission = $comission_iva_inclu / 1.19;
         $iva = $comission*0.19;
         $total = $amount_cop+$comission+$iva;
         $application_date = date('Y-m-d H:i:s');
         $expiration_date = date('Y-m-d H:i:s', strtotime($application_date.'+ 1 days'));
-        $rate = Rate::where('date', $hoy)->get();
-        $rebate_rate = 0;
+        $tradingAccount = TradingAccount::where('number', $request['tradingAccount'])->where('broker_id', $request['broker']['id'])->first();
 
-        if(empty($rate[0]))
+        
+
+        if(empty($tradingAccount))
+        {   
+            $tradingAccount = TradingAccount::create([
+                'user_id' => Auth::user()->id,
+                'broker_id' => $request['broker']['id'],
+                'number' => $request['tradingAccount'],
+            ]);
+        }
+        else
         {
-            if(auth()->user()->vip == 'yes')
+            if($tradingAccount->user_id != Auth::user()->id)
             {
-                if($data['amount_usd'] >= 500)
-                {
-                    $rebate = $comission;
-                    $total = $total - $rebate;
-                }
-                else
-                {
-                    $rebate = 0;
-                }
+                return back()->with('error', 'La cuenta de trading ingresada ya pertenece a otro usuario, si es un error comunícate con soporte.');
+            }
+        }
+
+        if(auth()->user()->dataUser->vip == 'yes' || $tradingAccount->vip == 1)
+        {
+            if($request['amount_usd'] >= 500)
+            {
+                $rebate = $comission;
+                $total = $total - $rebate;
             }
             else
             {
                 $rebate = 0;
-            } 
+            }
         }
         else
-        { 
-            $rebate_vip = $rate[0]->vip_rate;
-            $comission_all = $rate[0]->comission_all;
-
-            if(auth()->user()->vip == 'yes')
-            {
-                $rebate_rate = $amount_cop - (($dollar_price - $rebate_vip)*$data['amount_usd']);
-            }
-            else
-            {
-                $rebate_rate = 0;
-            }
-
-            $rebate_comission = $comission - ((((int)$comission_all/100)*$amount_cop)/1.19);
-            $rebate = $rebate_comission + $rebate_rate;
-
-            $total = $total - $rebate;
-        }        
+        {
+            $rebate = 0;
+        }     
         
-        $deposit = auth()->user()->deposits()->create([
-            'fbs_account' => $data['fbs_account'],
-            'account_id' => $data['account'],
+        $deposit = auth()->user()->transactions()->create([
+            'account_id' => $request->account['id'],
+            'trading_account_id' => $tradingAccount->id,
+            'type' => 1,
             'price' => $dollar_price,
-            'amount_usd' => $data['amount_usd'],
+            'amount_usd' => $request['amount_usd'],
             'amount_cop' => $amount_cop,
             'comission' => $comission,
             'cuatro_por_mil' => 0,
@@ -134,30 +180,32 @@ class DepositController extends Controller
             'expiration_date' => $expiration_date
         ]); 
         
-        if(isset($rebate_vip) && isset($comission_all))
+        /* if(isset($rebate_vip) && isset($comission_all))
         {
             $deposit->rebateDescription()->create([
                 'rebate_comission' => $rebate_comission,
                 'rebate_rate' => $rebate_rate
             ]);
-        }
+        } */
         
-        return redirect('profile/deposits')->with('info', $deposit)->with('success', 'Depósito solicitado correctamente.');
+        return Redirect::route('deposit.show', $deposit->id)->with('success', 'Solicitud de depósito realizada.');
         
     }
 
-    public function voucherUp(Request $request, Deposit $deposit)
+    public function voucherUp(Request $request, Transaction $transaction)
     {
         $voucher = $request->validate([
-            'voucher' => 'required|image'
+            'voucherUp' => 'required|image'
         ]);        
 
-        $ruta_img = $voucher['voucher']->store('deposit_support', 'public');
+        $ruta_img = $voucher['voucherUp']->store('deposit_support', 'public');
 
         $image = Image::make(public_path('storage/'.$ruta_img));
         $image->widen(700);/* 
         $image->rotate(-90); */
         $image->save();
+
+        $deposit = $transaction;
 
         $cargado = $deposit->update(['voucher' => $ruta_img]);
  
@@ -176,16 +224,31 @@ class DepositController extends Controller
                 $user->notify(new AdminDepositVoucher($obj));
             }
 
-            return redirect('profile/deposits')->with('success','Comprobante cargado correctamente, su depósito se verá reflejado en un plazo de 10 a 20 minutos, máximo 48 horas.'); 
+            $voucher = asset('storage/'.$deposit->voucher);
+
+            return back()->with($voucher)->with('success','Comprobante cargado correctamente, tu depósito se verá reflejado en la cuenta de trading en un plazo de 10 a 20 minutos, máximo 48 horas.'); 
 
         }
 
-        return redirect('profile/deposits')->with('error','El comprobante no pudo ser cargado.');  
+        return back()->with('error','El comprobante no pudo ser cargado.');  
     }
 
-    public function show(Deposit $deposit)
-    {
-        //
+    public function show(Transaction $transaction)
+    {   
+        $this->authorize('view', $transaction);
+
+        $deposit = Transaction::where('id', $transaction->id)->with('account', 'account.bank', 'tradingAccount', 'tradingAccount.Broker')->first();
+
+        if(empty($deposit->voucher)){
+            $voucher = null;
+        }else{
+            $voucher = asset('storage/'.$deposit->voucher);
+        }
+
+        return Inertia::render('Deposits/Show', [
+            'deposit' => $deposit,
+            'voucher' => $voucher,
+        ]);
     }
 
     public function edit(Deposit $deposit)
@@ -198,7 +261,7 @@ class DepositController extends Controller
         dd($deposit);
     }
 
-    public function destroy(Deposit $deposit)
+    public function destroy(Transaction $deposit)
     {   
         if(!empty($deposit->voucher))
         {
@@ -216,12 +279,12 @@ class DepositController extends Controller
             'completed_date' => date('Y-m-d H:i:s')
         ]);
 
-        return redirect('profile/deposits')->with('success', 'Depósito cancelado exitosamente.');
+        return redirect('profile/deposits')->with('success', 'Tu solicitud de depósito ha sido cancelada.');
     }
 
-    public function status(Request $request, Deposit $deposit)
+    public function status(Request $request, Transaction $transaction)
     {
-        $updating = $deposit->update([
+        $updating = $transaction->update([
             'status'=>$request->status, 
             'comment'=>$request->comments, 
             'completed_date'=>date('Y-m-d H:i:s')
@@ -233,14 +296,14 @@ class DepositController extends Controller
                 return back()->with('success', 'Estado del depósito cambiado correctamente sin enviar notificación al usuario.');
             }
 
-            $user = $deposit->user;
+            $user = $transaction->user;
 
             $obj = new \stdClass();
             $obj->name = $user->name;
             $obj->lastname = $user->lastname;
-            $obj->comment = $deposit->comment;
+            $obj->comment = $transaction->comment;
             $obj->status = $request->status;
-            $obj->fbs_account = $deposit->fbs_account;
+            $obj->fbs_account = $transaction->tradingAccount->number;
 
             $user->notify(new UserStatusChangeDeposit($obj));
 

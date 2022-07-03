@@ -16,9 +16,9 @@ class Data
      */
     public function handle(Request $request, Closure $next)
     {   
-        if(auth()->user()->info_ok != 1)
+        if(auth()->user()->requirementUser->info_ok != 1)
         {
-            return redirect('/profile/edit');
+            return redirect(route('dashboard'))->with('error', 'Completa tus datos personales para poder continuar.');
         }else
         {
             return $next($request);

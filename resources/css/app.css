@@ -1,0 +1,12 @@
+@import url("https://use.typekit.net/zcy2zxc.css");
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+@layer components {
+    .hr{
+        @apply border-0 h-[0.5px] bg-gradient-to-r from-dark-brand via-gray-300 to-dark-brand !important;
+    }
+}

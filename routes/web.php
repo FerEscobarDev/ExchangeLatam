@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Middleware;
 use Illuminate\Routing\RouteGroup;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\RoleController;
@@ -15,10 +16,13 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\DollarPriceController;
 use App\Http\Controllers\DollarPurchaseController;
+use App\Http\Controllers\FormFundController;
+use App\Http\Controllers\FormKnowledgeClientController;
 use App\Http\Controllers\MessagingController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VerificationController;
-
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,23 +35,35 @@ use App\Http\Controllers\VerificationController;
 |
 */
 
+/*Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');*/
+
 //Rutas publicas
 
 Route::get('/campaigns/vip', [CampaignController::class, 'pautaVip'])->name('campaign.pautaVip')->middleware('route.users');
 Route::get('/campaigns/sorteoAniversario', [CampaignController::class, 'sorteoAniversario'])->name('campaign.sorteoAniversario')->middleware('route.users');
-Route::get('/', [CompanyController::class, 'index'])->name('company.index')->middleware('route.users');
+Route::get('/', [CompanyController::class, 'index'])->name('company.welcome')->middleware('route.users');
 Route::get('/about', [CompanyController::class, 'about'])->name('company.about')->middleware('route.users');
 Route::get('/faq', [CompanyController::class, 'faq'])->name('company.faq')->middleware('route.users');
-Route::get('/policy/dataProcessing', [CompanyController::class, 'policyData'])->name('company.policyData')->middleware('route.users');
-Route::get('/policy/anti-moneyLaundering', [CompanyController::class, 'policyMoney'])->name('company.policyMoney')->middleware('route.users');
+Route::get('/policy-SAGRILAFT', [CompanyController::class, 'policy'])->name('company.policy')->middleware('route.users');
 Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name('public.dollarPrices')->middleware('route.users');
 
 
 //Rutas Admin
-Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
+-Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
 //Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
 
-    //Rutas Notificaciones 
+    //Rutas Notificaciones
     Route::get('/admin/dashboard', [UserController::class, 'admin'])->name('admin.dashboard')->middleware('can:admin.dashboard');/* ok */
     Route::post('/admin/notification/read', [UserController::class, 'notificationRead'])->name('admin.notificationRead');
 
@@ -55,10 +71,11 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     Route::get('/admin/users', [UserController::class, 'index'])->name('user.index')->middleware('can:user.index');/* ok */
     Route::get('/admin/users/export/index', [UserController::class, 'exportIndex'])->name('user.exportIndex')->middleware('can:user.exportIndex');/*  */
     Route::get('/admin/users/data', [UserController::class, 'usersData'])->name('admin.usersData');
+    
     //Por usuario
     Route::get('/admin/user/{id}/edit', [UserController::class, 'editData'])->name('admin.usersEditData')->middleware('can:admin.usersEditData'); /* ok */
     Route::put('/admin/user/{user}/update', [UserController::class, 'update'])->name('admin.userUpdate')->middleware('can:admin.userUpdate'); /* ok */
-    Route::put('/admin/user/{user}/verified', [UserController::class, 'verified'])->name('admin.userVerified');   
+    Route::put('/admin/user/{user}/verified', [UserController::class, 'verified'])->name('admin.userVerified');
     Route::get('/admin/user/{id}/accounts', [UserController::class, 'showAccounts'])->name('admin.usersShowAccounts')->middleware('can:admin.admin.usersShowAccounts');/* ok */
     Route::get('/admin/user/{id}/notices', [NoticeController::class, 'noticesUser'])->name('admin.usersNotices')->middleware('can:admin.usersNotices');/* ok */
     Route::get('/admin/user/{id}/verification', [VerificationController::class, 'verificationUser'])->name('admin.usersVerification')->middleware('can:admin.usersVerification');/* ok */
@@ -74,7 +91,7 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     //Rutas Gestión depósito de usuarios
     Route::get('/admin/user/{id}/deposits', [UserController::class, 'showDeposits'])->name('admin.usersShowDeposits')->middleware('can:admin.usersShowDeposits');/* ok */
     Route::delete('/admin/deposit/{deposit}/destroy', [DepositController::class, 'destroy'])->name('admin.destroyDeposit')->middleware('can:admin.destroyDeposit');/* ok */
-    Route::post('/admin/deposit/{deposit}/status', [DepositController::class, 'status'])->name('admin.statusDeposit')->middleware('can:admin.statusDeposit');/* ok */
+    Route::post('/admin/deposit/{transaction}/status', [DepositController::class, 'status'])->name('admin.statusDeposit')->middleware('can:admin.statusDeposit');/* ok */
 
     //Rutas Gestión retiro de usuarios
     Route::get('/admin/user/{id}/withdrawals', [UserController::class, 'showWithdrawals'])->name('admin.usersShowWithdrawals')->middleware('can:admin.usersShowWithdrawals');/* ok */
@@ -82,18 +99,18 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     Route::delete('/admin/withdrawal/{withdrawal}/destroy', [WithdrawalController::class, 'destroy'])->name('admin.destroyWithdrawal')->middleware('can:admin.destroyWithdrawal');/* ok */
     Route::post('/admin/withdrawal/{withdrawal}/voucher', [WithdrawalController::class, 'voucherUp'])->name('admin.voucherUpWithdrawal')->middleware('can:admin.voucherUpWithdrawal');/* ok */
     Route::post('/admin/withdrawal/{withdrawal}/status', [WithdrawalController::class, 'status'])->name('admin.statusWithdrawal')->middleware('can:admin.statusWithdrawal');/* ok */
-    
+
     //Rutas cuentas de usuario
     Route::post('/admin/account/{account}/update', [AccountController::class, 'update'])->name('admin.updateAccount');
     Route::put('/admin/account/{account}/enrolled', [AccountController::class, 'enrolled'])->name('admin.enrolledAccount');
     Route::post('/admin/account/store', [AccountController::class, 'store'])->name('admin.storeAccount');
 
     //Rutas vista general de depósitos
-    Route::get('/admin/deposits', [DepositController::class, 'index'])->name('deposit.index')->middleware('can:deposit.index');/* ok */
+    Route::get('/admin/deposits', [DepositController::class, 'adminIndex'])->name('deposit.index')->middleware('can:deposit.index');/* ok */
     Route::get('/admin/deposits/data', [DepositController::class, 'depositsData'])->name('admin.depositsData');
 
     //Rutas vista general de retiros
-    Route::get('/admin/withdrawals', [WithdrawalController::class, 'index'])->name('withdrawal.index')->middleware('can:withdrawal.index');/* ok */
+    Route::get('/admin/withdrawals', [WithdrawalController::class, 'adminIndex'])->name('withdrawal.index')->middleware('can:withdrawal.index');/* ok */
     Route::get('/admin/withdrawals/today', [WithdrawalController::class, 'indexPendientes'])->name('withdrawal.indexPendientes')->middleware('can:withdrawal.index');
     Route::get('/admin/withdrawals/voucher', [WithdrawalController::class, 'indexVoucher'])->name('withdrawal.indexVoucher')->middleware('can:withdrawal.index');
     Route::get('/admin/withdrawals/all', [WithdrawalController::class, 'indexAll'])->name('withdrawal.indexAll')->middleware('can:withdrawal.index');
@@ -102,7 +119,7 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     //Rutas gestión de roles
     Route::get('/admin/role/index', [RoleController::class, 'index'])->name('admin.roleIndex')->middleware('can:admin.roleIndex');/*  ok*/
     Route::post('/admin/role/store', [RoleController::class, 'store'])->name('admin.roleStore');
-    Route::put('/admin/role/{role}/update', [RoleController::class, 'update'])->name('admin.roleUpdate');    
+    Route::put('/admin/role/{role}/update', [RoleController::class, 'update'])->name('admin.roleUpdate');
     Route::delete('/admin/role/{role}/destroy', [RoleController::class, 'destroy'])->name('admin.roleDestroy');
     Route::put('/admin/user/{user}/toassing/role', [UserController::class, 'assingRole'])->name('admin.roleAssing')->middleware('can:admin.roleAssing')/* ok */;
     Route::get('/admin/change/password', [UserController::class, 'changePassword'])->name('admin.changePassword');
@@ -110,7 +127,7 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     //Rutas gestión permisos
     Route::get('/admin/permission/index', [PermissionController::class, 'index'])->name('admin.permissionIndex');
     Route::post('/admin/permission/store', [PermissionController::class, 'store'])->name('admin.permissionStore');
-    Route::put('/admin/permission/{permission}/update', [PermissionController::class, 'update'])->name('admin.permissionUpdate');    
+    Route::put('/admin/permission/{permission}/update', [PermissionController::class, 'update'])->name('admin.permissionUpdate');
     Route::delete('/admin/permission/{permission}/destroy', [PermissionController::class, 'destroy'])->name('admin.permissionDestroy');
 
     //Rutas configuración web (Precio dollar)
@@ -148,34 +165,57 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     //Rutas de mensajería
     Route::get('/admin/messaging/index', [MessagingController::class, 'index'])->name('admin.messagingIndex')->middleware('can:admin.messagingIndex');
     Route::post('/admin/messaging/massive',[MessagingController::class, 'massive'])->name('admin.messagingMassive');
+
+    //Ruta vista formularios ORGANIZAR
+    
+    Route::get('/admin/dashboard/forms/funds/{formFund}/read', [FormFundController::class, 'showAdmin'])->name('formFund.showAdmin');    
+    Route::get('/admin/dashboard/forms/client/{formKnowledgeClient}/read', [FormKnowledgeClientController::class, 'showAdmin'])->name('formKnowledgeClient.showAdmin');
 });
 
 //Rutas contacto
 Route::middleware(['auth', 'can:panel.user', 'route.users'])->group(function () {
     Route::get('/profile/contact', [UserController::class, 'contact'])->name('users.contact');
-    Route::post('profile/contact/message', [UserController::class, 'contactMessage'])->name('users.contactMessage');    
+    Route::post('profile/contact/message', [UserController::class, 'contactMessage'])->name('users.contactMessage');
 });
 
-//Rutas Users protección para completar datos
+//Rutas Users con protección para completar datos
 Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users', 'data'])->group(function () {
-    Route::get('/profile/deposits', [UserController::class, 'deposits'])->name('users.deposits');
-    Route::get('/profile/withdrawals', [UserController::class, 'withdrawals'])->name('users.withdrawals');
-    Route::get('/profile/accounts', [UserController::class, 'accounts'])->name('users.accounts');
-    Route::post('/profile/verification', [UserController::class, 'verification'])->name('users.verification');
-    Route::post('/profile/register/account', [UserController::class, 'registerAccount'])->name('users.registerAccount');
-    Route::get('/profile/change/password', [UserController::class, 'changePassword'])->name('users.changePassword');
+    Route::get('/dashboard/deposits', [DepositController::class, 'userIndex'])->name('users.deposits');
+    Route::get('/dashboard/deposits/create', [DepositController::class, 'create'])->name('deposit.create');
+    Route::get('/dashboard/deposit/{transaction}',[DepositController::class, 'show'])->name('deposit.show');
+    Route::get('/dashboard/withdrawals', [WithdrawalController::class, 'userIndex'])->name('users.withdrawals');
+    Route::get('/dashboard/withdrawal/{transaction}',[WithdrawalController::class, 'show'])->name('withdrawal.show');  
 
-    Route::post('/deposit/store', [DepositController::class, 'store'])->name('deposit.store');
-    Route::post('/deposit/{deposit}/voucher', [DepositController::class, 'voucherUp'])->name('deposit.voucherUp');
-    Route::post('/deposit/{deposit}/cancel', [DepositController::class, 'cancel'])->name('deposit.cancel');
+    Route::post('/dashboard/profile/register/account', [AccountController::class, 'storeUser'])->name('accounts.store.user');
+    Route::get('/dashboard/profile/bankAccount', [AccountController::class, 'index'])->name('accounts.index.user');    
+    Route::get('/dashboard/profile/register/bankAccount', [AccountController::class, 'create'])->name('accounts.create.user');
 
+    Route::post('/dashboard/verification/upload/documents', [VerificationController::class, 'store'])->name('verification.store');
+
+    Route::get('/dashboard/profile/change/password', [UserController::class, 'changePassword'])->name('users.changePassword');
+
+    Route::post('/dashboard/deposit/store', [DepositController::class, 'store'])->name('deposit.store');
+    Route::put('/dashboard/{transaction}/voucher', [DepositController::class, 'voucherUp'])->name('deposit.voucherUp');
+    Route::post('/dashboard/{deposit}/cancel', [DepositController::class, 'cancel'])->name('deposit.cancel');
+
+    Route::post('profile/contact/message', [UserController::class, 'contactMessage'])->name('users.contactMessage');
 });
+
 //Rutas Users con acceso sin completar datos
 Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users'])->group(function () {
-    Route::get('/profile/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('users.updateProfile');
-    Route::get('/profile/select_city', [UserController::class, 'getCity'])->name('users.getCity');
-    Route::post('/profile/picture', [UserController::class, 'picture'])->name('users.picture');
+    Route::get('/dashboard', [TransactionController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/profile', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/dashboard/profile/update', [UserController::class, 'updateProfile'])->name('user.update');
+    Route::put('/dashboard/profile/picture', [UserController::class, 'picture'])->name('users.picture');
+    Route::get('/dashboard/verification',[VerificationController::class, 'create'])->name('verification.create');
+    Route::get('/dashboard/forms/funds', [FormFundController::class, 'create'])->name('formFund.create');
+    Route::post('/dashboard/forms/funds/store', [FormFundController::class, 'store'])->name('formFund.store');    
+    Route::get('/dashboard/forms/funds/{formFund}/read', [FormFundController::class, 'show'])->name('formFund.show');
+    Route::get('/dashboard/forms/client', [FormKnowledgeClientController::class, 'create'])->name('formKnowledgeClient.create');
+    Route::post('/dashboard/forms/client/store', [FormKnowledgeClientController::class, 'store'])->name('formKnowledgeClient.store'); 
+    Route::get('/dashboard/forms/client/{formKnowledgeClient}/read', [FormKnowledgeClientController::class, 'show'])->name('formKnowledgeClient.show');
+    /* Route::get('/profile/select_city', [UserController::class, 'getCity'])->name('users.getCity'); */
+    /* Route::put('/profile/picture/delete', [UserController::class, 'pictureDelete'])->name('users.pictureDelete'); */
 });
 
 /* Route::middleware(['auth', 'verified'])->group(function () {
@@ -184,19 +224,11 @@ Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users'])->group(
     Route::get('/dashboard/deposits', [DepositController::class, 'index'])->name('deposits.index');
     Route::get('/dashboard/withdrawals', [WithdrawalController::class, 'index'])->name('withdrawals.index');
     Route::get('/dashboard/accounts',[AccountController::class, 'index'])->name('accounts.index');
-    Route::get('/dashboard/verifion',[VerificationController::class, 'create'])->name('verification.create');
+    Route::get('/dashboard/verification',[VerificationController::class, 'create'])->name('verification.create');
 }); */
 
-
-
-
-
-
-
-
-
 /* Route::prefix('user')->group(function () {
-    
+
 });*/
 /* Route::group(['middleware' => 'auth', 'verified'], function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');

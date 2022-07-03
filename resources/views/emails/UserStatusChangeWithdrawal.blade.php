@@ -223,7 +223,7 @@
                 <h1>Hola {{ strtok($notify->name, " ")." ".strtok($notify->lastname, " ") }},</h1><br>
                 @if ($notify->status == 'Realizado')
                     <p>
-                        El retiro de su cuenta de trading #{{$notify->fbs_account}} aprobado el día {{$notify->application_date}} se ha realizado de manera exitosa, si su cuenta registrada es bancolombia su dinero ya se ve reflejado en su cuenta bancaria, si es de otro banco puede verse reflejado en unas horas o el siguiente día hábil.
+                        El retiro de tu cuenta de trading #{{$notify->fbs_account}} aprobado el día {{$notify->application_date}} se ha realizado de manera exitosa, si tu cuenta registrada es bancolombia tu dinero ya se ve reflejado en tu cuenta bancaria, si es de otro banco puede verse reflejado en unas horas o el siguiente día hábil.
                     </p>
                     @if (!empty($notify->comment))
                         <p>
@@ -235,20 +235,20 @@
                     @endif
                 @else
                     <p>
-                        El retiro de su cuenta de trading #{{$notify->fbs_account}} aprobado el día {{$notify->application_date}} ha sido cancelado por los siguientes motivos:
+                        El retiro de tu cuenta de trading #{{$notify->fbs_account}} aprobado el día {{$notify->application_date}} ha sido cancelado por los siguientes motivos:
                     </p>
                     <p>
                         <b class="text-color">{{$notify->comment}}</b>
                     </p>
                 @endif
 
-                <p>Puede acceder al área de usuario desde el siguiente botón.</p>
+                <p>Puedes acceder al área de usuario desde el siguiente botón.</p>
 
                 <div class="action">
                     <a class="button button-primary" style="color: #fff;" href="https://exchangelatam.com/profile/withdrawals" target="_blank">Acceder</a>
                 </div>
 
-                <p>Gracias por elegirnos como su medio de depósitos y retiros para el broker FBS Markets INC.</p><br>
+                <p>Gracias por elegirnos como tu medio de depósitos y retiros.</p><br>
 
                 <p>Saludos y buen trading,</p><br>
 
@@ -263,9 +263,9 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
-                    <p><span class="break-all">Vísite nuestra sección <a href="https://exchangelatam.com/faq">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="https://exchangelatam.com/profile/withdrawals">https://exchangelatam.com/profile/withdrawals</a></span></p>
+                    <p><span class="break-all">Registrate <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertete en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
+                    <p><span class="break-all">Vísita nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelve todas tus dudas antes de usar nuestros servicios.</span></p>
+                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="https://exchangelatam.com/profile/withdrawals">https://exchangelatam.com/profile/withdrawals</a></span></p>
                 </div>
             </div>
 		</div>

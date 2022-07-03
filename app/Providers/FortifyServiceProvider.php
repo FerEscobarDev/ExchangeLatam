@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Inertia\Inertia;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
@@ -13,6 +14,7 @@ use App\Actions\Fortify\UpdateUserPassword;
 use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Contracts\LoginResponse;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use Laravel\Fortify\Contracts\PasswordUpdateResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,12 @@ class FortifyServiceProvider extends ServiceProvider
             public function toResponse($request)
             {
                 return redirect(RouteServiceProvider::HOME)->with('success-login', 'Inicio de sesión correcto.');
+            }
+        });
+        $this->app->instance(PasswordUpdateResponse::class, new class implements PasswordUpdateResponse {
+            public function toResponse($request)
+            {
+                return back()->with('success', 'Contraseña cambiada correctamente.');
             }
         });
     }
@@ -44,21 +52,21 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         RateLimiter::for('login', function (Request $request) {
-            return Limit::perMinute(5)->by($request->email.$request->ip());
+            $email = (string) $request->email;
+
+            return Limit::perMinute(5)->by($email.$request->ip());
         });
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        Fortify::loginView(function () {
-            $contact = Contact::select('link')->where('company_id', 1)->get();
-            return view('auth.login', compact('contact'));
+        /* Fortify::loginView(function () {
+            return Inertia::render('Auth/Login');
         });
 
         Fortify::registerView(function () {
-            $contact = Contact::select('link')->where('company_id', 1)->get();
-            return view('auth.register', compact('contact')); 
+            return Inertia::render('Auth/Register');
         });
 
         Fortify::requestPasswordResetLinkView(function () {
@@ -71,14 +79,12 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.reset-password', ['request' => $request, 'contact' => $contact]);
         });
 
-        Fortify::verifyEmailView(function () {
-            $contact = Contact::select('link')->where('company_id', 1)->get();
-            return view('authOld.verify-email', compact('contact'));
+        Fortify::verifyEmailView(function () {            
+            return Inertia::render('Auth/VerifyEmail');
         });
 
         Fortify::confirmPasswordView(function () {
             return view('auth.confirm-password');
-        });
-
+        }); */
     }
 }

@@ -221,12 +221,12 @@
 		<div class="inner-body">
             <div class="content-cell">
                 <h1>Hola {{ strtok($name, " ")." ".strtok($lastname, " ") }},</h1><br>
-                <p>Por favor pulse el siguiente botón para confirmar su correo electrónico.</p>
+                <p>Por favor pulsa el siguiente botón para confirmar tu correo electrónico.</p>
                 <div class="action">
                     <a class="button button-primary" style="color: #fff;" href="{{$url}}" target="_blank">Confirmar correo electrónico</a>
                 </div>
 
-                <p>Gracias por elegirnos como su medio de depósitos y retiros para el bróker FBS Markets INC.</p><br>
+                <p>Gracias por elegirnos como tu medio de depósitos y retiros.</p><br>
 
                 <p>Saludos y buen trading,</p><br>
                 <p><span class="subtitle">ExchangeLatam</span><br> 
@@ -234,9 +234,9 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
-                    <p><span class="break-all">Vísite nuestra sección <a href="{{ url('/faq') }}">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Confirmar correo electrónico", copie y pegue el siguiente enlace en su navegador: <a href="{{$url}}">{{$url}}</a></span></p>
+                    <p><span class="break-all">Registrate <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertete en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
+                    <p><span class="break-all">Vísita nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelve todas tus dudas antes de usar nuestros servicios.</span></p>
+                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="{{$url}}">{{$url}}</a></span></p>
                 </div>
             </div>
 		</div>

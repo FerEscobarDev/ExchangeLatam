@@ -30,7 +30,7 @@ class PermissionController extends Controller
             'description' => 'required|string',
         ]);
 
-        $permission = Permission::create($request->all());
+        Permission::create($request->all());
 
         return back()->with('success', 'Permiso creado con éxito.');
     }

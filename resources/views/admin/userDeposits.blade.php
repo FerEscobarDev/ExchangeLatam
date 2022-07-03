@@ -17,6 +17,7 @@
                                 <thead>
                                     <tr>
                                         <th><i class="fa fa-hashtag"></i> Id</th>
+                                        <th>Broker</th>
                                         <th><i class="fa fa-hashtag"></i> Cuenta</th>
                                         <th><i class="fa fa-usd"></i> Monto USD</th>
                                         <th><i class="fa fa-usd"></i> Monto COP</th>
@@ -31,7 +32,8 @@
                                     @foreach($deposits as $deposit)
                                         <tr class="text-center">
                                             <td>{{ $deposit->id }}</td>
-                                            <td>{{$deposit->fbs_account}}</td>
+                                            <td>{{$deposit->tradingAccount->broker->name}}</td>
+                                            <td>{{$deposit->tradingAccount->number}}</td>
                                             <td><b>$</b> {{ number_format($deposit->amount_usd,0)}}</td>
                                             <td><b>$</b> {{ number_format($deposit->amount_cop,0)}}</td>
                                             <td><b>$</b> {{ number_format($deposit->total,0)}}</td>

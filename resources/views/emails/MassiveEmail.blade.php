@@ -251,21 +251,21 @@
 		<div class="inner-body">
             <div class="content-cell p-0">
                 
-                <img class="border-img img-peque" src="https://exchangelatam.com/img_web/feliznavidad.jpg">
+                {{-- <img class="border-img img-peque" src="https://exchangelatam.com/img_web/feliznavidad.jpg"> --}}
                 
-                {{-- <h1>Hola {{ strtok($email['name'], " ")." ".strtok($email['lastname'], " ") }},</h1><br>                
+                <h1>Hola {{ strtok($email['name'], " ")." ".strtok($email['lastname'], " ") }},</h1><br>                
                 
                 {!! $email['content'] !!}
 
                 <br>
 
-                <p class="mt-3">Puede acceder al área de usuario desde el siguiente botón.</p>
+                <p class="mt-3">Puedes acceder al área de usuario desde el siguiente botón.</p>
                 
                 <div class="action">
                     <a class="button button-primary" style="color: #fff;" href="https://exchangelatam.com/profile" target="_blank">Acceder</a>
                 </div>
 
-                <p>Gracias por elegirnos como su medio de depósitos y retiros para el broker FBS Markets INC.</p><br>
+                <p>Gracias por elegirnos como tu medio de depósitos y retiros.</p><br>
 
                 <p>Saludos y buen trading,</p><br>
 
@@ -280,10 +280,10 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
-                    <p><span class="break-all">Vísite nuestra sección <a href="https://exchangelatam.com/faq">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="https://www.exchangelatam.com/profile/deposits">https://www.exchangelatam.com/profile/deposits</a></span></p>
-                </div> --}}
+                    <p><span class="break-all">Registrate <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertete en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
+                    <p><span class="break-all">Vísita nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelve todas tus dudas antes de usar nuestros servicios.</span></p>
+                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="https://www.exchangelatam.com/profile/deposits">https://www.exchangelatam.com/profile/deposits</a></span></p>
+                </div>
             </div>
 		</div>
     </div>

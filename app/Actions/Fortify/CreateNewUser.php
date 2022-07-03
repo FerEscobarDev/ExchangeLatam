@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Laravel\Jetstream\Jetstream;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -33,13 +34,9 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
-            'policy' => ['accepted']
+            /* 'policy' => ['accepted'], */
+            'terms' => ['required', 'accepted'],
         ])->validate();
-
-        if($input['policy'] == 'on')
-        {
-            $policy = 'accepted';
-        }
 
         $name = ucwords(strtolower($input['name']));
         $lastname = ucwords(strtolower($input['lastname']));
@@ -49,9 +46,13 @@ class CreateNewUser implements CreatesNewUsers
             'lastname' => $lastname,
             'mobil' => $input['mobil'],
             'email' => $input['email'],
-            'password' => Hash::make($input['password']),
-            'policy' => $policy
+            'password' => Hash::make($input['password'])
         ])->assignRole('Usuario');
+
+        $user->requirementUser()->create([
+            'policy' => 'accepted',
+            'terms' => 'accepted'
+        ]);
 
         $user->notify(new Welcome($name, $lastname));
 

@@ -10,12 +10,9 @@
                     <thead>
                         <tr>
                             <th><i class="fa fa-hashtag"></i> Id</th>
-                            <th><i class="fa fa-address-card"></i> Documento</th>
                             <th><i class="fa fa-user-circle"></i> Nombres</th>
                             <th><i class="fa fa-user-circle"></i> Apellidos</th>
                             <th><i class="fa fa-envelope"></i> Correo</th>
-                            <th><i class="fa fa fa-map-marker"></i> Ciudad</th>
-                            <th><i class="fa fa-mobile"></i> Celular</th>
                         </tr>
                     </thead>
                     <tbody class="td-actions">
@@ -32,12 +29,9 @@
                 "ajax": "{{ route('admin.usersData') }}",
                 "columns": [
                     {data: 'id', name: 'id'},
-                    {data: 'doc_num', name: 'doc_num'},
                     {data: 'name', name: 'name'},
                     {data: 'lastname', name: 'lastname'},
                     {data: 'email', name: 'email'},
-                    {data: 'city', name: 'city'},
-                    {data: 'mobil', name: 'mobil'},
                 ],
                 language: {
                     "sProcessing":     "Procesando...",

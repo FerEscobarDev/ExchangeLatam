@@ -47,7 +47,8 @@
                     <tr>
                         <th class="text-uppercase text-secondary text-sm opacity-7">Id</th>
                         <th class="text-uppercase text-secondary text-sm opacity-7">Usuario</th>
-                        <th class="text-uppercase text-secondary text-sm opacity-7">Cuenta FBS</th>
+                        <th class="text-uppercase text-secondary text-sm opacity-7">Broker</th>
+                        <th class="text-uppercase text-secondary text-sm opacity-7">Cuenta Trading</th>
                         <th class="text-uppercase text-secondary text-sm opacity-7">Cuenta Bancaria</th>
                         <th class="text-uppercase text-secondary text-sm opacity-7">Monto USD</th>
                         <th class="text-uppercase text-secondary text-sm opacity-7">Monto COP</th>
@@ -66,7 +67,8 @@
                                     {{  strtok($withdrawal->user->name, " ")." ".strtok($withdrawal->user->lastname, " ") }}
                                 </a>
                             </td>
-                            <td class="text-sm font-weight-normal align-middle">{{ $withdrawal->fbs_account }}</td>                            
+                            <td class="text-sm font-weight-normal align-middle">{{ $withdrawal->tradingAccount->broker->name }}</td>
+                            <td class="text-sm font-weight-normal align-middle">{{ $withdrawal->tradingAccount->number }}</td>                             
                             <td class="text-sm font-weight-normal align-middle">
                                 <button 
                                     type="button" 
@@ -75,8 +77,13 @@
                                     data-bs-title="{{$withdrawal->user->name." ".$withdrawal->user->lastname}}"
                                     data-bs-placement="top"
                                     data-bs-html="true"
-                                    data-bs-content='<p><b>Documento:</b> {{$withdrawal->user->doc_type}}</p><p><b>Documento #:</b> {{$withdrawal->user->doc_num}}</p><p><b>Cuenta #:</b> {{$withdrawal->account->number}}</p><p><b>Tipo Cuenta:</b> {{$withdrawal->account->type}}</p><p><b>Banco:</b> {{$withdrawal->account->bank->name}}</p>'
-                                     
+                                    @if ($withdrawal->user->dataUser->doc_type == 1)
+                                        data-bs-content='<p><b>Documento:</b> Cédula de ciudadanía </p><p><b>Documento #:</b> {{$withdrawal->user->dataUser->doc_num}}</p><p><b>Cuenta #:</b> {{$withdrawal->account->number}}</p><p><b>Tipo Cuenta:</b> {{$withdrawal->account->type}}</p><p><b>Banco:</b> {{$withdrawal->account->bank->name}}</p>'
+                                    @elseif($withdrawal->user->dataUser->doc_type == 2)
+                                        data-bs-content='<p><b>Documento:</b> Cédula de extranjería </p><p><b>Documento #:</b> {{$withdrawal->user->dataUser->doc_num}}</p><p><b>Cuenta #:</b> {{$withdrawal->account->number}}</p><p><b>Tipo Cuenta:</b> {{$withdrawal->account->type}}</p><p><b>Banco:</b> {{$withdrawal->account->bank->name}}</p>'
+                                    @elseif($withdrawal->user->dataUser->doc_type == 3)
+                                        data-bs-content='<p><b>Documento:</b> Pasaporte </p><p><b>Documento #:</b> {{$withdrawal->user->dataUser->doc_num}}</p><p><b>Cuenta #:</b> {{$withdrawal->account->number}}</p><p><b>Tipo Cuenta:</b> {{$withdrawal->account->type}}</p><p><b>Banco:</b> {{$withdrawal->account->bank->name}}</p>'
+                                    @endif
                                     @if ($withdrawal->account->enrolled == 0)
                                         class="btn btn-danger btn-sm mb-0">
                                         No Inscrita

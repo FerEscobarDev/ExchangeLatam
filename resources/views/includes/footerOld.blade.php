@@ -3,7 +3,7 @@
         <nav class="pull-left">
             <ul>
                 <li>
-                    <a href="{{route('company.index')}}">
+                    <a href="{{route('company.welcome')}}">
                         ExchangeLatam
                     </a>
                 </li>

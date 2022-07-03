@@ -21,6 +21,7 @@
                             <thead>
                                 <tr>
                                     <th><i class="fa fa-hashtag"></i> Id</th>
+                                    <th>Broker</th>
                                     <th><i class="fa fa-hashtag"></i> Cuenta</th>
                                     <th><i class="fa fa-usd"></i> Monto USD</th>
                                     <th><i class="fa fa-usd"></i> Monto COP</th>
@@ -35,7 +36,8 @@
                                 @foreach($withdrawals as $withdrawal)
                                     <tr class="text-center">
                                         <td>{{ $withdrawal->id }}</td>
-                                        <td>{{$withdrawal->fbs_account}}</td>
+                                        <td>{{$withdrawal->tradingAccount->broker->name}}</td>
+                                        <td>{{$withdrawal->tradingAccount->number}}</td>
                                         <td><b>$</b> {{ number_format($withdrawal->amount_usd,2)}}</td>
                                         <td><b>$</b> {{ number_format($withdrawal->amount_cop,0)}}</td>
                                         <td><b>$</b> {{ number_format($withdrawal->total,0)}}</td>
@@ -47,7 +49,13 @@
                                                     {{-- data-trigger="focus"  --}}
                                                     data-placement="top" 
                                                     @if($withdrawal->account->enrolled == '1') data-title='<p class="text-success"><b>Cuenta inscrita</b></p>' @else data-title='<p class="text-danger"><b>Cuenta no inscrita</b></p>' @endif
-                                                    data-content='<p class="text-primary"><b>{{$user->name." ".$user->lastname}}</b><p><b>Documento:</b> {{$user->doc_type}}</p></p><p><b>Número:</b> {{$user->doc_num}}</p><p><b>Cuenta:</b> {{$withdrawal->account->number}}</p><p><b>Tipo:</b> {{$withdrawal->account->type}}</p><p><b>Banco:</b> {{$withdrawal->account->bank->name}}</p>'
+                                                    @if ($withdrawal->user->dataUser->doc_type == 1)
+                                                        data-content='<p class="text-primary"><b>{{$user->name." ".$user->lastname}}</b><p><b>Documento:</b>Cédula de ciudadanía</p></p><p><b>Número:</b> {{$user->dataUser->doc_num}}</p><p><b>Cuenta:</b> {{$withdrawal->account->number}}</p><p><b>Tipo:</b> {{$withdrawal->account->type}}</p><p><b>Banco:</b> {{$withdrawal->account->bank->name}}</p>'
+                                                    @elseif($withdrawal->user->dataUser->doc_type == 2)
+                                                        data-content='<p class="text-primary"><b>{{$user->name." ".$user->lastname}}</b><p><b>Documento:</b>Cédula de extranjería</p></p><p><b>Número:</b> {{$user->dataUser->doc_num}}</p><p><b>Cuenta:</b> {{$withdrawal->account->number}}</p><p><b>Tipo:</b> {{$withdrawal->account->type}}</p><p><b>Banco:</b> {{$withdrawal->account->bank->name}}</p>'
+                                                    @elseif($withdrawal->user->dataUser->doc_type == 3)
+                                                        data-content='<p class="text-primary"><b>{{$user->name." ".$user->lastname}}</b><p><b>Documento:</b>Pasaporte</p></p><p><b>Número:</b> {{$user->dataUser->doc_num}}</p><p><b>Cuenta:</b> {{$withdrawal->account->number}}</p><p><b>Tipo:</b> {{$withdrawal->account->type}}</p><p><b>Banco:</b> {{$withdrawal->account->bank->name}}</p>'
+                                                    @endif
                                                     class="btn btn-info"> 
                                                         {{$withdrawal->account->bank->name}} 
                                                 </button>
@@ -260,8 +268,16 @@
                                 <div class="modal-body text-left">
                                     <input type="hidden" name="user_id" value="{{ $user->id }}">
                                     <div class="form-group">
-                                        <label class="control-label">Cuenta FBS</label>
-                                        <input required="required" type="text" class="form-control" id="fbs_account" name="fbs_account">
+                                        <label class="control-label">Broker</label>
+                                        <select required="required" class="form-control" name="broker_id" id="broker_id">
+                                            <option value="2" selected>Pepperstone</option>
+                                            <option value="1">FBS</option>
+                                            <option value="2">Pepperstone</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Cuenta de Trading</label>
+                                        <input required="required" type="text" class="form-control" id="tradingAccount" name="tradingAccount">
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Monto en USD</label>
@@ -296,11 +312,11 @@
                                         <input required="required" type="date" class="form-control" id="expiration_date" name="expiration_date">
                                     </div>
                                     <div class="form-group">
-                                    <select required="required" class="form-control" name="status" id="status">
-                                        <option value="Pendiente" selected>Pendiente</option>
-                                        <option value="Cancelado">Cancelado</option>
-                                        <option value="Realizado">Realizado</option>
-                                    </select>
+                                        <select required="required" class="form-control" name="status" id="status">
+                                            <option value="Pendiente" selected>Pendiente</option>
+                                            <option value="Cancelado">Cancelado</option>
+                                            <option value="Realizado">Realizado</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

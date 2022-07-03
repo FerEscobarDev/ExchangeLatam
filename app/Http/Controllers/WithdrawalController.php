@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Notice;
 use App\Models\Contact;
 use App\Models\Withdrawal;
 use App\Models\DollarPrice;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\TradingAccount;
 use App\Models\PendingWithdrawal;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\UserWithdrawal;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\UserStatusChangeWithdrawal;
@@ -21,27 +25,45 @@ class WithdrawalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function adminIndex()
     {
-        $withdrawals = Withdrawal::where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Pendiente')->orderBy('application_date', 'asc')->paginate(10);        
+        $withdrawals = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Pendiente')->orderBy('application_date', 'asc')->paginate(10);        
         return view('admin.withdrawals.index', compact('withdrawals'));
+    }
+
+    public function userIndex()
+    {   
+        /* 
+        $noticeModal = Auth::user()->notices->where('type', 'modal');
+        $noticesAll = Notice::where('type', 'general')->get();
+        $contact = Contact::select('link')->where('company_id', 1)->get(); */
+        $hoy = date('Y-m-d');
+        $exchange = DollarPrice::where('date', $hoy)->get();
+        $withdrawals = Transaction::where('user_id', Auth::user()->id)->where('type', 0)->with('tradingAccount', 'tradingAccount.broker')->orderBy("application_date","desc")->paginate(5);
+
+        return Inertia::render('Withdrawals/Index', [
+            'withdrawals' => $withdrawals,
+            'exchange' => $exchange,
+        ]);
+
+        /* return view('users.withdrawals', compact('contact', 'noticesAll', 'noticeModal', 'priceUsdWithdrawal', 'withdrawals')); */
     }
 
     public function indexPendientes()
     {
-        $withdrawals = Withdrawal::where('expiration_date', date('Y-m-d'))->where('status', 'Pendiente')->orderBy('application_date', 'asc')->paginate(10);        
+        $withdrawals = Transaction::where('type', 0)->where('expiration_date', date('Y-m-d'))->where('status', 'Pendiente')->orderBy('application_date', 'asc')->paginate(10);        
         return view('admin.withdrawals.indexPendientes', compact('withdrawals'));
     }
 
     public function indexVoucher()
     {
-        $withdrawals = Withdrawal::where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Realizado')->whereNull('voucher')->orderBy('application_date', 'desc')->paginate(10);        
+        $withdrawals = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Realizado')->whereNull('voucher')->orderBy('application_date', 'desc')->paginate(10);        
         return view('admin.withdrawals.indexVoucher', compact('withdrawals'));
     }
 
     public function indexAll()
     {
-        $withdrawals = Withdrawal::where('application_date','>=','2020-10-16 00:00:00')->orderBy('application_date', 'desc')->paginate(10);        
+        $withdrawals = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->orderBy('application_date', 'desc')->paginate(10);        
         return view('admin.withdrawals.indexAll', compact('withdrawals'));
     }
 
@@ -89,6 +111,7 @@ class WithdrawalController extends Controller
      */
     public function store(Request $request)
     {   
+        /* dd($request); */
         $fecha_tasa = date('Y-m-d', strtotime($request->application_date));
         $user = User::find($request->user_id);
         $application_date = date('Y-m-d H:i:s', strtotime($request->application_date));
@@ -99,27 +122,60 @@ class WithdrawalController extends Controller
         $basePrice = $amount_cop / 1.004;
         $cuatropormil = $basePrice*0.004;
         $total = $amount_cop - $cuatropormil;
-        $date = Carbon::createFromDate($application_date);
+        $date = Carbon::createFromDate($application_date);        
+        $tradingAccount = TradingAccount::where('number', $request->tradingAccount)->where('broker_id', $request->broker_id)->first();
 
-        if(empty($account) || $user->verified != 2)
+        if(empty($tradingAccount))
+        {   
+            $tradingAccount = TradingAccount::create([
+                'user_id' => $user->id,
+                'broker_id' => $request->broker_id,
+                'number' => $request->tradingAccount,
+            ]);
+        }
+        else
         {
-            $withdrawal = PendingWithdrawal::create([
+            if($tradingAccount->user_id != $user->id)
+            {
+                return back()->with('error', 'La cuenta de trading ingresada ya pertenece a otro usuario, consulta con soporte.');
+            }
+        }
+
+        if($user->vip == 'yes'  || $tradingAccount->vip == 1){
+            $rebate = $cuatropormil;
+            $total = $total + $rebate;
+        }else{
+            $rebate = 0;
+        }
+
+        if(empty($account) || $user->requirementUser->verified != 2)
+        {
+            $withdrawal = Transaction::create([
                 'user_id' => $request->user_id,
-                'fbs_account' => $request->fbs_account,
+                'trading_account_id' => $tradingAccount->id,
+                'type' => 2,
+                'price' => $dollar_price,
                 'amount_usd' => $request->amount_usd,
-                'price_usd' => $dollar_price,
-                'application_date' => $application_date
+                'amount_cop' => $amount_cop,            
+                'comission' => 0,
+                'cuatro_por_mil' => $cuatropormil,
+                'iva' => 0,
+                'rebate' => $rebate,
+                'total' => $total,
+                'status' => $request->status,
+                'application_date' => $application_date,
+                'expiration_date' => $request->expiration_date,
             ]);
             
             $obj = new \stdClass();
             $obj->name = $user->name;
             $obj->lastname = $user->lastname;
-            $obj->fbs_account = $withdrawal->fbs_account;
+            $obj->fbs_account = $withdrawal->tradingAccount->number;
             $obj->application_date = $date->isoFormat('dddd D [de] MMMM [del] Y');
             $obj->content = 'Para cumplir con el plazo antes mencionado es necesario resolver las siguientes novedades:';
             $obj->message = '';
 
-            if($user->verified != 2)
+            if($user->requirementUser->verified != 2)
             {
                 $obj->message = '- Debe realizar la verificación de identidad para procesar su retiro.</br>';
 
@@ -157,17 +213,13 @@ class WithdrawalController extends Controller
             return back()->with('success','Retiro registrado en pendientes, se ha enviado notificación al usuario');
         }
         
-        if($user->vip == 'yes'){
-            $rebate = $cuatropormil;
-            $total = $total + $rebate;
-        }else{
-            $rebate = 0;
-        }
+        
 
-        $withdrawal = Withdrawal::create([
+        $withdrawal = Transaction::create([
             'user_id' => $request->user_id,
-            'fbs_account' => $request->fbs_account,
+            'trading_account_id' => $tradingAccount->id,
             'account_id' => $account->id,
+            'type' => 0,
             'price' => $dollar_price,
             'amount_usd' => $request->amount_usd,
             'amount_cop' => $amount_cop,            
@@ -185,7 +237,7 @@ class WithdrawalController extends Controller
             $obj = new \stdClass();
             $obj->name = $user->name;
             $obj->lastname = $user->lastname;
-            $obj->fbs_account = $withdrawal->fbs_account;
+            $obj->fbs_account = $withdrawal->tradingAccount->number;
             $obj->application_date = $date->isoFormat('dddd D [de] MMMM [del] Y');
             
             if($withdrawal->amount_usd < 10){
@@ -219,9 +271,22 @@ class WithdrawalController extends Controller
      * @param  \App\Models\Withdrawal  $withdrawal
      * @return \Illuminate\Http\Response
      */
-    public function show(Withdrawal $withdrawal)
+    public function show(Transaction $transaction)
     {
-        //
+        $this->authorize('view', $transaction);
+        
+        $withdrawal = Transaction::where('id', $transaction->id)->with('account', 'account.bank', 'tradingAccount', 'tradingAccount.Broker')->first();
+
+        if(empty($withdrawal->voucher)){
+            $voucher = null;
+        }else{
+            $voucher = asset('storage/'.$withdrawal->voucher);
+        }
+
+        return Inertia::render('Withdrawals/Show', [
+            'withdrawal' => $withdrawal,
+            'voucher' => $voucher,
+        ]);
     }
 
     /**
@@ -253,7 +318,7 @@ class WithdrawalController extends Controller
      * @param  \App\Models\Withdrawal  $withdrawal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Withdrawal $withdrawal)
+    public function destroy(Transaction $withdrawal)
     {   
         if(!empty($withdrawal->voucher))
         {
@@ -264,7 +329,7 @@ class WithdrawalController extends Controller
         return back()->with('success', 'Retiro eliminado correctamente.');
     }
 
-    public function voucherUp(Request $request, Withdrawal $withdrawal)
+    public function voucherUp(Request $request, Transaction $withdrawal)
     {
         $data = $request->validate([
             'voucher' => 'required|image'
@@ -283,7 +348,7 @@ class WithdrawalController extends Controller
         }
     }
 
-    public function status(Request $request, Withdrawal $withdrawal)
+    public function status(Request $request, Transaction $withdrawal)
     {
         if($withdrawal->account->number != 1935)
         {    
@@ -320,7 +385,7 @@ class WithdrawalController extends Controller
             $obj->lastname = $user->lastname;
             $obj->comment = $withdrawal->comment;
             $obj->status = $request->status;
-            $obj->fbs_account = $withdrawal->fbs_account;
+            $obj->fbs_account = $withdrawal->tradingAccount->number;
             $obj->application_date = $date->isoFormat('dddd D [de] MMMM [del] Y');
 
             $user->notify(new UserStatusChangeWithdrawal($obj));

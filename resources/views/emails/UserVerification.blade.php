@@ -224,24 +224,24 @@
 
                 @if ($notify->verified == 1)
                     <p>
-                        Reciba un cordial saludo de parte de ExchangeLatam, nos complace informarle que su cuenta ha sido verificada, ahora puede registrar sus datos bancarios y utilizar nuestros servicios.
+                        Recibe un cordial saludo de parte de ExchangeLatam, nos complace informarte que tu cuenta ha sido verificada, ahora puedes registrar tus datos bancarios y utilizar nuestros servicios.
                     </p>
                 @else
                     <p>
-                        Reciba un cordial saludo de parte de ExchangeLatam, su cuenta no ha podido ser verificada, el administrador ha dejado el siguiente comentario:
+                        Recibe un cordial saludo de parte de ExchangeLatam, tu cuenta no ha podido ser verificada, el administrador ha dejado el siguiente comentario:
                     </p>
                     <p>
                         <b class="text-color">{{$notify->note}}</b>
                     </p>                   
                 @endif
 
-                <p>Puede acceder al área de usuario desde el siguiente botón.</p>
+                <p>Puedes acceder al área de usuario desde el siguiente botón.</p>
 
                 <div class="action">
                     <a class="button button-primary" style="color: #fff;" href="https://exchangelatam.com/profile/edit" target="_blank">Acceder</a>
                 </div>
 
-                <p>Gracias por elegirnos como su medio de depósitos y retiros para el broker FBS Markets INC.</p><br>
+                <p>Gracias por elegirnos como tu medio de depósitos y retiros.</p><br>
 
                 <p>Saludos y buen trading,</p><br>
 
@@ -256,9 +256,9 @@
 
 
                 <div class="subcopy">
-                    <p><span class="break-all">Registrese <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertase en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
-                    <p><span class="break-all">Vísite nuestra sección <a href="https://exchangelatam.com/faq">FAQ</a> y resuelva todas sus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tiene problemas haciendo click en el botón "Acceder", copie y pegue el siguiente enlace en su navegador: <a href="https://exchangelatam.com/profile/edit">https://exchangelatam.com/profile/edit</a></span></p>
+                    <p><span class="break-all">Registrate <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertete en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
+                    <p><span class="break-all">Vísita nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelve todas tus dudas antes de usar nuestros servicios.</span></p>
+                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="https://exchangelatam.com/profile/edit">https://exchangelatam.com/profile/edit</a></span></p>
                 </div>
             </div>
 		</div>

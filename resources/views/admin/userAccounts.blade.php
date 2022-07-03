@@ -168,7 +168,7 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="row">
-                                            @if ( !($user->verified == 0) )
+                                            @if ( !($user->requirementUser->verified == 0) )
                                                 <div class="col-md-8 col-md-offset-2">
                                                     <form class="form" method="POST" action="{{ route('admin.storeAccount') }}">
                                                         @csrf
