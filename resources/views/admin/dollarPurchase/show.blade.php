@@ -91,7 +91,7 @@
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                 <div class="d-flex flex-column">
                                     <h6 class="mb-3 text-sm">{{  strtok($dollarPurchase->user->name, " ")." ".strtok($dollarPurchase->user->lastname, " ") }}</h6>
-                                    <span class="mb-2 text-xs">Documento: <span class="text-dark font-weight-bold ms-2">{{ $dollarPurchase->user->doc_num }}</span></span>
+                                    <span class="mb-2 text-xs">Documento: <span class="text-dark font-weight-bold ms-2">{{ $dollarPurchase->user->dataUser->doc_num }}</span></span>
                                     <span class="mb-2 text-xs">Banco: <span class="text-dark font-weight-bold ms-2">{{ $dollarPurchase->account->bank->name }}</span></span>
                                     <span class="text-xs">Cuenta: <span class="text-dark ms-2 font-weight-bold">{{ $dollarPurchase->account->number }}</span></span>
                                 </div>

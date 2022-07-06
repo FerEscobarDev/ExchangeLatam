@@ -9,6 +9,7 @@ use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\AdminVerification;
+use Illuminate\Support\Facades\Redirect;
 
 class VerificationController extends Controller
 {
@@ -85,7 +86,7 @@ class VerificationController extends Controller
             }
         }
 
-        return back()->with('success', 'Tus documentos han sido subidos, el proceso de verificación puede tomar hasta 48 horas.');
+        return Redirect::back()->with('success', 'Tus documentos han sido subidos, el proceso de verificación puede tomar hasta 48 horas.');
     }
 
     /**

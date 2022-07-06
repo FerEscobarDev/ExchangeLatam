@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\DataUser;
 use Illuminate\Http\Request;
 use App\Models\DollarPurchase;
 use Illuminate\Support\Facades\Storage;
@@ -39,7 +40,7 @@ class DollarPurchaseController extends Controller
     public function store(Request $request)
     {   
         $request->validate([
-            'doc_num' => ['required','numeric','integer','digits_between:6,30', 'exists:App\Models\User,doc_num'],
+            'doc_num' => ['required','numeric','integer','digits_between:6,30', 'exists:App\Models\DataUser,doc_num'],
             'type_transaction' => ['required','string','max:30'],/* 
             'price_usd' => ['numeric','integer'], */
             'amount_usd' => ['required','numeric'],
@@ -51,13 +52,14 @@ class DollarPurchaseController extends Controller
 
         //Se añade el 4x1000 pero no se debe tener en cuenta para reporte y contabilidad
 
-        $user = User::where('doc_num', $request->doc_num)->get();
-        $account = $user[0]->accounts->where('active', 'Activa')->first();
+        $dataUser = DataUser::where('doc_num', $request->doc_num)->get();
+        $user = User::find($dataUser[0]->user_id);
+        $account = $user->accounts->where('active', 'Activa')->first();
         $price_usd = $request->amount_cop / $request->amount_usd;
         $total = $request->amount_cop;
 
         $transaction = DollarPurchase::create([
-            'user_id' => $user[0]->id,
+            'user_id' => $user->id,
             'account_id' => $account->id,
             'type' => $request->type_transaction,
             'price_usd' => $price_usd,
@@ -131,7 +133,7 @@ class DollarPurchaseController extends Controller
         }
 
         $request->validate([
-            'doc_num' => ['required','numeric','integer','digits_between:6,30', 'exists:App\Models\User,doc_num'],
+            'doc_num' => ['required','numeric','integer','digits_between:6,30', 'exists:App\Models\DataUser,doc_num'],
             'type_transaction' => ['required','string','max:30'],/* 
             'price_usd' => ['numeric','integer'], */
             'amount_usd' => ['required','numeric'],
@@ -143,13 +145,14 @@ class DollarPurchaseController extends Controller
 
         //Se añade el 4x1000 pero no se debe tener en cuenta para reporte y contabilidad
 
-        $user = User::where('doc_num', $request->doc_num)->get();
-        $account = $user[0]->accounts->where('active', 'Activa')->first();
+        $dataUser = DataUser::where('doc_num', $request->doc_num)->get();
+        $user = User::find($dataUser[0]->user_id);
+        $account = $user->accounts->where('active', 'Activa')->first();
         $price_usd = $request->amount_cop / $request->amount_usd;
         $total = $request->amount_cop;
 
         $dollarPurchase->update([
-            'user_id' => $user[0]->id,
+            'user_id' => $user->id,
             'account_id' => $account->id,
             'type' => $request->type_transaction,
             'price_usd' => $price_usd,

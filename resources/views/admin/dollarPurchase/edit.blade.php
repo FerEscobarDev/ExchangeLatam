@@ -13,9 +13,9 @@
                     <form action="{{ route('admin.dollarPurchaseUpdate', $dollarPurchase) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf                        
-                        <div class="input-group input-group-outline mb-3 @error('doc_num') is-invalid focused is-focused @enderror @if(empty($errors->has('doc_num')) && !empty(old('doc_num', $dollarPurchase->user->doc_num))) is-valid focused is-focused @endif">
+                        <div class="input-group input-group-outline mb-3 @error('doc_num') is-invalid focused is-focused @enderror @if(empty($errors->has('doc_num')) && !empty(old('doc_num', $dollarPurchase->user->dataUser->doc_num))) is-valid focused is-focused @endif">
                             <label class="form-label" for="doc_num">Número de documento</label>
-                            <input type="number" class="form-control" name="doc_num" value="{{ old('doc_num', $dollarPurchase->user->doc_num) }}">
+                            <input type="number" class="form-control" name="doc_num" value="{{ old('doc_num', $dollarPurchase->user->dataUser->doc_num) }}">
                         </div>
                         <div class="input-group input-group-outline my-3 @error('type_transaction') is-invalid focused is-focused @enderror @if(empty($errors->has('type_transaction')) && !empty(old('type_transaction', $dollarPurchase->type))) is-valid focused is-focused @endif">
                             <select class="form-control" name="type_transaction">
