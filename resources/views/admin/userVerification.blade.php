@@ -15,11 +15,19 @@
                     <div class="row text-center">
                         <div class="col-md-6">
                             <h4>Documento - Frontal</h4>
-                            <img src="{{ asset('storage/'.$user->verification->front) }}" class="img-responsive">
+                            @if (isset($user->verification->front))
+                                <img src="{{ asset('storage/'.$user->verification->front) }}" class="img-responsive">
+                            @else
+                                <span class="text-danger">Sin documento</span>
+                            @endif
                         </div>
                         <div class="col-md-6">
                             <h4>Documento - Reverso</h4>
-                            <img src="{{ asset('storage/'.$user->verification->back) }}" class="img-responsive">
+                            @if (isset($user->verification->back))
+                                <img src="{{ asset('storage/'.$user->verification->back) }}" class="img-responsive">
+                            @else
+                                <span class="text-danger">Sin documento</span>
+                            @endif
                         </div>
                     </div>
                     <div class="row">
@@ -70,14 +78,22 @@
                             <div class="card-content mb-0">
                                 <h5 class="card-title">Revisar Formularios</h5>
                                 <h6 class="title ml-5">
-                                    <a target="_blank" href="{{ route('formFund.showAdmin', $user->formFund->id) }}" class="btn-link">
-                                        Declaración de fondos
-                                    </a>  
+                                    @if (isset($user->formFund->id))
+                                        <a target="_blank" href="{{ route('formFund.showAdmin', $user->formFund->id) }}" class="btn-link">
+                                            Declaración de fondos
+                                        </a>
+                                    @else
+                                        <span class="text-danger">Sin declaración de fondos</span>
+                                    @endif
                                 </h6>
                                 <h6 class="title ml-5 mb-0">
-                                    <a target="_blank" href="{{ route('formKnowledgeClient.showAdmin', $user->formKnowledgeClient->id) }}" class="btn-link">
-                                        Conocimiento del cliente
-                                    </a>  
+                                    @if (isset($user->formKnowledgeClient->id))
+                                        <a target="_blank" href="{{ route('formKnowledgeClient.showAdmin', $user->formKnowledgeClient->id) }}" class="btn-link">
+                                            Conocimiento del cliente
+                                        </a>  
+                                    @else
+                                        <span class="text-danger">Sin conocimiento del cliente</span>
+                                    @endif
                                 </h6>
                             </div>
                             <div class="card-content">

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SedEmail;
 use App\Models\User;
+use App\Jobs\SedEmail;
+use App\Models\DataUser;
 use Illuminate\Http\Request;
 
 class MessagingController extends Controller
@@ -21,18 +22,38 @@ class MessagingController extends Controller
             
         ]);
 
-        if($request->addressee == 0){
+        if($request->addressee == 0)
+        {
             $users = User::where('email_verified_at', '>' ,'2017-01-01 00:00:00')->get();
-        }elseif($request->addressee == 1){
+        }
+        elseif($request->addressee == 1)
+        {
+            $users = DataUser::where('vip', 'yes')->get();
+
+            foreach($users as $vip)
+            {
+                $email['email'] = $vip->user->email;
+                $email['name'] = $vip->user->name;
+                $email['lastname'] = $vip->user->lastname;        
+                $email['subject'] = $request->subject;
+                $email['content'] = $request->content;
+
+                SedEmail::dispatch($email);
+            }        
+
+            return back()->with('success', 'Los mensajes estan siendo enviados a los destinatarios.');
+        }
+        elseif($request->addressee == 2)
+        {
             $users = User::where('vip', 'yes')->get();
-        }elseif($request->addressee == 2){
-            $users = User::where('vip', 'yes')->get();
-        }elseif($request->addressee == 3){
+        }
+        elseif($request->addressee == 3)
+        {
             $users = User::where('created_at', '>=', date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s').'- 2 months')))->get();
         }
 
-        foreach($users as $user){
-
+        foreach($users as $user)
+        {
             $email['email'] = $user->email;
             $email['name'] = $user->name;
             $email['lastname'] = $user->lastname;        
