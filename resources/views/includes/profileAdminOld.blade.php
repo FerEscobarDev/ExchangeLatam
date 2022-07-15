@@ -5,8 +5,12 @@
                 <h3 class="title">{{ $user->name. ' ' .$user->lastname }}
                 </h3>
                 <h6 class="text-warning">
-                    @if ($user->dataUser->vip == 'yes')
-                        Cliente VIP
+                    @if (isset($user->dataUser))
+                        @if ($user->dataUser->vip == 'yes')
+                            Cliente VIP
+                        @else
+                            Cliente
+                        @endif
                     @else
                         Cliente
                     @endif

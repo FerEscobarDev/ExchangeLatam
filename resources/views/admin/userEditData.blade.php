@@ -21,26 +21,46 @@
                             <div class="col-md-3"><p><b>Apellido:</b></p></div><div class="col-md-3"><p>{{ $user->lastname }}</p></div>
                         </div>  <hr>  
                         <div class="row">
-                            @if ($user->dataUser->doc_type == 1)
-                                <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Cédula de ciudadanía</p></div> 
-                            @elseif ($user->dataUser->doc_type == 2)
-                                <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Cédula de extranjería</p></div>
-                            @elseif ($user->dataUser->doc_type == 3)
-                                <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Pasaporte</p></div>
+                            @if( isset($user->dataUser) )
+                                @if ($user->dataUser->doc_type == 1)
+                                    <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Cédula de ciudadanía</p></div> 
+                                @elseif ($user->dataUser->doc_type == 2)
+                                    <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Cédula de extranjería</p></div>
+                                @elseif ($user->dataUser->doc_type == 3)
+                                    <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Pasaporte</p></div>
+                                @endif
+                            @else
+                                <div class="col-md-3"><p><b>Tipo de documento:</b></p></div><div class="col-md-3"><p>Sin documento</p></div>
                             @endif
                             
-                            <div class="col-md-3"><p><b>Número de documento:</b></p></div><div class="col-md-3"><p>{{ $user->dataUser->doc_num }}</p></div>
+                            <div class="col-md-3"><p><b>Número de documento:</b></p></div><div class="col-md-3">
+                                @if (isset($user->dataUser))
+                                    <p>{{ $user->dataUser->doc_num }}</p>
+                                @endif
+                            </div>
                         </div>  <hr>  
                         <div class="row">
                             <div class="col-md-3"><p><b>Correo:</b></p></div><div class="col-md-3"><p>{{ $user->email }}</p></div>
                             <div class="col-md-3"><p><b>Celular:</b></p></div><div class="col-md-3"><p>{{ $user->mobil }}</p></div>
                         </div>  <hr>       
                         <div class="row">
-                            <div class="col-md-3"><p><b>Departamento:</b></p></div><div class="col-md-3"><p>{{ $user->dataUser->departament }}</p></div>
-                            <div class="col-md-3"><p><b>Ciudad:</b></p></div><div class="col-md-3"><p>{{ $user->dataUser->city }}</p></div>
+                            <div class="col-md-3"><p><b>Departamento:</b></p></div><div class="col-md-3">
+                                @if (isset($user->dataUser))
+                                    <p>{{ $user->dataUser->departament }}</p>
+                                @endif
+                            </div>
+                            <div class="col-md-3"><p><b>Ciudad:</b></p></div><div class="col-md-3">
+                                @if (isset($user->dataUser))
+                                    <p>{{ $user->dataUser->city }}</p>
+                                @endif
+                            </div>
                         </div>  <hr>    
                         <div class="row">
-                            <div class="col-md-3"><p><b>Dirección:</b></p></div><div class="col-md-9"><p>{{ $user->dataUser->address }}</p></div>
+                            <div class="col-md-3"><p><b>Dirección:</b></p></div><div class="col-md-9">
+                                @if (isset($user->dataUser))
+                                    <p>{{ $user->dataUser->address }}</p>
+                                @endif
+                            </div>
                         </div>  <hr>        
                         <div class="row">
                             <div class="col-md-3"><p><b>Información Completa:</b></p></div>
@@ -78,8 +98,12 @@
                             <div class="col-md-3"><p><b>Tipo de cliente:</b></p></div>
                             <div class="col-md-3">
                                 <p>
-                                    @if ($user->dataUser->vip == 'yes')
-                                        <span class="text-primary">Cliente VIP</span>
+                                    @if(isset($user->dataUser))
+                                        @if ($user->dataUser->vip == 'yes')
+                                            <span class="text-primary">Cliente VIP</span>
+                                        @else
+                                            <span class="text-warning">Cliente Normal</span>
+                                        @endif
                                     @else
                                         <span class="text-warning">Cliente Normal</span>
                                     @endif
@@ -104,71 +128,79 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Actualizar información</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Actualizar información</h4>
                             </div>
-                            <form class="form" method="POST" action="{{ route('admin.userUpdate', $user) }}">
-                                @method('put')
-                                @csrf
+                            @if(isset($user->dataUser))
+                                <form class="form" method="POST" action="{{ route('admin.userUpdate', $user) }}">
+                                    @method('put')
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="form-group label-floating">
+                                            <label for="name" class="control-label">Nombre</label>
+                                            <input type="text" class="form-control" name="name" value="{{ old('name', $user->name) }}">
+                                            @error('name') 
+                                                <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
+                                            @enderror
+                                        </div>
+                                        <div class="form-group label-floating">
+                                            <label for="lastname" class="control-label">Apellido</label>
+                                            <input type="text" class="form-control" name="lastname" value="{{ old('lastname', $user->lastname) }}">
+                                            @error('lastname') 
+                                                <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
+                                            @enderror
+                                        </div>
+                                        <div class="form-group label-floating">
+                                            <label for="email" class="control-label">Correo electrónico</label>
+                                            <input type="text" class="form-control" name="email" value="{{ old('email', $user->email) }}" >                     
+                                            @error('email') 
+                                                <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="selectpicker " data-style="select-with-transition" name="doc_type">
+                                                <option value="1" {{ old('doc_type', $user->dataUser->doc_type) == '1' ? 'selected' : '' }}>Cedula de ciudadania</option>
+                                                <option value="3" {{ old('doc_type', $user->dataUser->doc_type) == '3' ? 'selected' : '' }}>Pasaporte</option>
+                                                <option value="2" {{ old('doc_type', $user->dataUser->doc_type) == '2' ? 'selected' : '' }}>Cedula de extranjería</option>
+                                            </select>
+                                            @error('doc_type') 
+                                            <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
+                                            @enderror
+                                        </div>                                                        
+                                        <div class="form-group label-floating">
+                                            <label for="doc_num" class="control-label">Número de documento</label>
+                                            <input type="number" class="form-control" name="doc_num" value="{{ old('doc_num', $user->dataUser->doc_num) }}">
+                                            @error('doc_num') 
+                                                <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
+                                            @enderror
+                                        </div>
+                                        <div class="form-group label-floating">
+                                            <label for="mobil" class="control-label">Celular</label>
+                                            <input type="number" class="form-control" name="mobil"  value="{{ old('mobil', $user->mobil) }}">
+                                            @error('mobil') 
+                                                <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
+                                            @enderror
+                                        </div> 
+                                        <div class="form-group label-floating">
+                                            <label for="address" class="control-label">Dirección de correspondencia (opcional)</label>
+                                            <input type="text" class="form-control" name="address" value="{{ old('address', $user->dataUser->address) }}">
+                                            @error('address') 
+                                                <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Actualizar <i class="material-icons">arrow_upward</i></button>
+                                    </div>
+                                </form>
+                            @else
                                 <div class="modal-body">
-                                    <div class="form-group label-floating">
-                                        <label for="name" class="control-label">Nombre</label>
-                                        <input type="text" class="form-control" name="name" value="{{ old('name', $user->name) }}">
-                                        @error('name') 
-                                            <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
-                                    </div>
-                                    <div class="form-group label-floating">
-                                        <label for="lastname" class="control-label">Apellido</label>
-                                        <input type="text" class="form-control" name="lastname" value="{{ old('lastname', $user->lastname) }}">
-                                        @error('lastname') 
-                                            <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
-                                    </div>
-                                    <div class="form-group label-floating">
-                                        <label for="email" class="control-label">Correo electrónico</label>
-                                        <input type="text" class="form-control" name="email" value="{{ old('email', $user->email) }}" >                     
-                                        @error('email') 
-                                            <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <select class="selectpicker " data-style="select-with-transition" name="doc_type">
-                                            <option value="1" {{ old('doc_type', $user->dataUser->doc_type) == '1' ? 'selected' : '' }}>Cedula de ciudadania</option>
-                                            <option value="3" {{ old('doc_type', $user->dataUser->doc_type) == '3' ? 'selected' : '' }}>Pasaporte</option>
-                                            <option value="2" {{ old('doc_type', $user->dataUser->doc_type) == '2' ? 'selected' : '' }}>Cedula de extranjería</option>
-                                        </select>
-                                        @error('doc_type') 
-                                        <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
-                                    </div>                                                        
-                                    <div class="form-group label-floating">
-                                        <label for="doc_num" class="control-label">Número de documento</label>
-                                        <input type="number" class="form-control" name="doc_num" value="{{ old('doc_num', $user->dataUser->doc_num) }}">
-                                        @error('doc_num') 
-                                            <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
-                                    </div>
-                                    <div class="form-group label-floating">
-                                        <label for="mobil" class="control-label">Celular</label>
-                                        <input type="number" class="form-control" name="mobil"  value="{{ old('mobil', $user->mobil) }}">
-                                        @error('mobil') 
-                                            <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
-                                    </div> 
-                                    <div class="form-group label-floating">
-                                        <label for="address" class="control-label">Dirección de correspondencia (opcional)</label>
-                                        <input type="text" class="form-control" name="address" value="{{ old('address', $user->dataUser->address) }}">
-                                        @error('address') 
-                                            <span class="text-danger" role="alert"><b>{{ $message }} </b></span> 
-                                        @enderror
+                                    <div class="modal-content">
+                                        <p>No se puede actualizar la información debido a que el cliente aún no registra alguna.</p>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary">Actualizar <i class="material-icons">arrow_upward</i></button>
-                                </div>
-                            </form>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -221,7 +253,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title"><strong>Asignar Rol</strong></h5>
+                                <h5 class="modal-title"><strong>Asignar Tipo de Cliente</strong></h5>
                             </div>
                             <form class="form" method="POST" action="{{route('admin.typeChange', $user)}}">
                                 @method('PUT')
@@ -229,7 +261,7 @@
                                 <div class="modal-body text-left">
                                     <div class="card">
                                         <div class="header header-info text-center">
-                                           <h6 class="card-title">Cambio de tipo de usuario</h6>
+                                           <h6 class="card-title">Tipo de cliente</h6>
                                         </div>
                                         <div class="card-content">
                                            <div class="form-group">
@@ -242,10 +274,12 @@
                                         </div>
                                      </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary">Asignar <i class="material-icons">arrow_upward</i></button>
-                                </div>
+                                @if(isset($user->dataUser))
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Asignar <i class="material-icons">arrow_upward</i></button>
+                                    </div>
+                                @endif
                             </form>
                         </div>
                     </div>

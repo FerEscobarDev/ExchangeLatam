@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('title', 'Mensajería masiva')
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css" integrity="sha512-5m1IeUDKtuFGvfgz32VVD0Jd/ySGX7xdLxhqemTmThxHdgqlgPdupWoSN8ThtUSLpAGBvA8DY2oO7jJCrGdxoA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{{--     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css" integrity="sha512-5m1IeUDKtuFGvfgz32VVD0Jd/ySGX7xdLxhqemTmThxHdgqlgPdupWoSN8ThtUSLpAGBvA8DY2oO7jJCrGdxoA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     <link href="{{asset('css/stylesEmail.css')}}" rel="stylesheet" />
 @endsection
 @section('content')`
@@ -32,10 +32,11 @@
                                 <option value="3" {{ old('addressee') == '3' ? 'selected' : '' }}>Nuevos</option>
                             </select>
                         </div> 
-                        <div class="my-3">
-                            <label class="form-labe" for="content">Mensaje</label>
-                            <input id="content" name="content" type="hidden" value="{{ old('content') }}">
-                            <trix-editor input="content"></trix-editor>
+                        <div class="input-group input-group-outline my-3">
+                            {{-- <label class="form-labe" for="content">Mensaje</label> --}}
+                            {{-- <input id="content" name="content" type="hidden" value="{{ old('content') }}"> --}}
+                            {{-- <trix-editor input="content"></trix-editor> --}}
+                            <textarea id="content" class="form-control" rows="10" name="content" value="{{ old('content') }}">Mensaje aquí</textarea>
                         </div>
                         <div class="d-flex justify-content-center">                            
                             <button class="btn bg-gradient-dark mb-0" type="submit">Enviar</button>
@@ -116,7 +117,7 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix-core.min.js" integrity="sha512-lyT4F0/BxdpY5Rn1EcTA/4OTTGjvJT9SxWGxC1boH9p8TI6MzNexLxEuIe+K/pYoMMcLZTSICA/d3y0ColgiKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix-core.min.js" integrity="sha512-lyT4F0/BxdpY5Rn1EcTA/4OTTGjvJT9SxWGxC1boH9p8TI6MzNexLxEuIe+K/pYoMMcLZTSICA/d3y0ColgiKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
 @endpush
 
 @push('script-plus')
