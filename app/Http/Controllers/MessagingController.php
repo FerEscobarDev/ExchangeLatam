@@ -27,7 +27,6 @@ class MessagingController extends Controller
             $users = User::cursor()->where('id', '>', 1032)->where('email_verified_at', '>', '2017-01-01 00:00:00');
             $chunks = $users->chunk(20);
             $chunksUsers = $chunks->all();
-            dd($chunksUsers[0]);
         }
         elseif($request->addressee == 1)
         {
