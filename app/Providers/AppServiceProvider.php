@@ -8,6 +8,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter; 
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,5 +58,9 @@ class AppServiceProvider extends ServiceProvider
                     'token' => $token
                 ]);
         };
+
+        RateLimiter::for('SedEmail', function () {
+            return Limit::perMinute(3);
+        });
     }
 }

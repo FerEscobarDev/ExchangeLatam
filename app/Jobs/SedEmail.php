@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Queue\Middleware\RateLimited;
 
 class SedEmail implements ShouldQueue
 {
@@ -36,5 +37,20 @@ class SedEmail implements ShouldQueue
     {
         $email = new MassiveEmail($this->email);
         Mail::to($this->email['email'])->send($email);
+    }
+
+    /**
+    * Get the middleware the job should pass through.
+    *
+    * @return array
+    */
+    public function middleware()
+    {
+        return [new RateLimited('SedEmail')];
+    }
+
+    public function retryUntil()
+    {
+        return now()->addMinutes(180);
     }
 }
