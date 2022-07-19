@@ -60,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
         };
 
         RateLimiter::for('SedEmail', function () {
-            return Limit::perMinute(3);
+            return Limit::perMinute(50);
         });
     }
 }
