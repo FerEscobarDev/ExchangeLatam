@@ -44,7 +44,7 @@
                                     {{withdrawal.id}}
                                 </td>
                                 <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <Link :href="route('admin.usersShowWithdrawals', withdrawal.user_id)" class="text-indigo-600 hover:text-indigo-900">
+                                    <Link :href="route('admin.userShow', withdrawal.user_id)" class="text-indigo-600 hover:text-indigo-900">
                                         {{withdrawal.user.name}}
                                     </Link>
                                 </td>
