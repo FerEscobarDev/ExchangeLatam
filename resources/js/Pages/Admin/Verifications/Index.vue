@@ -2,7 +2,9 @@
     <AppLayoutAdmin title="Verification">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-700 leading-tight">
-                <Link :href="route('admin.dashboard')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Dashboard/</Link>Verificación del Usuario
+                <Link :href="route('admin.dashboard')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Dashboard/</Link>
+                <Link :href="route('admin.userShow', client.id)" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Perfil Usuario/</Link>
+                Verificación del Usuario
             </h2>
         </template>
         <div class="py-6 w-full">
