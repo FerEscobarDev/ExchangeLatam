@@ -28,8 +28,8 @@
         <div class="row">
           <div class="col-lg-12 m-auto text-center">
             <h1 class="display-1 text-bolder text-white">Trabajamos por mejorar</h1>
-            <h2 class="text-white">Estamos realizando labores de mantenimiento</h2>
-            <p class="lead text-white">En unas horas podrá volver a utilizar nuestros servicios, todos los retiros solicitados durante este proceso se verán reflejados el siguiente día hábil.</p>
+            <h2 class="text-white">Estamos implementando nuevos servicios para ti</h2>
+            <p class="lead text-white">En unas horas podrás ingresar a nuestro sitio web.</p>
           </div>
         </div>
       </div>
