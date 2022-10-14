@@ -27,10 +27,13 @@
                             </span>
                         </div>
 
-                        <div class="flex flex-col ml-5">
+                        <div v-if="user.data_user === null" class="flex flex-col ml-5">
                             <span class="text-xl md:text-2xl text-black/75 font-semibold">{{user.name + ' ' + user.lastname}}</span>
-                            <span v-if="user.vip === 'no'" class="text-black/50">Cliente Estándar</span>
-                            <span v-else class=" text-amber-500">Cliente VIP</span>
+                        </div>
+                        <div v-else class="flex flex-col ml-5">
+                            <span class="text-xl md:text-2xl text-black/75 font-semibold">{{user.name + ' ' + user.lastname}}</span>
+                            <span v-if="user.data_user.vip === 'no'" class="text-black/50 font-medium">Cuenta Estándar</span>
+                            <span v-else class=" text-amber-500 font-medium">Cuenta VIP</span>
                         </div>
                     </div>
 
@@ -71,13 +74,13 @@
 
 <script>
     import { defineComponent } from 'vue'
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetForm from '@/Jetstream/Form.vue'
-    import JetInput from '@/Jetstream/Input.vue'
-    import JetInputError from '@/Jetstream/InputError.vue'
-    import JetLabel from '@/Jetstream/Label.vue'
-    import JetActionMessage from '@/Jetstream/ActionMessage.vue'
-    import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
+    import JetButton from '@/Components/Button.vue'
+    import JetForm from '@/Components/Form.vue'
+    import JetInput from '@/Components/Input.vue'
+    import JetInputError from '@/Components/InputError.vue'
+    import JetLabel from '@/Components/Label.vue'
+    import JetActionMessage from '@/Components/ActionMessage.vue'
+    import JetSecondaryButton from '@/Components/SecondaryButton.vue'
 
     export default defineComponent({
         components: {

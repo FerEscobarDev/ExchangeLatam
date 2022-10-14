@@ -32,8 +32,10 @@ class FormKnowledgeClientController extends Controller
     public function create()
     {
         $dataUser = Auth::user()->dataUser;
+        $financialDataUser = Auth::user()->financialDataUser;
         return Inertia::render('Profile/FormClient',[
             'dataUser' => $dataUser,
+            'financialDataUser' => $financialDataUser,
         ]);
     }
 
@@ -68,7 +70,7 @@ class FormKnowledgeClientController extends Controller
 
         $hoy = date('Y-m-d');
 
-        $user = Auth::user();
+        $user = User::find(Auth::user()->id);
 
         $user->dataUser()->update([
             'expeditionDate' => $request['expeditionDate'],
@@ -93,15 +95,30 @@ class FormKnowledgeClientController extends Controller
             'sign' => $request['sign']
         ]);
 
-        $user->financialDatauser()->create([
-            'income' => $request['income'],
-            'expenses' => $request['expenses'],
-            'assets' => $request['assets'],
-            'liabilities' => $request['liabilities'],
-            'heritage' => $request['heritage'],
-            'incomeOther' => $request['incomeOther'],
-            'descriptionIncome' => $request['descriptionIncome']
-        ]);
+        if(isset($user->financialDataUser))
+        {
+            $user->financialDatauser()->update([
+                'income' => $request['income'],
+                'expenses' => $request['expenses'],
+                'assets' => $request['assets'],
+                'liabilities' => $request['liabilities'],
+                'heritage' => $request['heritage'],
+                'incomeOther' => $request['incomeOther'],
+                'descriptionIncome' => $request['descriptionIncome']
+            ]);
+        }
+        else
+        {
+            $user->financialDatauser()->create([
+                'income' => $request['income'],
+                'expenses' => $request['expenses'],
+                'assets' => $request['assets'],
+                'liabilities' => $request['liabilities'],
+                'heritage' => $request['heritage'],
+                'incomeOther' => $request['incomeOther'],
+                'descriptionIncome' => $request['descriptionIncome']
+            ]);
+        }
 
         if($formKnowledgeClient){
             $user->requirementUser()->update([
@@ -109,8 +126,12 @@ class FormKnowledgeClientController extends Controller
             ]);
         }
 
-        if(($user->requirementUser->verified == 1 || $user->requirementUser->verified == 2) && $user->requirementUser->formFunds == 1 && $user->requirementUser->formKnowledge == 1)
+        if($user->requirementUser->document >= 1 && $user->requirementUser->formFunds >= 1 && $user->requirementUser->formKnowledge >= 1)
         {
+            $user->requirementUser()->update([
+                'verified' => 1,
+            ]);
+
             $obj = new \stdClass();
             $obj->name = Auth::user()->name;
             $obj->lastname = Auth::user()->lastname;
@@ -148,7 +169,7 @@ class FormKnowledgeClientController extends Controller
     {
         $dataUser = User::where('id',$formKnowledgeClient->user_id)->with('formKnowledgeClient','financialDataUser', 'dataUser')->get();
 
-        return Inertia::render('Admin/Verifications/FormClientShow',[
+        return Inertia::render('Admin/Forms/FormClientShow',[
             'dataUser' => $dataUser,
         ]);
     }

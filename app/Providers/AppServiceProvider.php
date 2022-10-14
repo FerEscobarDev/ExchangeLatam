@@ -3,13 +3,12 @@
 namespace App\Providers;
 
 use Carbon\Carbon;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Support\Facades\RateLimiter; 
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         setlocale(LC_TIME, 'es_ES.utf8');
 
 
-        Paginator::useBootstrap();
+        //Paginator::useBootstrap();
 
         VerifyEmail::$toMailCallback = function($notifiable, $verificationUrl)
         {
@@ -59,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
                 ]);
         };
 
-        RateLimiter::for('SedEmail', function () {
+        RateLimiter::for('SendMail', function () {
             return Limit::perMinute(20);
         });
     }

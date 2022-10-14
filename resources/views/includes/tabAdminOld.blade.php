@@ -15,8 +15,8 @@
                             Retiros de FBS
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('admin.usersEditData', ['id' => $user]) ? 'active' : '' }}">
-                        <a href="{{route('admin.usersEditData', ['id' => $user])}}">
+                    <li class="{{ request()->routeIs('admin.userProfile', $user) ? 'active' : '' }}">
+                        <a href="{{route('admin.userProfile', $user)}}">
                             <i class="material-icons">account_circle</i>
                             Datos Personales
                         </a>

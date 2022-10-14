@@ -16,6 +16,7 @@ use App\Models\PendingWithdrawal;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\UserWithdrawal;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 use App\Notifications\UserStatusChangeWithdrawal;
 
 class WithdrawalController extends Controller
@@ -27,8 +28,17 @@ class WithdrawalController extends Controller
      */
     public function adminIndex()
     {
-        $withdrawals = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Pendiente')->orderBy('application_date', 'asc')->paginate(10);        
-        return view('admin.withdrawals.index', compact('withdrawals'));
+        $withdrawalsPending = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Pendiente')->orderBy('application_date', 'asc')->with('transactionable', 'transactionable.broker', 'user')->paginate($perPage = 10, $columns = ['*'], $pageName = 'withdrawalsPending'); 
+        $withdrawalsToday = Transaction::where('type', 0)->where('expiration_date', date('Y-m-d'))->where('status', 'Pendiente')->orderBy('application_date', 'asc')->with('transactionable', 'transactionable.broker', 'user')->paginate($perPage = 10, $columns = ['*'], $pageName = 'withdrawalsToday');
+        $withdrawalsVoucher = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Realizado')->whereNull('voucher')->orderBy('application_date', 'desc')->with('transactionable', 'transactionable.broker', 'user')->paginate($perPage = 10, $columns = ['*'], $pageName = 'withdrawalsVoucher');
+        $withdrawalsAll = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->orderBy('application_date', 'desc')->with('transactionable', 'transactionable.broker', 'user')->paginate($perPage = 10, $columns = ['*'], $pageName = 'withdrawalsAll');
+
+        return Inertia::render('Admin/Withdrawals/Index',[
+            'withdrawalsPending' => $withdrawalsPending,
+            'withdrawalsToday' => $withdrawalsToday,
+            'withdrawalsVoucher' => $withdrawalsVoucher,
+            'withdrawalsAll' => $withdrawalsAll,
+        ]);
     }
 
     public function userIndex()
@@ -39,7 +49,7 @@ class WithdrawalController extends Controller
         $contact = Contact::select('link')->where('company_id', 1)->get(); */
         $hoy = date('Y-m-d');
         $exchange = DollarPrice::where('date', $hoy)->get();
-        $withdrawals = Transaction::where('user_id', Auth::user()->id)->where('type', 0)->with('tradingAccount', 'tradingAccount.broker')->orderBy("application_date","desc")->paginate(5);
+        $withdrawals = Transaction::where('user_id', Auth::user()->id)->where('type', 0)->with('transactionable', 'transactionable.broker')->orderBy("application_date","desc")->paginate(5);
 
         return Inertia::render('Withdrawals/Index', [
             'withdrawals' => $withdrawals,
@@ -48,50 +58,6 @@ class WithdrawalController extends Controller
 
         /* return view('users.withdrawals', compact('contact', 'noticesAll', 'noticeModal', 'priceUsdWithdrawal', 'withdrawals')); */
     }
-
-    public function indexPendientes()
-    {
-        $withdrawals = Transaction::where('type', 0)->where('expiration_date', date('Y-m-d'))->where('status', 'Pendiente')->orderBy('application_date', 'asc')->paginate(10);        
-        return view('admin.withdrawals.indexPendientes', compact('withdrawals'));
-    }
-
-    public function indexVoucher()
-    {
-        $withdrawals = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->where('status', 'Realizado')->whereNull('voucher')->orderBy('application_date', 'desc')->paginate(10);        
-        return view('admin.withdrawals.indexVoucher', compact('withdrawals'));
-    }
-
-    public function indexAll()
-    {
-        $withdrawals = Transaction::where('type', 0)->where('application_date','>=','2020-10-16 00:00:00')->orderBy('application_date', 'desc')->paginate(10);        
-        return view('admin.withdrawals.indexAll', compact('withdrawals'));
-    }
-
-    public function withdrawalsData()
-    {
-        $withdrawals = Withdrawal::join('users', 'withdrawals.user_id', '=', 'users.id')
-                    ->select(
-                        'withdrawals.user_id',
-                        'withdrawals.id', 
-                        'users.name',
-                        'withdrawals.fbs_account', 
-                        'withdrawals.amount_usd', 
-                        'withdrawals.amount_cop', 
-                        'withdrawals.total', 
-                        'withdrawals.expiration_date', 
-                        'withdrawals.status',
-                    );
-
-        return datatables()->eloquent($withdrawals)
-                            ->addColumn('buttons', function($withdrawals){
-                                return '<a target="_blank" href="'.url('admin/user/'.$withdrawals->user_id.'/withdrawals').'" type="button" class="btn btn-warning">
-                                <i class="fa fa-eye"></i> Ver
-                            </a>';
-                            })
-                            ->rawColumns(['buttons'])
-                            ->toJson();
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -275,7 +241,7 @@ class WithdrawalController extends Controller
     {
         $this->authorize('view', $transaction);
         
-        $withdrawal = Transaction::where('id', $transaction->id)->with('account', 'account.bank', 'tradingAccount', 'tradingAccount.Broker')->first();
+        $withdrawal = Transaction::where('id', $transaction->id)->with('account', 'account.bank', 'transactionable', 'transactionable.Broker')->first();
 
         if(empty($withdrawal->voucher)){
             $voucher = null;
@@ -288,6 +254,22 @@ class WithdrawalController extends Controller
             'voucher' => $voucher,
         ]);
     }
+
+    public function showAdmin(Transaction $transaction)
+    {        
+        $withdrawal = Transaction::where('id', $transaction->id)->with('account', 'account.bank', 'transactionable', 'transactionable.Broker', 'user', 'user.dataUser')->first();
+
+        if(empty($withdrawal->voucher)){
+            $voucher = null;
+        }else{
+            $voucher = asset('storage/'.$withdrawal->voucher);
+        }
+
+        return Inertia::render('Admin/Withdrawals/Show', [
+            'withdrawal' => $withdrawal,
+            'voucher' => $voucher,
+        ]);
+    }    
 
     /**
      * Show the form for editing the specified resource.
@@ -326,25 +308,25 @@ class WithdrawalController extends Controller
         }        
         $withdrawal->delete();
 
-        return back()->with('success', 'Retiro eliminado correctamente.');
+        return Redirect::route('withdrawal.index')->with('success', 'Retiro eliminado correctamente.');
     }
 
     public function voucherUp(Request $request, Transaction $withdrawal)
     {
         $data = $request->validate([
-            'voucher' => 'required|image'
-        ]);        
+            'voucherUp' => 'required|image'
+        ]);     
 
-        $ruta_img = $data['voucher']->store('retiro_support', 'public');
+        $ruta_img = $data['voucherUp']->store('retiro_support', 'public');
 
         $updating = $withdrawal->update(['voucher' => $ruta_img]);
  
         if($updating){
 
-            return back()->with('success','Comprobante de retiro cargado correctamente.'); 
+            return Redirect::back()->with('success','Comprobante de retiro cargado correctamente.'); 
         }else{
 
-            return back()->with('error','El comprobante de retiro no pudo ser cargado.');    
+            return Redirect::back()->with('error','El comprobante de retiro no pudo ser cargado.');    
         }
     }
 
@@ -352,21 +334,21 @@ class WithdrawalController extends Controller
     {
         if($withdrawal->account->number != 1935)
         {    
-            if($withdrawal->account->enrolled != 1 && $request->status == 'Realizado'){
+            if($withdrawal->account->enrolled != 1 && $request->status['name'] == 'Realizado'){
                 return back()->with('error', 'No puede cambiar el estado a realizado si la cuenta para el retiro no ha sido inscrita');
             }
         }
         
         $updating = $withdrawal->update([
-            'status'=>$request->status, 
+            'status'=>$request->status['name'], 
             'comment'=>$request->comment, 
             'completed_date'=>date('Y-m-d H:i:s')
         ]);
 
         if($updating){
 
-            if($request->status == 'Pendiente'){
-                return back()->with('success', 'Estado del retiro cambiado correctamente sin enviar notificación al usuario.');
+            if($request->status['name'] == 'Pendiente'){
+                return Redirect::back()->with('success', 'Estado del retiro cambiado correctamente sin enviar notificación al usuario.');
             }
 
             $alert = Notice::where('title', $withdrawal->id)->get();
@@ -384,16 +366,16 @@ class WithdrawalController extends Controller
             $obj->name = $user->name;
             $obj->lastname = $user->lastname;
             $obj->comment = $withdrawal->comment;
-            $obj->status = $request->status;
-            $obj->fbs_account = $withdrawal->tradingAccount->number;
+            $obj->status = $request->status['name'];
+            $obj->fbs_account = $withdrawal->transactionable->number;
             $obj->application_date = $date->isoFormat('dddd D [de] MMMM [del] Y');
 
             $user->notify(new UserStatusChangeWithdrawal($obj));
 
-            return back()->with('success', 'Estado del retiro cambiado correctamente.');
-        }else{
+            return Redirect::back()->with('success', 'Estado del retiro cambiado correctamente.');
+        }else{ 
 
-            return back()->with('error', 'Ocurrió un error al intentar cambiar el estado del retiro.');
+            return Redirect::back()->with('error', 'Ocurrió un error al intentar cambiar el estado del retiro.');
         }
     }
 }

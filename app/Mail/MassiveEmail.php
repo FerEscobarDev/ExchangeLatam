@@ -13,6 +13,11 @@ class MassiveEmail extends Mailable
 
     public $email;
 
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
     public function __construct($email)
     {
         $this->email = $email;

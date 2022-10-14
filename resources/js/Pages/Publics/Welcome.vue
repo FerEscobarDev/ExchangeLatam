@@ -291,8 +291,8 @@
 <script>
     import { defineComponent } from 'vue';
     import { Head, Link } from '@inertiajs/inertia-vue3';
-    import JetApplicationMark from '@/Jetstream/ApplicationMark.vue';
-    import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue';
+    import JetApplicationMark from '@/Components/ApplicationMark.vue';
+    import JetResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     import { library } from '@fortawesome/fontawesome-svg-core'
     import { faFacebook } from '@fortawesome/free-brands-svg-icons';

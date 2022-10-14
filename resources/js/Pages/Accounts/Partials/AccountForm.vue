@@ -42,14 +42,14 @@
 
 <script>
     import { defineComponent } from 'vue'
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetForm from '@/Jetstream/Form.vue'
-    import JetInput from '@/Jetstream/Input.vue'
-    import JetInputError from '@/Jetstream/InputError.vue'
-    import JetLabel from '@/Jetstream/Label.vue'
-    import JetActionMessage from '@/Jetstream/ActionMessage.vue'
-    import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
-    import JetSelect from '@/Jetstream/Select.vue'
+    import JetButton from '@/Components/Button.vue'
+    import JetForm from '@/Components/Form.vue'
+    import JetInput from '@/Components/Input.vue'
+    import JetInputError from '@/Components/InputError.vue'
+    import JetLabel from '@/Components/Label.vue'
+    import JetActionMessage from '@/Components/ActionMessage.vue'
+    import JetSecondaryButton from '@/Components/SecondaryButton.vue'
+    import JetSelect from '@/Components/Select.vue'
 
     export default defineComponent({
         components: {

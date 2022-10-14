@@ -93,13 +93,25 @@
         .logo{
             width: auto; 
             height: 36px; 
-            padding: 6px;
+            padding: 6px; 
         }
 
         .body{            
             margin: 0;
             padding: 0;
-            width: 100%;
+            -webkit-text-size-adjust: none; 
+            max-width: 100%; 
+            background-color: #2c3e50;
+            -webkit-text-size-adjust: none; 
+            height: 100%; 
+            line-height: 1.4; 
+            margin: 0; 
+            padding: 0; 
+            width: 100% !important; 
+        }
+
+        body{            
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
         }
 
         .inner-body{
@@ -213,27 +225,48 @@
 </head>
 <body>
     <div class="header" style="background-color: #2c3e50;">
-        <a href="https://exchangelatam.com/" style="display: inline-block;">
+        <a href="{{ url('/') }}" style="display: inline-block;">
             <img src="{{ asset('img_web/logo.png') }}" class="logo">
         </a>	
     </div>
-	<div class="body" style="-webkit-text-size-adjust: none; max-width: 100%; background-color: #2c3e50;-webkit-text-size-adjust: none; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; ">
+	<div class="body">
 		<div class="inner-body">
             <div class="content-cell">
                 <h1>Hola {{ strtok($notify->name, " ")." ".strtok($notify->lastname, " ") }},</h1><br>
 
-                @if ($notify->verified == 1)
+                @isset($notify->verified) 
                     <p>
                         Recibe un cordial saludo de parte de ExchangeLatam, nos complace informarte que tu cuenta ha sido verificada, ahora puedes registrar tus datos bancarios y utilizar nuestros servicios.
                     </p>
                 @else
                     <p>
-                        Recibe un cordial saludo de parte de ExchangeLatam, tu cuenta no ha podido ser verificada, el administrador ha dejado el siguiente comentario:
+                        Recibe un cordial saludo de parte de ExchangeLatam, falta poco para verificar tu cuenta, por favor revisa los siguientes comentarios:
                     </p>
-                    <p>
-                        <b class="text-color">{{$notify->note}}</b>
-                    </p>                   
-                @endif
+                    @isset($comments->commentVerified)
+                        <span class="subtitle">
+                            Sobre tu documento
+                        </span><br> 
+                        <p>
+                            <b class="text-color">{{$comments->commentVerified}}</b>
+                        </p>  <br>
+                    @endisset
+                    @isset($comments->commentFormClient)
+                        <span class="subtitle">
+                            Sobre tu formulario de conocimiento del cliente
+                        </span><br> 
+                        <p>
+                            <b class="text-color">{{$comments->commentFormClient}}</b>
+                        </p>  <br>
+                    @endisset
+                    @isset($comments->commentFormFund)
+                        <span class="subtitle">
+                            Sobre tu formulario de declaración de fondos
+                        </span><br> 
+                        <p>
+                            <b class="text-color">{{$comments->commentFormFund}}</b>
+                        </p>  <br>
+                    @endisset          
+                @endempty
 
                 <p>Puedes acceder al área de usuario desde el siguiente botón.</p>
 

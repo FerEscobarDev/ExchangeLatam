@@ -3,9 +3,9 @@
 namespace App\Actions\Fortify;
 
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\ChangePassword;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
-use App\Notifications\ChangePassword;
 
 class UpdateUserPassword implements UpdatesUserPasswords
 {

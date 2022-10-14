@@ -51,11 +51,11 @@
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200" v-if="withdrawals.data[0]">
                                                 <tr v-for="withdrawal in withdrawals.data" :key="withdrawal.id" class="odd:bg-white even:bg-gray-50">
-                                                    <td :class="{'text-green-500' :withdrawal.trading_account.broker.id === 1, 'text-blue-800' :withdrawal.trading_account.broker.id === 2}"  class="text-center font-semibold px-6 py-4 whitespace-nowrap text-sm">
-                                                        {{withdrawal.trading_account.broker.name}}
+                                                    <td :class="{'text-green-500' :withdrawal.transactionable.broker.id === 1, 'text-blue-800' :withdrawal.transactionable.broker.id === 2}"  class="text-center font-semibold px-6 py-4 whitespace-nowrap text-sm">
+                                                        {{withdrawal.transactionable.broker.name}}
                                                     </td>
                                                     <td class="text-center hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {{withdrawal.trading_account.id === 1 ? 'No disponible' : withdrawal.trading_account.number}}
+                                                        {{withdrawal.transactionable.id === 1 ? 'No disponible' : withdrawal.transactionable.number}}
                                                     </td>
                                                     <td class="text-center px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         {{withdrawal.amount_usd.toLocaleString()}}
@@ -101,7 +101,7 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import { Link } from '@inertiajs/inertia-vue3';
-    import Pagination from '@/Jetstream/Pagination.vue';
+    import Pagination from '@/Components/Pagination.vue';
 
     export default defineComponent({
         components: {

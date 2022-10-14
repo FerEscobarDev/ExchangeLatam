@@ -96,15 +96,15 @@
 </template>
 
 <script>
-    import { defineComponent } from 'vue'
-    import AppLayout from '@/Layouts/AppLayout'
+    import { defineComponent } from 'vue';
+    import AppLayout from '@/Layouts/AppLayout.vue';
     import { Link } from '@inertiajs/inertia-vue3';
-    import JetButton from '@/Jetstream/Button.vue'   
-    import JetForm from '@/Jetstream/Form.vue'
-    import JetCheckbox from '@/Jetstream/Checkbox.vue'    
-    import JetInput from '@/Jetstream/Input.vue'    
-    import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
-    import FormsData from '@/Pages/Profile/Partials/FormsData.vue'
+    import JetButton from '@/Components/Button.vue';
+    import JetForm from '@/Components/Form.vue';
+    import JetCheckbox from '@/Components/Checkbox.vue';  
+    import JetInput from '@/Components/Input.vue';    
+    import JetValidationErrors from '@/Components/ValidationErrors.vue';
+    import FormsData from '@/Pages/Profile/Partials/FormsData.vue';
 
     export default defineComponent({
         props: [],

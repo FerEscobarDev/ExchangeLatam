@@ -49,7 +49,7 @@
                                     
                                 <p class="text-lg md:text-xl text-black/60 font-medium text-justify px-4 md:px-8 max-w-3xl lg:mx-auto mb-4">
                                     Bajo la gravedad de juramento manifiesto que los datos aquí consignados obedecen a la realidad, por lo que declaro haber leído, entendido y aceptado 
-                                    el presente documento, en constancia firmo a los {{date.getDate()}} días del mes de {{monthFormat()}}, del año {{date.getFullYear()}}, 
+                                    el presente documento, en constancia firmo a los {{date.$D}} días del mes de {{monthFormat()}}, del año {{date.$y}}, 
                                     en la ciudad de <span class="text-black/50 font-semibold underline decoration-2">{{formFund.citySign}}</span>. 
                                 </p>
                                 <div class="text-lg md:text-xl text-black/60 font-medium text-justify px-4 md:px-8 max-w-3xl lg:mx-auto mb-4"> 
@@ -80,12 +80,16 @@
 </template>
 
 <script>
-    import { defineComponent } from 'vue'
-    import AppLayout from '@/Layouts/AppLayout'
+    import { defineComponent } from 'vue';
+    import AppLayout from '@/Layouts/AppLayout.vue';
     import { Link } from '@inertiajs/inertia-vue3';
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetCheckbox from '@/Jetstream/Checkbox.vue' 
-    import { CheckIcon } from '@heroicons/vue/solid'
+    import JetButton from '@/Components/Button.vue';
+    import JetCheckbox from '@/Components/Checkbox.vue';
+    import { CheckIcon } from '@heroicons/vue/solid';
+    import dayjs from 'dayjs';
+    import relativeTime from 'dayjs/plugin/relativeTime';
+    
+    dayjs.extend(relativeTime);
 
     export default defineComponent({
         props: ['formFund'],
@@ -100,7 +104,7 @@
 
         data() {
             return {
-                date: new Date(this.formFund.date),
+                date: dayjs(this.formFund.date, 'YYYY-MM-DD'),
                 sign: this.formFund.sign === 0 ? false : true,
             }
         },
@@ -108,8 +112,9 @@
         methods: {
             monthFormat()
             {
+                console.log(this.date)
                 const months = ["Enero", "Febrero", "Marzo","Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiempre", "Octubre", "Noviembre", "Diciembre"];
-                let formatted_date = months[this.date.getMonth()]
+                let formatted_date = months[this.date.$M]
                 return formatted_date
             },
         }

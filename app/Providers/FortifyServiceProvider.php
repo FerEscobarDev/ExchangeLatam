@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use Inertia\Inertia;
-use App\Models\Contact;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use App\Actions\Fortify\CreateNewUser;

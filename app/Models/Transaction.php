@@ -30,8 +30,25 @@ class Transaction extends Model
         return $this->belongsTo(Account::class);
     }
 
-    //Relación de uno a muchos (invertida)
+    public function transactionable()
+    {
+        return $this->morphTo();
+    }
+
+    //Relación uno a muchos (invertida)
+    /* public function exchangeAccount()
+    {
+        return $this->belongsTo(ExchangeAccount::class);
+    } */
+ 
+    /* //Relación de uno a muchos (invertida)
     public function tradingAccount(){
         return $this->belongsTo(TradingAccount::class);
-    }
+    } */
+/*
+    // Relación de uno a muchos (invertida)
+    public function walletAccount()
+    {
+        return $this->belongsTo(WalletAccount::class);
+    } */
 }

@@ -20,8 +20,14 @@ class TradingAccount extends Model
         return $this->belongsTo(Broker::class);
     }
 
-    //Relación de uno a muchos
+    //Relación uno a muchos polimorfica
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
+    }
+
+    /* //Relación de uno a muchos
     public function transactions(){
         return $this->hasMany(Transaction::class);
-    }
+    } */
 }

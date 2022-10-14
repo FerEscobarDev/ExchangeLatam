@@ -2,27 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Contact;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Redirect;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
 
     public function index()
     {
-        $roles = Role::all();
-        $permissions = Permission::all();
-        $contact = Contact::select('link')->where('company_id', 1)->get();
+        $roles = Role::paginate(10);
 
-        return view('admin.roles.index', compact('roles', 'contact', 'permissions'));
+        return Inertia::render('Admin/Roles/Index',[
+            'roles' => $roles,
+        ]);
     }
 
 
     public function create()
     {
-        //
+        $permissions = Permission::all();
+        return Inertia::render('Admin/Roles/Create', [
+            'permissions' => $permissions,
+        ]);
     }
 
 
@@ -36,7 +41,7 @@ class RoleController extends Controller
 
         $role->permissions()->sync($request->permissions);
 
-        return back()->with('success', 'Rol creado con éxito.');
+        return Redirect::route('admin.roleIndex')->with('success', 'Rol creado con éxito.');
     }
 
 
@@ -46,9 +51,14 @@ class RoleController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Role $role)
     {
-        //
+        $permissions = Permission::all();
+        return Inertia::render('Admin/Roles/Edit', [
+            'role' => $role,
+            'permissions' => $role->permissions,
+            'permissionsAll' => $permissions,
+        ]);
     }
 
 
@@ -62,7 +72,7 @@ class RoleController extends Controller
 
         $role->permissions()->sync($request->permissions);
 
-        return back()->with('success', 'Rol actualizado con éxito.');
+        return Redirect::back()->with('success', 'Rol actualizado con éxito.');
     }
 
 

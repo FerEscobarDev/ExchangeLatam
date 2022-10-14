@@ -16,9 +16,10 @@ class UserVerification extends Notification
      *
      * @return void
      */
-    public function __construct($obj)
+    public function __construct($obj, $comments)
     {
         $this->notify = $obj;
+        $this->comments = $comments;
     }
 
     /**
@@ -43,7 +44,8 @@ class UserVerification extends Notification
         return (new MailMessage)
                     ->subject('Verificacion de cuenta - ExchangeLatam')
                     ->view('emails.UserVerification', [
-                        'notify' => $this->notify
+                        'notify' => $this->notify,
+                        'comments' => $this->comments,
                     ]);
     }
 
