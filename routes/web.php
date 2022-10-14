@@ -67,7 +67,7 @@ Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name
 
 //Rutas Admin
 //Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
-Route::domain('admin.exchangelatam_l9.test')->middleware('auth', 'verified', 'data')->group(function () {
+Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones
     Route::get('/admin/dashboard', [UserController::class, 'admin'])->name('admin.dashboard')->middleware('can:admin.dashboard');/* ok */
