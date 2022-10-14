@@ -33,57 +33,22 @@ class DepositController extends Controller
 
     public function adminIndex()
     {        
-        $deposits = Transaction::where('type', 1)->where('application_date','>=','2020-10-16 00:00:00')->orderBy('id', 'desc')->paginate(10);
-        return view('admin.deposits.index', compact('deposits'));
+        $deposits = Transaction::where('type', 1)->where('application_date','>=','2020-10-16 00:00:00')->with('transactionable', 'transactionable.broker', 'user')->orderBy('id', 'desc')->paginate(10);
+        
+        return Inertia::render('Admin/Deposits/Index', [
+            'deposits' => $deposits,
+        ]);
     }
 
     public function userIndex()
     {   
-        /* 
-        $hoy = date('Y-m-d');
-        $exchange = DollarPrice::where('date', $hoy)->get();
-        $noticeModal = Auth::user()->notices->where('type', 'modal');
-        $noticesAll = Notice::where('type', 'general')->get();
-        $contact = Contact::select('link')->where('company_id', 1)->get();
-        $accounts = Account::where('user_id', 8)->where('active', 'Activa')->get(); */
-        $deposits = Transaction::where('user_id', Auth::user()->id)->where('type', 1)->with('tradingAccount', 'tradingAccount.broker')->orderBy("application_date","desc")->paginate(5);
-        /* $rate = Rate::where('date', $hoy)->get();
-        if(empty($rate[0]))
-        { 
-            $rate = false; 
-        } */
+        $deposits = Transaction::where('user_id', Auth::user()->id)->where('type', 1)->with('transactionable', 'transactionable.broker')->orderBy("application_date","desc")->paginate(5);
 
         return Inertia::render('Deposits/Index',[
             'deposits' => $deposits,
         ]);
-
-        /* return view('users.deposits', compact('contact', 'noticesAll', 'noticeModal', 'accounts', 'priceUsdDeposit', 'deposits', 'rate')); */
     }
 
-    public function depositsData()
-    {
-        $deposits = Deposit::join('users', 'deposits.user_id', '=', 'users.id')
-                    ->select(
-                        'deposits.user_id',
-                        'deposits.id', 
-                        'users.name',
-                        'deposits.fbs_account', 
-                        'deposits.amount_usd', 
-                        'deposits.amount_cop', 
-                        'deposits.total',
-                        'deposits.application_date', 
-                        'deposits.status',
-                    );
-
-        return datatables()->eloquent($deposits)
-                            ->addColumn('buttons', function($deposits){
-                                return '<a target="_blank" href="'.url('admin/user/'.$deposits->user_id.'/deposits').'" type="button" class="btn btn-warning">
-                                <i class="fa fa-eye"></i> Ver
-                            </a>';
-                            })
-                            ->rawColumns(['buttons'])
-                            ->toJson();
-    }
 
     public function create()
     {
@@ -129,8 +94,6 @@ class DepositController extends Controller
         $expiration_date = date('Y-m-d H:i:s', strtotime($application_date.'+ 1 days'));
         $tradingAccount = TradingAccount::where('number', $request['tradingAccount'])->where('broker_id', $request['broker']['id'])->first();
 
-        
-
         if(empty($tradingAccount))
         {   
             $tradingAccount = TradingAccount::create([
@@ -166,7 +129,8 @@ class DepositController extends Controller
         
         $deposit = auth()->user()->transactions()->create([
             'account_id' => $request->account['id'],
-            'trading_account_id' => $tradingAccount->id,
+            'transactionable_id' => $tradingAccount->id,
+            'transactionable_type' => 'App\Models\TradingAccount',
             'type' => 1,
             'price' => $dollar_price,
             'amount_usd' => $request['amount_usd'],
@@ -226,18 +190,18 @@ class DepositController extends Controller
 
             $voucher = asset('storage/'.$deposit->voucher);
 
-            return back()->with($voucher)->with('success','Comprobante cargado correctamente, tu depósito se verá reflejado en la cuenta de trading en un plazo de 10 a 20 minutos, máximo 48 horas.'); 
+            return Redirect::back()->with($voucher)->with('success','Comprobante cargado correctamente, tu depósito se verá reflejado en la cuenta de trading en un plazo de 10 a 20 minutos, máximo 48 horas.'); 
 
         }
 
-        return back()->with('error','El comprobante no pudo ser cargado.');  
+        return Redirect::back()->with('error','El comprobante no pudo ser cargado.');  
     }
 
     public function show(Transaction $transaction)
     {   
         $this->authorize('view', $transaction);
 
-        $deposit = Transaction::where('id', $transaction->id)->with('account', 'account.bank', 'tradingAccount', 'tradingAccount.Broker')->first();
+        $deposit = Transaction::where('id', $transaction->id)->with('account', 'account.bank', 'transactionable', 'transactionable.Broker')->first();
 
         if(empty($deposit->voucher)){
             $voucher = null;
@@ -246,6 +210,22 @@ class DepositController extends Controller
         }
 
         return Inertia::render('Deposits/Show', [
+            'deposit' => $deposit,
+            'voucher' => $voucher,
+        ]);
+    }
+
+    public function showAdmin(Transaction $transaction)
+    {   
+        $deposit = Transaction::where('id', $transaction->id)->with('user', 'account', 'account.bank', 'transactionable', 'transactionable.Broker')->first();
+
+        if(empty($deposit->voucher)){
+            $voucher = null;
+        }else{
+            $voucher = asset('storage/'.$deposit->voucher);
+        }
+
+        return Inertia::render('Admin/Deposits/Show', [
             'deposit' => $deposit,
             'voucher' => $voucher,
         ]);
@@ -269,7 +249,7 @@ class DepositController extends Controller
         }
         $deposit->delete();
 
-        return back()->with('success', 'Deposito eliminado correctamente.');
+        return Redirect::route('deposit.index')->with('success', 'Deposito eliminado correctamente.');
     }
 
     public function cancel(Deposit $deposit)
@@ -285,7 +265,7 @@ class DepositController extends Controller
     public function status(Request $request, Transaction $transaction)
     {
         $updating = $transaction->update([
-            'status'=>$request->status, 
+            'status'=>$request->status['name'], 
             'comment'=>$request->comments, 
             'completed_date'=>date('Y-m-d H:i:s')
         ]);
@@ -293,7 +273,7 @@ class DepositController extends Controller
         if($updating){
 
             if($request->status == 'Pendiente'){
-                return back()->with('success', 'Estado del depósito cambiado correctamente sin enviar notificación al usuario.');
+                return Redirect::back()->with('success', 'Estado del depósito cambiado correctamente sin enviar notificación al usuario.');
             }
 
             $user = $transaction->user;
@@ -302,15 +282,15 @@ class DepositController extends Controller
             $obj->name = $user->name;
             $obj->lastname = $user->lastname;
             $obj->comment = $transaction->comment;
-            $obj->status = $request->status;
-            $obj->fbs_account = $transaction->tradingAccount->number;
+            $obj->status = $request->status['name'];
+            $obj->fbs_account = $transaction->transactionable->number;
 
             $user->notify(new UserStatusChangeDeposit($obj));
 
-            return back()->with('success', 'Estado del depósito cambiado correctamente.');
+            return Redirect::back()->with('success', 'Estado del depósito cambiado correctamente.');
         }else{
 
-            return back()->with('error', 'Ocurrió un error al intentar cambiar el estado del depósito.');
+            return Redirect::back()->with('error', 'Ocurrió un error al intentar cambiar el estado del depósito.');
         }
     }
 }

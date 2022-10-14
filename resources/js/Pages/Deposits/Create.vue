@@ -61,7 +61,7 @@
                                     </div>
 
                                     <div class="grid grid-cols-1 items-center mt-4">
-                                        <jet-button class="mx-auto mb-4 max-w-max" :class="{ 'opacity-25': form.processing }" :disabled="true">
+                                        <jet-button class="mx-auto mb-4 max-w-max" :class="{ 'opacity-25': form.processing }" :disabled="false">
                                             Solicitar
                                         </jet-button>
                                     </div>
@@ -76,14 +76,14 @@
 </template>
 
 <script>
-    import { defineComponent } from 'vue'
-    import AppLayout from '@/Layouts/AppLayout.vue'
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetInput from '@/Jetstream/Input.vue'
-    import JetInputError from '@/Jetstream/InputError.vue'
-    import JetLabel from '@/Jetstream/Label.vue'
-    import JetSelect from '@/Jetstream/Select.vue'
-    import JetCalculateDeposit from '@/Jetstream/CalculateDeposit.vue'
+    import { defineComponent } from 'vue';
+    import AppLayout from '@/Layouts/AppLayout.vue';
+    import JetButton from '@/Components/Button.vue';
+    import JetInput from '@/Components/Input.vue';
+    import JetInputError from '@/Components/InputError.vue';
+    import JetLabel from '@/Components/Label.vue';
+    import JetSelect from '@/Components/Select.vue';
+    import JetCalculateDeposit from '@/Components/CalculateDeposit.vue';
     import { Link } from '@inertiajs/inertia-vue3';
 
     export default defineComponent({

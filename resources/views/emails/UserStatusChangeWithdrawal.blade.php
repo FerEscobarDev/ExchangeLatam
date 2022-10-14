@@ -93,15 +93,26 @@
         .logo{
             width: auto; 
             height: 36px; 
-            padding: 6px;
+            padding: 6px; 
         }
 
         .body{            
             margin: 0;
             padding: 0;
-            width: 100%;
+            -webkit-text-size-adjust: none; 
+            max-width: 100%; 
+            background-color: #2c3e50;
+            -webkit-text-size-adjust: none; 
+            height: 100%; 
+            line-height: 1.4; 
+            margin: 0; 
+            padding: 0; 
+            width: 100% !important; 
         }
 
+        body{            
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        }
         .inner-body{
             background-color: #ffffff;
             border-color: #e8e5ef;
@@ -213,11 +224,11 @@
 </head>
 <body>
     <div class="header" style="background-color: #2c3e50;">
-        <a href="https://exchangelatam.com/" style="display: inline-block;">
+        <a href="{{ url('/') }}" style="display: inline-block;">
             <img src="{{ asset('img_web/logo.png') }}" class="logo">
         </a>	
     </div>
-	<div class="body" style="-webkit-text-size-adjust: none; max-width: 100%; background-color: #2c3e50;-webkit-text-size-adjust: none; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; ">
+	<div class="body">
 		<div class="inner-body">
             <div class="content-cell">
                 <h1>Hola {{ strtok($notify->name, " ")." ".strtok($notify->lastname, " ") }},</h1><br>

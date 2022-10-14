@@ -14,7 +14,7 @@
             </div>
 
             <div class="col-span-6 md:col-span-2">
-                <jet-label for="password_confirmation" value="Confirmar contraseñá" />
+                <jet-label for="password_confirmation" value="Confirmar contraseña" />
                 <jet-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" autocomplete="new-password" />
                 <jet-input-error :message="form.errors.password_confirmation" class="mt-2" />
             </div>
@@ -32,12 +32,12 @@
 
 <script>
     import { defineComponent } from 'vue'
-    import JetActionMessage from '@/Jetstream/ActionMessage.vue'
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetForm from '@/Jetstream/Form.vue'
-    import JetInput from '@/Jetstream/Input.vue'
-    import JetInputError from '@/Jetstream/InputError.vue'
-    import JetLabel from '@/Jetstream/Label.vue'
+    import JetActionMessage from '@/Components/ActionMessage.vue'
+    import JetButton from '@/Components/Button.vue'
+    import JetForm from '@/Components/Form.vue'
+    import JetInput from '@/Components/Input.vue'
+    import JetInputError from '@/Components/InputError.vue'
+    import JetLabel from '@/Components/Label.vue'
 
     export default defineComponent({
         components: {

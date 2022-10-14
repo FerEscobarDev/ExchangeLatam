@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Contact;
 use App\Models\DollarPrice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class DollarPriceController extends Controller
 {
@@ -15,11 +17,14 @@ class DollarPriceController extends Controller
      */
     public function index()
     {
-        $dollarPrices = DollarPrice::orderBy('id', 'desc')->paginate(7);
-        $contact = Contact::select('link')->where('company_id', 1)->get();
-        $hoy = date('Y-m-d');
+        $dollarPrices = DollarPrice::orderBy('id', 'desc')->paginate(10);
+        //$hoy = date('Y-m-d');
 
-        return view('admin.dollarPriceIndex', compact('dollarPrices', 'contact', 'hoy'));
+        return Inertia::render('Admin/DollarPrice/Index', [
+            'dollarPrices' => $dollarPrices,
+        ]);
+
+        //return view('admin.dollarPriceIndex', compact('dollarPrices', 'contact', 'hoy'));
     }
 
     public function indexPublic(){
@@ -36,7 +41,7 @@ class DollarPriceController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/DollarPrice/Create');
     }
 
     /**
@@ -59,12 +64,12 @@ class DollarPriceController extends Controller
         {
             if($exist[0]->date == $request->date)
             {
-                return back()->with('error', 'Ya existe un precio del dolar definido para esta fecha.');
+                return Redirect::back()->with('error', 'Ya existe un precio del dolar definido para esta fecha.');
             }
         }
         DollarPrice::create($request->all());
 
-        return back()->with('success', 'El precio del dolar para el día '.$request->date.' se ha registrado correctamente.');
+        return Redirect::route('admin.dollarPriceIndex')->with('success', 'El precio del dolar para el día '.$request->date.' se ha registrado correctamente.');
 
     }
 
@@ -87,7 +92,9 @@ class DollarPriceController extends Controller
      */
     public function edit(DollarPrice $dollarPrice)
     {
-        //
+        return Inertia::render('Admin/DollarPrice/Edit', [
+            'dollarPrice' => $dollarPrice,
+        ]);
     }
 
     /**
@@ -113,12 +120,13 @@ class DollarPriceController extends Controller
         {
             if($request->date <= $hoy || $exist[0]->date <= $hoy)
             {
-                return back()->with('error', 'No es posible cambiar los datos del precio para una fecha pasada o en curso.');
+                return Redirect::back()->with('error', 'No es posible cambiar los datos del precio para una fecha pasada o en curso.');
             }
         }
+        
         $dollarPrice->update($request->all());
 
-        return back()->with('success', 'El precio del dolar para el día '.$request->date.' se ha actualizado correctamente.');
+        return Redirect::route('admin.dollarPriceIndex')->with('success', 'El precio del dolar para el día '.$request->date.' se ha actualizado correctamente.');
     }
 
     /**
@@ -134,11 +142,11 @@ class DollarPriceController extends Controller
         
         if($dollarPrice->date <= $hoy)
         {
-            return back()->with('error', 'No es posible eliminar el precio seleccionado, corresponde a una fecha pasada o que está en curso.');
+            return Redirect::back()->with('error', 'No es posible eliminar el precio seleccionado, corresponde a una fecha pasada o que está en curso.');
         }
 
         $dollarPrice->delete();
 
-        return back()->with('success', 'El precio del dolar para el día '.$date.' se ha eliminado correctamente.');
+        return Redirect::back()->with('success', 'El precio del dolar para el día '.$date.' se ha eliminado correctamente.');
     }
 }

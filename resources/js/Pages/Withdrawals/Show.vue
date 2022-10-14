@@ -17,10 +17,10 @@
                                 </h2>
                                 <div class="rounded-lg text-dark-brand w-80 flex flex-col items-start">
                                     <span class="flex justify-between items-center w-full">
-                                        <span class="text-sm text-gray-600 mr-2">Broker: </span><span :class="{'text-green-500' :withdrawal.trading_account.broker.id === 1, 'text-blue-800' :withdrawal.trading_account.broker.id === 2}" class="text-sm font-semibold">{{withdrawal.trading_account.broker.name}}</span>
+                                        <span class="text-sm text-gray-600 mr-2">Broker: </span><span :class="{'text-green-500' :withdrawal.transactionable.broker.id === 1, 'text-blue-800' :withdrawal.transactionable.broker.id === 2}" class="text-sm font-semibold">{{withdrawal.transactionable.broker.name}}</span>
                                     </span>
                                     <span class="flex justify-between items-center w-full">
-                                        <span class="text-sm text-gray-600 mr-2">Cuenta de trading: </span><span class="text-sm font-semibold text-dark-brand">{{withdrawal.trading_account.id === 1 ? 'No disponible' : withdrawal.trading_account.number}}</span>
+                                        <span class="text-sm text-gray-600 mr-2">Cuenta de trading: </span><span class="text-sm font-semibold text-dark-brand">{{withdrawal.transactionable.id === 1 ? 'No disponible' : withdrawal.transactionable.number}}</span>
                                     </span>
                                     <span class="flex justify-between items-center w-full">
                                         <span class="text-sm text-gray-600 mr-2">Fecha de aprobación: </span><span class="text-sm font-semibold text-dark-brand">{{dateFormat(withdrawal.application_date)}}</span>
@@ -136,9 +136,9 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import { Link } from '@inertiajs/inertia-vue3';
-    import JetDialogModal from '@/Jetstream/DialogModal.vue'
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
+    import JetDialogModal from '@/Components/DialogModal.vue'
+    import JetButton from '@/Components/Button.vue'
+    import JetSecondaryButton from '@/Components/SecondaryButton.vue'
 
     export default defineComponent({
         components: {

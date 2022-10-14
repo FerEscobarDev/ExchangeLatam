@@ -45,21 +45,21 @@ class AdminDepositVoucher extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                        ->subject('Comprobante cargado - ExchangeLatam')
-                        ->view('emails.AdminDepositVoucher',[
-                            'name' => $this->name,
-                            'lastname' => $this->lastname,
-                            'deposit_id' => $this->deposit_id,
-                            'user_id' => $this->user_id,
-                            'amount_usd' => $this->amount_usd
-                        ]);
+                    ->subject('Comprobante cargado - ExchangeLatam')
+                    ->view('emails.AdminDepositVoucher',[
+                        'name' => $this->name,
+                        'lastname' => $this->lastname,
+                        'deposit_id' => $this->deposit_id,
+                        'user_id' => $this->user_id,
+                        'amount_usd' => $this->amount_usd
+                    ]);
     }
-    
+
     public function toDatabase($notifiable){
 
         return[
             'user_id' => $this->user_id,
-            'mensaje' => '<span class="text-primary">Depósito</span> pendiente #'.$this->deposit_id.' del usuario '.$this->name.' '.$this->lastname,
+            'mensaje' => '<span class="text-green-500">Depósito</span> pendiente #'.$this->deposit_id.' del usuario '.$this->name.' '.$this->lastname,
             'link' => $this->user_id.'/deposits',
         ];
     }

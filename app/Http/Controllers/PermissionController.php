@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
     public function index()
     {
-        $permissions = Permission::all();
-        $contact = Contact::select('link')->where('company_id', 1)->get();
+        $permissions = Permission::paginate(10);
 
-        return view('admin.permissions.index', compact('contact', 'permissions'));
+        return Inertia::render('Admin/Permissions/Index', [
+            'permissions' => $permissions,
+        ]);
     }
 
 
     public function create()
     {
-        //
+        return Inertia::render('Admin/Permissions/Create');
     }
 
 
@@ -32,7 +34,7 @@ class PermissionController extends Controller
 
         Permission::create($request->all());
 
-        return back()->with('success', 'Permiso creado con éxito.');
+        return Redirect::route('admin.permissionIndex')->with('success', 'Permiso creado con éxito.');
     }
 
 
@@ -42,9 +44,11 @@ class PermissionController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Permission $permission)
     {
-        //
+        return Inertia::render('Admin/Permissions/Edit', [
+            'permission' => $permission,
+        ]);
     }
 
 
@@ -57,7 +61,7 @@ class PermissionController extends Controller
 
         $permission->update($request->all());
 
-        return back()->with('success', 'Permiso actualizado con éxito.');
+        return Redirect::route('admin.permissionIndex')->with('success', 'Permiso actualizado con éxito.');
     }
 
 
@@ -65,6 +69,6 @@ class PermissionController extends Controller
     {
         $permission->delete();
 
-        return back()->with('success', 'Permiso eliminado con éxito.');
+        return Redirect::back()->with('success', 'Permiso eliminado con éxito.');
     }
 }

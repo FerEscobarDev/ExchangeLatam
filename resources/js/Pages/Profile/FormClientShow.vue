@@ -389,14 +389,14 @@
 
 <script>
     import { defineComponent } from 'vue'
-    import AppLayout from '@/Layouts/AppLayout'
+    import AppLayout from '@/Layouts/AppLayout.vue';
     import { Link } from '@inertiajs/inertia-vue3';
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetCheckbox from '@/Jetstream/Checkbox.vue'
-    import JetInput from '@/Jetstream/Input.vue'
-    import JetLabel from '@/Jetstream/Label.vue'   
+    import JetButton from '@/Components/Button.vue'
+    import JetCheckbox from '@/Components/Checkbox.vue'
+    import JetInput from '@/Components/Input.vue'
+    import JetLabel from '@/Components/Label.vue'   
     import { CheckIcon } from '@heroicons/vue/solid'
-    import JetSelect from '@/Jetstream/Select.vue'
+    import JetSelect from '@/Components/Select.vue'
 
     export default defineComponent({
         props: ['formKnowledgeClient'],
@@ -428,16 +428,8 @@
                 },
             ]
             
-            const now = new Date(props.formKnowledgeClient.date);
-
-            let day = now.getDate()
-            let year = now.getFullYear()
-            let month = now.getMonth() + 1
-            if(month < 10){
-                month = '0' + month
-            }
-
-            const date = year + '-' + month + '-' + day
+            
+            const date = props.formKnowledgeClient.date
 
             return {
                 doc_types,

@@ -9,7 +9,7 @@
             <div class="flex mx-auto lg:mr-4">
                 <div class="container mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg py-6">   
-                        <h1 class="text-3xl text-black/75 font-semibold px-3 pb-3 text-center">Formulario Conocimiento del Cliente</h1>  
+                        <h1 class="text-3xl text-black/75 font-semibold px-3 pb-3 text-center">Formulario Conocimiento del Cliente</h1>
                         <jet-form @submitted="submit">
                             <template #form>
                                 <!-- Fecha diligenciamiento -->
@@ -53,7 +53,7 @@
                                 <!-- Numero Cedula -->
                                 <div class="col-span-6 md:col-span-2">
                                     <jet-label for="doc_num" value="Número documento" />
-                                    <jet-input readonly id="doc_num" type="number" class="read-only:bg-gray-200 mt-1 block w-full" v-model="$page.props.user.data_user.doc_num"/>
+                                    <jet-input readonly id="doc_num" type="text" class="read-only:bg-gray-200 mt-1 block w-full" v-model="doc_num"/>
                                 </div>
 
                                 <!-- Fecha expedición -->
@@ -94,7 +94,7 @@
                                 <!-- Numero Celular -->
                                 <div class="col-span-6 md:col-span-2">
                                     <jet-label for="mobil" value="Celular" />
-                                    <jet-input readonly id="mobil" type="number" class="read-only:bg-gray-200 mt-1 block w-full" v-model="$page.props.user.mobil"/>
+                                    <jet-input readonly id="mobil" type="text" class="read-only:bg-gray-200 mt-1 block w-full" v-model="mobil"/>
                                 </div>
 
                                 <!-- Email -->
@@ -422,20 +422,23 @@
 </template>
 
 <script>
-    import { defineComponent } from 'vue'
-    import AppLayout from '@/Layouts/AppLayout'
+    import { defineComponent } from 'vue';
+    import AppLayout from '@/Layouts/AppLayout.vue';
     import { Link } from '@inertiajs/inertia-vue3';    
-    import JetForm from '@/Jetstream/Form.vue'
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetCheckbox from '@/Jetstream/Checkbox.vue'
-    import JetInput from '@/Jetstream/Input.vue'
-    import JetInputError from '@/Jetstream/InputError.vue'
-    import JetLabel from '@/Jetstream/Label.vue'
-    import FormsData from '@/Pages/Profile/Partials/FormsData.vue'
-    import JetSelect from '@/Jetstream/Select.vue'
+    import JetForm from '@/Components/Form.vue';
+    import JetButton from '@/Components/Button.vue';
+    import JetCheckbox from '@/Components/Checkbox.vue';
+    import JetInput from '@/Components/Input.vue';
+    import JetInputError from '@/Components/InputError.vue';
+    import JetLabel from '@/Components/Label.vue';
+    import FormsData from '@/Pages/Profile/Partials/FormsData.vue';
+    import JetSelect from '@/Components/Select.vue';
 
     export default defineComponent({
-        props: ['dataUser'],
+        props: {
+            dataUser: Object,
+            financialDataUser: Object,
+        },
 
         components: {
             AppLayout,
@@ -466,16 +469,20 @@
                 },
             ]
             
-            const now = new Date()
+            const now = new Date();
 
-            let day = now.getDate()
-            let year = now.getFullYear()
-            let month = now.getMonth() + 1
+            let day = now.getDate();
+            let year = now.getFullYear();
+            let month = now.getMonth() + 1;
             if(month < 10){
-                month = '0' + month
+                month = '0' + month;
             }
 
-            const today = year + '-' + month + '-' + day
+            if(day < 10){
+                day = '0' + day;
+            }
+
+            const today = year + '-' + month + '-' + day;
 
             return {
                 doc_types,
@@ -487,22 +494,22 @@
             return {
                 form: this.$inertia.form({
                     citySign: null,
-                    expeditionDate: null,
+                    expeditionDate: this.dataUser.expeditionDate,
                     expeditionPlace: this.dataUser.expeditionPlace,
-                    birthDate: null,
-                    birthPlace: null,
-                    nationality: null,
+                    birthDate: this.dataUser.birthDate,
+                    birthPlace: this.dataUser.birthPlace,
+                    nationality: this.dataUser.nationality,
                     pep: false,
                     publicFunds: false,
                     tributeCountry: false,
                     countries: null,
-                    income: null,
-                    expenses: null,
-                    assets: null,
-                    liabilities: null,
-                    heritage: null,
-                    incomeOther: null,
-                    descriptionIncome: null,
+                    income: this.financialDataUser === null ? null : this.financialDataUser.income,
+                    expenses: this.financialDataUser === null ? null : this.financialDataUser.expenses,
+                    assets: this.financialDataUser === null ? null : this.financialDataUser.assets,
+                    liabilities: this.financialDataUser === null ? null : this.financialDataUser.liabilities,
+                    heritage: this.financialDataUser === null ? null : this.financialDataUser.heritage,
+                    incomeOther: this.financialDataUser === null ? null : this.financialDataUser.incomeOther,
+                    descriptionIncome: this.financialDataUser === null ? null : this.financialDataUser.descriptionIncome,
                     transactionsForeignMoney: false,
                     productsFinancialExt: false,
                     accountsForeignMoney: false,
@@ -510,6 +517,8 @@
                     auth_2: null,
                     sign: null,
                 }),
+                doc_num: this.$page.props.user.data_user.doc_num,
+                mobil: this.$page.props.user.mobil,
             }
         },
 

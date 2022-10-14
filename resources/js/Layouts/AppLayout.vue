@@ -80,6 +80,10 @@
                         <font-awesome-icon class="text-gray-300 ml-2 mr-4 h-8" :icon="['fas', 'arrow-circle-down']" size="lg" />
                         <span>Retiros de Broker</span>
                     </jet-nav-link-sidebar>
+                    <jet-nav-link-sidebar :href="route('users.indexWalletExchange')" :active="activeWalletExchange()">
+                        <font-awesome-icon class="text-gray-300 ml-2 mr-4 h-8" :icon="['fas', 'exchange-alt']" size="lg" />
+                        <span>Wallets Exchange</span>
+                    </jet-nav-link-sidebar>
                 </div>
             </div>
         </aside>
@@ -128,7 +132,6 @@
                 </div>
             </nav>
 
-
             <!-- Page Content -->
             <main :class="{'hidden': showingNavigationDropdown}" class="md:block overflow-y-auto min-h-[90vh]">
                 <jet-banner/>
@@ -140,25 +143,26 @@
 
 <script>
     import { defineComponent } from 'vue'
-    import JetApplicationMark from '@/Jetstream/ApplicationMark.vue'
-    import JetBanner from '@/Jetstream/Banner.vue'
-    import JetDropdownSidebar from '@/Jetstream/DropdownSidebar.vue'
-    import JetDropdownLinkSidebar from '@/Jetstream/DropdownLinkSidebar.vue'
-    import JetNavLinkSidebar from '@/Jetstream/NavLinkSidebar.vue'
-    import JetNavLink from '@/Jetstream/NavLink.vue'
-    import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
-    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-    import { library } from '@fortawesome/fontawesome-svg-core'
-    import { faBell } from '@fortawesome/free-solid-svg-icons'
-    import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons'    
-    import { faArrowCircleDown } from '@fortawesome/free-solid-svg-icons'
-    import { faMicrosoft } from '@fortawesome/free-brands-svg-icons'
     import { Head, Link } from '@inertiajs/inertia-vue3';
+    import JetApplicationMark from '@/Components/ApplicationMark.vue';
+    import JetBanner from '@/Components/Banner.vue';
+    import JetDropdownSidebar from '@/Components/DropdownSidebar.vue';
+    import JetDropdownLinkSidebar from '@/Components/DropdownLinkSidebar.vue';
+    import JetNavLinkSidebar from '@/Components/NavLinkSidebar.vue';
+    import JetNavLink from '@/Components/NavLink.vue';
+    import JetResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+    import { library } from '@fortawesome/fontawesome-svg-core';
+    import { faBell } from '@fortawesome/free-solid-svg-icons';
+    import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
+    import { faArrowCircleDown } from '@fortawesome/free-solid-svg-icons';
+    import { faMicrosoft } from '@fortawesome/free-brands-svg-icons';
+    import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 
-    library.add(faBell, faMicrosoft, faArrowCircleUp, faArrowCircleDown);
-
+    library.add(faBell, faMicrosoft, faArrowCircleUp, faArrowCircleDown, faExchangeAlt);
 
     export default defineComponent({
+
         props: {
             title: String,
             description: String,
@@ -195,6 +199,17 @@
 
             logout() {
                 this.$inertia.post(route('logout'));
+            },
+
+            activeWalletExchange(){
+                if(route().current('users.indexWalletExchange'))
+                {
+                    return true
+                }
+                else 
+                {
+                    return false
+                }
             },
 
             activeWithdrawals(){

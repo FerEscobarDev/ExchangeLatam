@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use App\Models\Broker;
+use App\Models\TradingAccount;
+use App\Models\Wallet;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\WalletAccount;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
@@ -34,14 +38,14 @@ class TransactionController extends Controller
             ->limit(5) 
             ->get(); */
         //LAS TRANSACCIONES SE MUESTRAN PARA LOS USUARIOS POR FECHA DE SOLICITUD, PARA EFECTOS CONTABLES DEBE SER POR FECHA DE REALIZACIÓN
-        $transactions = Transaction::where('user_id', Auth::user()->id)->with('tradingAccount', 'tradingAccount.broker')->orderBy("application_date","desc")->limit(5)->get();
+        $transactions = Transaction::where('user_id', Auth::user()->id)->with('transactionable')->orderBy("application_date","desc")->limit(5)->get();
         $accounts = Auth::user()->accounts;
         $requirementUser = Auth::user()->requirementUser;
 
         return Inertia::render('Dash/Dashboard', [
             'transactions' => $transactions,
             'accounts' => $accounts,
-            'requirementUser' => $requirementUser
+            'requirementUser' => $requirementUser,
         ]);
     }
 

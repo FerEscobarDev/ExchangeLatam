@@ -17,24 +17,6 @@
             .button {
                 width: 80% !important;
             }
-
-            .p-0{
-                padding: 0px !important;
-                border-radius:inherit !important;
-                margin: 0px !important;
-                max-height: fit-content !important;
-            }
-
-            .img-peque{
-                padding: 0px !important;
-                border-radius:inherit !important;
-                margin: 0px !important;
-                max-height: fit-content !important;
-            }
-
-            .inner-body{
-                background-color: unset !important;
-            }
         }
 
         p,
@@ -111,13 +93,25 @@
         .logo{
             width: auto; 
             height: 36px; 
-            padding: 6px;
+            padding: 6px; 
         }
 
         .body{            
             margin: 0;
             padding: 0;
-            width: 100%;
+            -webkit-text-size-adjust: none; 
+            max-width: 100%; 
+            background-color: #2c3e50;
+            -webkit-text-size-adjust: none; 
+            height: 100%; 
+            line-height: 1.4; 
+            margin: 0; 
+            padding: 0; 
+            width: 100% !important; 
+        }
+
+        body{            
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
         }
 
         .inner-body{
@@ -134,10 +128,6 @@
         .content-cell {
             max-width: 100vw;
             padding: 32px;
-        }
-
-        .mt-3 {
-            margin-top: 0.75rem;
         }
 
         /* Buttons */
@@ -232,26 +222,18 @@
             color: #3869d4;
         }
 
-        .gracias{
-            color: #FBD500;
-        }
-
-        .min-h-screen{
-            min-height: 100vh;
-        }
-
-        .border-img{
-            border-radius: 10px;
+        .mt-3{
+            margin-top: 12px;
         }
     </style>
 </head>
 <body>
     <div class="header" style="background-color: #2c3e50;">
-        <a href="{{ 'https://exchangelatam.com' }}" style="display: inline-block;">
-            <img src="https://exchangelatam.com/img_web/logo.png" class="logo">
+        <a href="{{ url('/') }}" style="display: inline-block;">
+            <img src="{{ asset('img_web/logo.png') }}" class="logo">
         </a>	
     </div>
-	<div class="body" style="-webkit-text-size-adjust: none; max-width: 100%; background-color: #2c3e50;-webkit-text-size-adjust: none; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; ">
+	<div class="body">
 		<div class="inner-body">
             <div class="content-cell p-0">
                 

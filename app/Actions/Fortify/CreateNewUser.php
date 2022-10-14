@@ -2,20 +2,21 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Team;
 use App\Models\User;
 use App\Notifications\Welcome;
+use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Jetstream\Jetstream;
 
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
     /**
-     * Validate and create a newly registered user.
+     * Create a newly registered user.
      *
      * @param  array  $input
      * @return \App\Models\User
@@ -24,18 +25,12 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:100', 'min:3'],
-            'lastname' => ['required', 'string', 'max:50', 'min:3'],
-            'mobil' => ['required', Rule::unique(User::class),'numeric','integer','digits:10'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ],
+            'lastname' => ['required', 'string', 'max:100', 'min:3'],
+            'mobil' => ['required', 'unique:users','numeric','integer','digits:10'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
-            /* 'policy' => ['accepted'], */
             'terms' => ['required', 'accepted'],
+            //'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
         $name = ucwords(strtolower($input['name']));
@@ -57,5 +52,20 @@ class CreateNewUser implements CreatesNewUsers
         $user->notify(new Welcome($name, $lastname));
 
         return $user;
+    }
+
+    /**
+     * Create a personal team for the user.
+     *
+     * @param  \App\Models\User  $user
+     * @return void
+     */
+    protected function createTeam(User $user)
+    {
+        $user->ownedTeams()->save(Team::forceCreate([
+            'user_id' => $user->id,
+            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+            'personal_team' => true,
+        ]));
     }
 }

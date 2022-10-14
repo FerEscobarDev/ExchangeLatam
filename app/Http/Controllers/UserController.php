@@ -41,8 +41,26 @@ class UserController extends Controller
 
     public function index()
     {
-        $contact = Contact::select('link')->where('company_id', 1)->get();
-        return view('admin.users', compact('contact'));
+        $users = User::with('requirementUser', 'dataUser', 'formFund', 'formKnowledgeClient');
+        $search = '';
+
+        if(request()->has('search'))
+        {
+            $search = request('search');
+            $users = $users->where('name','like', '%'.$search.'%')
+                        ->orWhere('lastname','like', '%'.$search.'%')
+                        ->orWhere('email','like', '%'.$search.'%')
+                        ->orWhere('mobil','like', '%'.$search.'%')
+                        ->orWhere('id','like', '%'.$search.'%')
+                        ->orWhereRelation('dataUser', 'doc_num', 'like', '%'.$search.'%');
+        }
+
+        $users = $users->paginate(10)->appends(request()->except('page'));
+
+        return Inertia::render('Admin/Users/Index', [
+            'users' => $users,
+            'search' => $search,
+        ]);
     }
 
     public function exportIndex()
@@ -66,36 +84,11 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function usersData()
-    {
-        /* $users = DataUser::join('users', 'data_users.user_id', '=', 'users.id')
-                    ->select(
-                        'users.id',
-                        'data_users.doc_num', 
-                        'users.name',
-                        'users.lastname', 
-                        'users.email', 
-                        'data_users.city', 
-                        'users.mobil',
-                    ); */
-
-        return datatables()
-                ->eloquent(User::query())                
-                ->editColumn('name', function($user){
-                    return '<a target="_blank" href="'.url('admin/user/'.$user['id'].'/deposits').'">'.$user['name'].'</a>';
-                })                
-                ->editColumn('lastname', function($user){
-                    return '<a target="_blank" href="'.url('admin/user/'.$user['id'].'/deposits').'">'.$user['lastname'].'</a>';
-                })
-                ->rawColumns(['name', 'lastname'])
-                ->toJson();
-    }
-
     public function admin()
     {
         //Se edita la clase Illuminate\Notifications\Notifiable del modelo Users
-        return view('admin.notifications.index');
-        //return Inertia::render('Admin/Dashboard/Dashboard');
+        //return view('admin.notifications.index');
+        return Inertia::render('Admin/Dashboard/Dashboard');
     }
 
     public function picture(Request $request)
@@ -189,7 +182,7 @@ class UserController extends Controller
             'email' => ['required',Rule::unique('users')->ignore(Auth::user()->id),'string','email','max:200']
         ]);
 
-        $user = Auth::user();
+        $user = User::find(Auth::user()->id);
 
         $user->update([
             'name' => ucwords(strtolower($data['name'])),
@@ -240,6 +233,24 @@ class UserController extends Controller
         return back()->with('success', 'Tarea realizada con exito');
     }
 
+    public function show(User $user)
+    {
+        $dataUser = $user->dataUser;
+        $requirementUser = $user->requirementUser;
+        $roles = $user->roles;
+        $account = Account::where('user_id', $user->id)->where('active', 'Activa')->with('bank')->first();
+        $transactions = Transaction::where('user_id', $user->id)->with('transactionable')->orderBy("application_date","desc")->limit(5)->get();
+
+        return Inertia::render('Admin/Users/Show',[
+            'client' => $user,
+            'dataUser' => $dataUser,
+            'requirementUser' => $requirementUser,
+            'account' => $account,
+            'transactions' => $transactions,
+            'roles' => $roles,
+        ]);
+    }
+
 
     public function create()
     {
@@ -269,14 +280,20 @@ class UserController extends Controller
         return view('admin.userWithdrawals', compact('user', 'contact', 'withdrawals'));
     } 
 
-    public function editData($id)
+    public function editProfile(User $user)
     {
-        $user = User::find($id);/* 
-        $departaments = Departament::all(); */
-        $contact = Contact::select('link')->where('company_id', 1)->get();
-        $roles = Role::all();
+        $departaments = Departament::all();
+        $cities = City::all();
+        $dataUser = $user->dataUser;
+        $requirementUser = $user->requirementUser;
 
-        return view('admin.userEditData', compact('user', 'contact', 'roles'));
+        return Inertia::render('Admin/Users/Edit', [
+            'departaments' => $departaments,
+            'cities' => $cities,
+            'client' => $user,
+            'dataUser' => $dataUser,
+            'requirementUser' => $requirementUser,
+        ]);
     }
 
     public function showAccounts($id)
@@ -334,22 +351,30 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        if(empty($user->dataUser)){
+            $ignore = 'nothing';
+        }
+        else
+        {
+            $ignore = $user->dataUser->id;
+        }
+
         if(isset($request->verification)){
 
             $data = $request->validate([
                 'name' => 'required|string|min:3',
                 'lastname' => 'required|string|min:3',
-                'doc_type' => 'required',
-                'doc_num' => ['required',Rule::unique('data_users','doc_num')->ignore($user->dataUser->id),'numeric','integer','digits_between:6,30'],
+                'doc_type' => 'required|array:id,name',
+                'doc_num' => ['required',Rule::unique('data_users','doc_num')->ignore($ignore),'numeric','integer','digits_between:6,30'],
             ]);
 
             $user->update([
-                'name' => $data['name'],
-                'lastname' => $data['lastname'],
+                'name' => ucwords(strtolower($data['name'])),
+                'lastname' => ucwords(strtolower($data['lastname'])),
             ]);
 
             $user->dataUser()->update([
-                'doc_type' => $data['doc_type'],
+                'doc_type' => $data['doc_type']['id'],
                 'doc_num' => $data['doc_num'],
             ]); 
 
@@ -358,18 +383,20 @@ class UserController extends Controller
             $data = $request->validate([
                 'name' => 'required|string|min:3',
                 'lastname' => 'required|string|min:3',
-                'doc_type' => 'required',
-                'doc_num' => ['required',Rule::unique('data_users','doc_num')->ignore($user->dataUser->id),'numeric','integer','digits_between:6,30'],
+                'doc_type' => 'required|array:id,name',
+                'doc_num' => ['required',Rule::unique('data_users','doc_num')->ignore($ignore),'numeric','integer','digits_between:6,30'],
                 'mobil' => ['required',Rule::unique('users')->ignore($user->id),'numeric','integer','digits:10'],
-                'address' => 'max:190',
+                'departament' => 'required|array:id,name,created_at,updated_at',
+                'city' => 'required|array:id,departament_id,name,created_at,updated_at',
+                'address' => 'required|string|max:190|min:4',
                 'email' => ['required',Rule::unique('users')->ignore($user->id),'string','email','max:200']
             ]);
 
             $user->update([
-                'name' => $data['name'],
-                'lastname' => $data['lastname'],
+                'name' => ucwords(strtolower($data['name'])),
+                'lastname' => ucwords(strtolower($data['lastname'])),
                 'mobil' => $data['mobil'],
-                'email' => $data['email']
+                'email' => $data['email'],
             ]);
 
             if(empty($user->dataUser))
@@ -379,8 +406,10 @@ class UserController extends Controller
             else
             {
                 $user->dataUser()->update([
-                    'doc_type' => $data['doc_type'],
+                    'doc_type' => $data['doc_type']['id'],
                     'doc_num' => $data['doc_num'],
+                    'departament' => $data['departament']['name'],
+                    'city' => ucwords($data['city']['name']),
                     'address' => $data['address'],
                 ]); 
             }
@@ -390,63 +419,7 @@ class UserController extends Controller
         return back()->with('success', 'Se han actualizado los datos del cliente correctamente.');
     }
 
-    public function verified(Request $request, User $user)
-    {
-        $data = $request->validate([ 
-            'verified' => 'required'
-        ]);
-
-        $obj = new \stdClass();
-        $obj->name = $user->name;
-        $obj->lastname = $user->lastname;
-        $obj->note = $request->note;
-        $obj->verified = $data['verified'];
-
-        if($data['verified'] == 1)
-        {
-            $user->requirementUser->update([
-                'verified' => '2'
-            ]);
-
-            if(!empty($user->notices))
-            {
-                foreach($user->notices as $notice)
-                {
-                    if($notice->title == 'verify')
-                    {
-                        $notice->delete();
-                    }
-                }
-            }
-
-            $user->notify(new UserVerification($obj));
-
-            return redirect('/admin/user/'.$user->id.'/edit')->with('success', 'Cuenta verificada correctamente, se ha enviado notificación al usuario.');
-        }
-        else
-        {
-            if(empty($request->note))
-            {
-                return back()->with('error', 'Debes proporcionar un motivo por el cual no se aprueba la verificación.');
-            }
-            else
-            {            
-                $user->requirementUser->update([
-                    'verified' => '0'
-                ]);
-
-                $verification = $user->verification;
-
-                Storage::delete(['public/'.$verification->front, 'public/'.$verification->back]);
-
-                $verification->delete(); 
-
-                $user->notify(new UserVerification($obj));
-
-                return redirect('/admin/user/'.$user->id.'/edit')->with('success', 'Cuenta no verificada, se ha notificado al usuario los motivos del rechazo.');
-            }
-        }
-    }
+    
 
     public function export()
     {

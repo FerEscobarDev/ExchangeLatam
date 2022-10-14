@@ -51,7 +51,7 @@ class FormFundController extends Controller
 
         $hoy = date('Y-m-d');
 
-        $user = Auth::user();
+        $user = User::find(Auth::user()->id);
 
         $user->dataUser()->update([
             'expeditionPlace' => ucwords(strtolower($request['expeditionPlace'])),
@@ -70,8 +70,12 @@ class FormFundController extends Controller
             ]);
         }
 
-        if($user->requirementUser->verified == 1 && $user->requirementUser->formFunds == 1 && $user->requirementUser->formKnowledge == 1)
+        if($user->requirementUser->document >= 1 && $user->requirementUser->formFunds >= 1 && $user->requirementUser->formKnowledge >= 1)
         {
+            $user->requirementUser()->update([
+                'verified' => 1,
+            ]);
+
             $obj = new \stdClass();
             $obj->name = Auth::user()->name;
             $obj->lastname = Auth::user()->lastname;
@@ -106,7 +110,7 @@ class FormFundController extends Controller
     public function showAdmin(FormFund $formFund)
     {
         $dataUser = User::where('id', $formFund->user_id)->with('formFund', 'dataUser')->get();
-        return Inertia::render('Admin/Verifications/FormFundShow',[
+        return Inertia::render('Admin/Forms/FormFundShow',[
             'dataUser' => $dataUser,
         ]);
     }

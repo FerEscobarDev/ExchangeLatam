@@ -56,7 +56,7 @@ class AdminVerification extends Notification
 
         return[
             'user_id' => $this->user_id,
-            'mensaje' => '<span class="text-warning">Verificación</span> pendiente del usuario #'.$this->user_id.' '.$this->name.' '.$this->lastname,
+            'mensaje' => '<span class="text-orange-500">Verificación</span> pendiente del usuario #'.$this->user_id.' '.$this->name.' '.$this->lastname,
             'link' => $this->user_id.'/verification'
         ];
     }

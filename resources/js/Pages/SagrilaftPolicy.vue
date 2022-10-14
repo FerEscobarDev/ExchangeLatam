@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 import { Head } from '@inertiajs/inertia-vue3';
-import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
+import JetAuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 
 export default defineComponent({
     props: ['policy'],

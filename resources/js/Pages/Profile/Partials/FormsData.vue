@@ -6,7 +6,7 @@
                     <span>Verificación de identidad</span>
                     <ChevronUpIcon :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 text-blue-brand-gradient1/80" />
                 </DisclosureButton>
-                <DisclosurePanel class="px-4 pt-4 pb-2" v-if="user.requirement_user.verified === 0">
+                <DisclosurePanel class="px-4 pt-4 pb-2" v-if="user.requirement_user.document === 0">
                     <p class="text-lg md:text-xl text-black/40 font-medium text-justify">Es necesario subir una foto de su documento para la verificación de identidad que cumpla con las siguientes especificaciones:</p>
                     <div class="grid grid-cols-12 lg:gap-2 mt-2">
                         <span class="col-span-12 lg:col-span-6 flex items-center w-full px-4">
@@ -91,10 +91,10 @@
                         </form>
                     </div>
                 </DisclosurePanel>
-                <DisclosurePanel class="px-4 pt-4 pb-2" v-else-if="messageVerified">
+                <DisclosurePanel class="px-4 pt-4 pb-2" v-else-if="user.requirement_user.verified === 1">
                     <p class="text-lg md:text-xl text-black/40 font-medium text-justify">La verificación se encuentra en <span class="text-orange-400">proceso</span>, recibirás respuesta a tu correo sobre el resultado en no más de 48 horas.</p>
                 </DisclosurePanel>
-                <DisclosurePanel class="px-4 pt-4 pb-2" v-else-if="user.requirement_user.verified === 1">
+                <DisclosurePanel class="px-4 pt-4 pb-2" v-else-if="user.requirement_user.document === 1">
                     <p class="text-lg md:text-xl text-black/40 font-medium text-justify">Gracias por subir tu documento, has iniciado el proceso de verificación de cuenta, para completar este proceso debes diligenciar los formularios de la parte inferior para que tu cuenta sea verificada.</p>
                 </DisclosurePanel>
                 <DisclosurePanel class="px-4 pt-4 pb-2" v-else>
@@ -111,10 +111,10 @@
                         Estimado usuario en cumplimiento de cara al Sistema de Administración y Gestión del Riesgo Integral de Lavado de Activos y Financiación del Terrorismo (<b>SAGRILAFT</b>) implementado en ExchangeLatam, es necesario diligenciar y firmar 
                         los siguientes formularios con el fin de garantizar la seguridad de su dinero y de todos los que confían en ExchangeLatam para los depósitos y retiros de FBS.
                     </p>
-                    <p v-if="user.requirement_user.verified === 0" class="text-lg md:text-xl text-orange-400 font-medium text-justify">
+                    <p v-if="user.requirement_user.document === 0" class="text-lg md:text-xl text-orange-400 font-medium text-justify">
                         Por favor sube primero el documento de identidad antes de diligenciar los formularios.
                     </p>
-                    <div v-if="user.requirement_user.verified === 0" class="grid grid-cols-12 lg:gap-2 mt-4">
+                    <div v-if="user.requirement_user.document === 0" class="grid grid-cols-12 lg:gap-2 mt-4">
                         <div class="col-span-6 flex items-center w-full px-4">                        
                             <div class="max-w-max mx-auto">                        
                                 <button type="button" disabled class="text-center inline-flex items-center px-4 py-2 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
@@ -163,14 +163,14 @@
 </template>
 
 <script>
-    import { defineComponent } from 'vue'
-    import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
-    import { ChevronUpIcon } from '@heroicons/vue/solid'
+    import { defineComponent } from 'vue';
+    import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
+    import { ChevronUpIcon } from '@heroicons/vue/solid';
     import { Link } from '@inertiajs/inertia-vue3';
-    import JetButton from '@/Jetstream/Button.vue'
-    import JetInputError from '@/Jetstream/InputError.vue'
+    import JetButton from '@/Components/Button.vue';
+    import JetInputError from '@/Components/InputError.vue';
 
-export default defineComponent({
+    export default defineComponent({
         components: {
             Disclosure, 
             DisclosureButton, 
@@ -246,11 +246,11 @@ export default defineComponent({
         computed: {
             openVerified()
             {
-                if(this.user.requirement_user.verified === 0)
+                if(this.user.requirement_user.document === 0)
                 {
                     return true;
                 }
-                else if((this.user.requirement_user.formFunds === 1 || this.user.requirement_user.formKnowledge === 1) && this.user.requirement_user.verified === 1)
+                else if(this.user.requirement_user.verified === 1)
                 {
                     return true
                 }
@@ -262,7 +262,7 @@ export default defineComponent({
 
             openForms()
             {
-                if(this.user.requirement_user.verified != 0)
+                if(this.user.requirement_user.document !== 0)
                 {
                     if(this.user.requirement_user.formFunds === 0 || this.user.requirement_user.formKnowledge === 0)
                     {
@@ -272,16 +272,6 @@ export default defineComponent({
 
                 return false;
             },
-
-            messageVerified(){
-                if((this.user.requirement_user.verified === 1 && this.user.requirement_user.formFunds === 1 && this.user.requirement_user.formKnowledge === 1))
-                {
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
         }
     })
 </script>
