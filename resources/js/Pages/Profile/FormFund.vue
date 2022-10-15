@@ -50,7 +50,7 @@
                                         
                                     <p class="text-lg md:text-xl text-black/60 font-medium text-justify px-4 md:px-8 max-w-3xl lg:mx-auto mb-4">
                                         Bajo la gravedad de juramento manifiesto que los datos aquí consignados obedecen a la realidad, por lo que declaro haber leído, entendido y aceptado 
-                                        el presente documento, en constancia firmo a los {{now.getDate()}} días del mes de {{monthFormat()}}, del año {{now.getFullYear()}}, 
+                                        el presente documento, en constancia firmo a los {{date.$D}} días del mes de {{monthFormat()}}, del año {{date.$y}}, 
                                         en la ciudad de <span><jet-input id="citySign" type="text" class="w-24 p-0 border-0 border-b-2 focus:border-0 focus:border-b-2 focus:border-blue-brand focus:ring-0 text-center min-w-max text-lg md:text-xl" v-model="form.citySign" /></span>. 
                                     </p>
                                     <div class="text-lg md:text-xl text-black/60 font-medium text-justify px-4 md:px-8 max-w-3xl lg:mx-auto mb-4"> 
@@ -105,6 +105,7 @@
     import JetInput from '@/Components/Input.vue';    
     import JetValidationErrors from '@/Components/ValidationErrors.vue';
     import FormsData from '@/Pages/Profile/Partials/FormsData.vue';
+    import dayjs from 'dayjs';
 
     export default defineComponent({
         props: [],
@@ -122,7 +123,7 @@
 
         data() {
             return {
-                now: new Date(),
+                now: dayjs(),
                 form: this.$inertia.form({
                     expeditionPlace: null,
                     citySign: null,
@@ -135,7 +136,7 @@
             monthFormat()
             {
                 const months = ["Enero", "Febrero", "Marzo","Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiempre", "Octubre", "Noviembre", "Diciembre"];
-                let formatted_date = months[this.now.getMonth()]
+                let formatted_date = months[this.date.$M]
                 return formatted_date
             },
 

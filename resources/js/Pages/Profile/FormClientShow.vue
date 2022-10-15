@@ -455,7 +455,7 @@
             monthFormat()
             {
                 const months = ["Enero", "Febrero", "Marzo","Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiempre", "Octubre", "Noviembre", "Diciembre"];
-                let formatted_date = months[this.now.getMonth()]
+                let formatted_date = months[this.date.getMonth()]
                 return formatted_date
             },
         }

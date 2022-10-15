@@ -165,6 +165,7 @@
     import { faUserCheck } from '@fortawesome/free-solid-svg-icons';
     import { faUserClock } from '@fortawesome/free-solid-svg-icons';
     import { faUserTimes } from '@fortawesome/free-solid-svg-icons';
+    import dayjs from 'dayjs';
 import axios from 'axios';
 
     library.add(faCheckCircle, faTimesCircle, faUserCheck, faUserClock, faUserTimes);
@@ -203,10 +204,10 @@ import axios from 'axios';
 
             dateFormat(date)
             {                
-                let dateNew = new Date(date)
+                let dateNew = dayjs(date, 'YYYY-MM-DD');
                 const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-                let formatted_date = dateNew.getDate() + "-" + months[dateNew.getMonth()] + "-" + dateNew.getFullYear()
-                return formatted_date
+                let formatted_date = dateNew.$D + '-' + months[dateNew.$M] + '-' + dateNew.$y;
+                return formatted_date;
             },
         },
     })
