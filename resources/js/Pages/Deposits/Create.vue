@@ -61,7 +61,7 @@
                                     </div>
 
                                     <div class="grid grid-cols-1 items-center mt-4">
-                                        <jet-button class="mx-auto mb-4 max-w-max" :class="{ 'opacity-25': form.processing }" :disabled="false">
+                                        <jet-button class="mx-auto mb-4 max-w-max" :class="{ 'opacity-25': form.processing }" :disabled="true">
                                             Solicitar
                                         </jet-button>
                                     </div>
