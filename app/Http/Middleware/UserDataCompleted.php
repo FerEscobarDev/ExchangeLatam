@@ -21,8 +21,11 @@ class UserDataCompleted
         {
             return redirect(route('dashboard'))->with('error', 'Completa tus datos personales para poder continuar.');
         }
-
-        if(Auth::user()->requirementUser->verified == 0 )
+        else if(Auth::user()->requirementUser->document == 0 )
+        {
+            return redirect(route('dashboard'))->with('error', 'Es necesario que verifiques tu cuenta antes de usar nuestros servicios.');
+        }
+        else if(Auth::user()->requirementUser->verified == 0 )
         {
             return redirect(route('dashboard'))->with('error', 'Es necesario que verifiques tu cuenta antes de usar nuestros servicios.');
         }

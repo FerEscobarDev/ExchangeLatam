@@ -201,7 +201,7 @@ Route::middleware(['auth', 'can:panel.user', 'route.users'])->group(function () 
 });
 
 //Rutas Users con protección para completar datos
-Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users', 'data'])->group(function () {
+Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users', 'data', 'user.data.completed'])->group(function () {
     Route::get('/dashboard/deposits', [DepositController::class, 'userIndex'])->name('users.deposits');
     Route::get('/dashboard/deposits/create', [DepositController::class, 'create'])->name('deposit.create');
     Route::get('/dashboard/deposit/{transaction}/show',[DepositController::class, 'show'])->name('deposit.show');
@@ -212,9 +212,7 @@ Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users', 'data'])
     Route::get('/dashboard/profile/bankAccount', [AccountController::class, 'index'])->name('accounts.index.user');    
     Route::get('/dashboard/profile/register/bankAccount', [AccountController::class, 'create'])->name('accounts.create.user');
 
-    Route::post('/dashboard/verification/upload/documents', [VerificationController::class, 'store'])->name('verification.store');
 
-    Route::get('/dashboard/profile/change/password', [UserController::class, 'changePassword'])->name('users.changePassword');
 
     Route::post('/dashboard/deposit/store', [DepositController::class, 'store'])->name('deposit.store');
     Route::put('/dashboard/{transaction}/voucher', [DepositController::class, 'voucherUp'])->name('deposit.voucherUp');
@@ -241,7 +239,9 @@ Route::middleware(['auth', 'verified', 'can:panel.user', 'route.users'])->group(
     Route::get('/dashboard/profile', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/dashboard/profile/update', [UserController::class, 'updateProfile'])->name('user.update');
     Route::put('/dashboard/profile/picture', [UserController::class, 'picture'])->name('users.picture');
+    Route::get('/dashboard/profile/change/password', [UserController::class, 'changePassword'])->name('users.changePassword');
     Route::get('/dashboard/verification',[VerificationController::class, 'create'])->name('verification.create');
+    Route::post('/dashboard/verification/upload/documents', [VerificationController::class, 'store'])->name('verification.store');
     Route::get('/dashboard/forms/funds', [FormFundController::class, 'create'])->name('formFund.create');
     Route::post('/dashboard/forms/funds/store', [FormFundController::class, 'store'])->name('formFund.store');    
     Route::get('/dashboard/forms/funds/{formFund}/read', [FormFundController::class, 'show'])->name('formFund.show');
