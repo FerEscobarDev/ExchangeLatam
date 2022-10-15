@@ -11,10 +11,10 @@
                 <div class="container mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="w-full py-2 px-6 h-20 mx-auto flex justify-evenly items-center">
-                            <Link :href="route('users.createWalletExchangeDeposit')" class="inline-flex items-center px-4 py-2 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
+                            <Link :href="route('users.createWalletExchangeDeposit')" class="inline-flex items-center text-center px-4 py-2 mr-1 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
                                 Comprar Saldo De Skrill
                             </Link>
-                            <Link :href="route('users.createWalletExchangeWithdrawal')" class="inline-flex items-center px-4 py-2 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
+                            <Link :href="route('users.createWalletExchangeWithdrawal')" class="inline-flex items-center text-center  px-4 py-2 ml-1 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
                                 Vender Tu Saldo Skrill
                             </Link>
                         </div>

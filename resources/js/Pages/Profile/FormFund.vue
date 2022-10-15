@@ -123,7 +123,7 @@
 
         data() {
             return {
-                now: dayjs(),
+                date: dayjs(),
                 form: this.$inertia.form({
                     expeditionPlace: null,
                     citySign: null,
