@@ -139,6 +139,7 @@
     import JetDialogModal from '@/Components/DialogModal.vue'
     import JetButton from '@/Components/Button.vue'
     import JetSecondaryButton from '@/Components/SecondaryButton.vue'
+    import dayjs from 'dayjs';
 
     export default defineComponent({
         components: {
@@ -157,10 +158,10 @@
         methods: {
             dateFormat(date)
             {                
-                let dateNew = new Date(date)
+                let dateNew = dayjs(date, 'YYYY-MM-DD');
                 const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-                let formatted_date = dateNew.getDate() + "-" + months[dateNew.getMonth()] + "-" + dateNew.getFullYear()
-                return formatted_date
+                let formatted_date = dateNew.$D + '-' + months[dateNew.$M] + '-' + dateNew.$y;
+                return formatted_date;
             },
             showVoucher()
             {

@@ -471,6 +471,8 @@
             
             const now = new Date();
 
+            console.log(now)
+
             let day = now.getDate();
             let year = now.getFullYear();
             let month = now.getMonth() + 1;

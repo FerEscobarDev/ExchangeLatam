@@ -87,9 +87,6 @@
     import JetCheckbox from '@/Components/Checkbox.vue';
     import { CheckIcon } from '@heroicons/vue/solid';
     import dayjs from 'dayjs';
-    import relativeTime from 'dayjs/plugin/relativeTime';
-    
-    dayjs.extend(relativeTime);
 
     export default defineComponent({
         props: ['formFund'],
@@ -112,7 +109,6 @@
         methods: {
             monthFormat()
             {
-                console.log(this.date)
                 const months = ["Enero", "Febrero", "Marzo","Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiempre", "Octubre", "Noviembre", "Diciembre"];
                 let formatted_date = months[this.date.$M]
                 return formatted_date

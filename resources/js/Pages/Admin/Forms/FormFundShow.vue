@@ -90,9 +90,6 @@
     import JetCheckbox from '@/Components/Checkbox.vue'; 
     import { CheckIcon } from '@heroicons/vue/solid';
     import dayjs from 'dayjs';
-    import relativeTime from 'dayjs/plugin/relativeTime';
-    
-    dayjs.extend(relativeTime);
 
     export default defineComponent({
         props: ['dataUser'],
