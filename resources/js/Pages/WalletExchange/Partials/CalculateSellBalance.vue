@@ -20,7 +20,7 @@
                 <span class="text-sm text-gray-600 mr-1">Total a pagar COP: </span><span class="font-semibold text-dark-brand">$ {{total(amountCop, dollarPrice, usdFormat(amountUsd), walletVip)}}</span>
             </span>
             
-        <h2 class="text-lg text-dark-brand font-semibold mt-2">Recibes en Skrill ${{usdFormat(amountUsd)}} USD</h2>
+        <h2 class="text-lg text-dark-brand font-semibold mt-2">Recibes: ${{total(amountCop, dollarPrice, usdFormat(amountUsd), walletVip)}} COP</h2>
         </div>   
     </div>
 </template>

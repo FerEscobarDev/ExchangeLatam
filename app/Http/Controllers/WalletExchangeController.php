@@ -6,7 +6,9 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Wallet;
 use App\Models\Account;
+use App\Models\DollarBalance;
 use App\Models\DollarPrice;
+use App\Models\PesoBalance;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +36,8 @@ class WalletExchangeController extends Controller
      */
     public function userIndex()
     {
-        $transactions = Auth::user()->transactions()->where('transactionable_type', 'App\Models\WalletAccount')->with('transactionable', 'transactionable.wallet')->orderBy('id', 'desc')->paginate(5);
+        $transactions = Transaction::where('user_id', Auth::user()->id)->where('transactionable_type', 'App\Models\WalletAccount')->with('transactionable', 'transactionable.wallet')->orderBy('id', 'desc')->paginate(5);    
+    
         return Inertia::render('WalletExchange/Index', [
             'transactions' => $transactions,            
         ]);
@@ -49,6 +52,7 @@ class WalletExchangeController extends Controller
     {
         $hoy = date('Y-m-d');
         $exchange = DollarPrice::where('date', $hoy)->get();
+        $dollarBalance = DollarBalance::where('company_id', 3)->orderBy('id', 'desc')->first();
         $walletAccount = Auth::user()->walletAccounts;
         $accounts = Account::where('user_id', 8)->where('active', 'Activa')->get();
         $wallets = Wallet::where('status', 1)->get();
@@ -65,7 +69,8 @@ class WalletExchangeController extends Controller
                 ];
             }),
             'wallets' => $wallets,
-            'data_user' => $dataUser,
+            'dataUser' => $dataUser,
+            'dollarBalance' => $dollarBalance,
         ]);
     }
 
@@ -108,27 +113,35 @@ class WalletExchangeController extends Controller
         $dollarPrice = DollarPrice::select('dollar_buy')->where('date', $hoy)->first();
         $dollarPrice = $dollarPrice->dollar_buy;
         $rebate = 0;
+        $amount_usd = $request['amount_usd'];
+        $amount_cop = $amount_usd * $dollarPrice;
+        $dollarBalance = DollarBalance::where('company_id', 3)->orderBy('id', 'desc')->first();
+        $user = Auth::user();
+
+        if( $amount_usd > $dollarBalance->amount )
+        {
+            return Redirect::back()->with('error', 'En este momento sólo podemos procesar tu solicitud por '.$dollarBalance->amount.' USD');
+        }
 
         if($walletAccount[0]->vip > 0)
         {
-            if($request['amount_usd'] >= 500)
+            if($amount_usd >= 500)
             {
                 $dollarPrice -= 10;
-                $rebate = $request['amount_usd'] * 10;
+                $rebate = $amount_usd * 10;
             }
         }
-        
-        $amount_cop = $request['amount_usd'] * $dollarPrice;
+
         $total = $amount_cop + $rebate; // Se suma el descuento porque ya ha sido aplicado con anterioridad
 
         $transaction = Transaction::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
             'account_id' => $request['account']['id'],
             'transactionable_id' => $walletAccount[0]->id,
             'transactionable_type' => 'App\Models\WalletAccount',
             'type' => 2,
             'price' => $dollarPrice,
-            'amount_usd' => $request['amount_usd'],
+            'amount_usd' => $amount_usd,
             'amount_cop' => $amount_cop,
             'comission' => 0,
             'cuatro_por_mil' => 0,
@@ -140,16 +153,14 @@ class WalletExchangeController extends Controller
         ]);   
 
         $obj = new \stdClass();
-        $obj->name = Auth::user()->name;
-        $obj->lastname = Auth::user()->lastname;
+        $obj->name = $user->name;
+        $obj->lastname = $user->lastname;
         $obj->transaction_id = $transaction->id;
-        $obj->user_id = Auth::user()->id;
+        $obj->user_id = $user->id;
         $obj->amount_usd = $transaction->amount_usd;
         $obj->wallet = $walletAccount[0]->wallet->name;
 
-        $user = Auth::user();
-        $user->notify(new UserRequestBuyBalance($obj));
-         
+        $user->notify(new UserRequestBuyBalance($obj));         
 
         return Redirect::route('users.showWalletExchange', $transaction)->with('success', 'solicitud realizada correctamente, por favor realice el pago a la cuenta indicada en detalles.');
     }
@@ -170,6 +181,13 @@ class WalletExchangeController extends Controller
         $dollarPrice = DollarPrice::select('dollar_sell')->where('date', $hoy)->first();
         $dollarPrice = $dollarPrice->dollar_sell;
         $rebate = 0;
+        $copBalance = PesoBalance::orderBy('id', 'desc')->first();
+        $purchasingPower = round($copBalance->amount / $dollarPrice, 2);
+
+        if( $purchasingPower < $request['amount_usd'] )
+        {
+            return Redirect::back()->with('error', 'En este momento sólo podemos procesar tu solicitud por '.$purchasingPower.' USD');
+        }
 
         if($walletAccount[0]->vip > 0)
         {
@@ -366,9 +384,13 @@ class WalletExchangeController extends Controller
             'completed_date'=>date('Y-m-d H:i:s')
         ]);
 
+        $dollarBalance = DollarBalance::where('company_id', 3)->orderBy('id', 'desc')->first();
+        $copBalance = PesoBalance::orderBy('id', 'desc')->first();
+        $user = Auth::user();
+
         if($updating){
 
-            if($request->status == 'Pendiente'){
+            if($request->status['name'] == 'Pendiente'){
                 return Redirect::back()->with('success', 'El estado de la transacción se ha cambiado a pendiente sin enviar notificación al usuario.');
             }
 
@@ -384,12 +406,53 @@ class WalletExchangeController extends Controller
             $obj->transaction_id = $transaction->id;
 
             if($transaction->type === 2)
-            {                
+            {     
                 $user->notify(new UserStatusChangeBuyBalance($obj));
+
+                if($request->status['name'] == 'Procesando')
+                {                
+                    $newBalance = $dollarBalance->amount - $transaction->amount_usd;
+                    $newCopBalance = $copBalance->amount + $transaction->total;
+
+                    $NewDollarBalance = DollarBalance::create([
+                        'company_id' => 3,
+                        'date' => date('Y-m-d H:i:s'),
+                        'amount' => $newBalance,
+                        'averagePrice' => $dollarBalance->averagePrice
+                    ]);  
+
+                    $newBalanceCop = PesoBalance::create([
+                        'company_id' => 1,
+                        'date' => date('Y-m-d H:i:s'),
+                        'amount' => $newCopBalance,
+                    ]);  
+                }       
+                
             }
             else if($transaction->type === 3)
             {
                 $user->notify(new UserStatusChangeSellBalance($obj));
+
+                if($request->status['name'] == 'Procesando')
+                {
+                    $newBalance = $dollarBalance->amount + $transaction->amount_usd;                    
+                    $newCopBalance = $copBalance->amount - $transaction->total;
+                    $averagePrice = ($dollarBalance->amount * $dollarBalance->averagePrice) + $transaction->total;
+                    $averagePrice = $averagePrice / $newBalance;
+
+                    $NewDollarBalance = DollarBalance::create([
+                        'company_id' => 3,
+                        'date' => date('Y-m-d H:i:s'),
+                        'amount' => $newBalance,
+                        'averagePrice' => $averagePrice
+                    ]);
+
+                    $newBalanceCop = PesoBalance::create([
+                        'company_id' => 1,
+                        'date' => date('Y-m-d H:i:s'),
+                        'amount' => $newCopBalance,
+                    ]);
+                }
             }
 
             return Redirect::back()->with('success', 'Se ha cambiado el estado de la transacción.');
