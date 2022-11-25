@@ -245,6 +245,18 @@
                             <b class="text-color">{{$notify->comment}}</b>
                         </p>                   
                     @endif
+                @elseif ($notify->status == 'Procesando')
+                    <p>
+                        Hemos recibido el pago por la compra de saldo a tu cuenta id {{$notify->wallet_email}} de {{$notify->wallet}} en 10 o 20 minutos o máximo 48 horas recibirás tu saldo.
+                    </p>
+                    @if (!empty($notify->comment))
+                        <p>
+                            El administrador ha dejado las siguientes observaciones:  
+                        </p>
+                        <p>
+                            <b class="text-color">{{$notify->comment}}</b>
+                        </p>                   
+                    @endif
                 @else
                     <p>
                         La compra de saldo a tu cuenta id {{$notify->wallet_email}} de {{$notify->wallet}} se ha cancelado.

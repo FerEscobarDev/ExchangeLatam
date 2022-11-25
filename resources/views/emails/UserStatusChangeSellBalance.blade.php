@@ -244,6 +244,18 @@
                             <b class="text-color">{{$notify->comment}}</b>
                         </p>                   
                     @endif
+                @elseif ($notify->status == 'Procesando')
+                    <p>
+                        Hemos recibido el saldo que transferiste a nuestra cuenta de Skrill, en un plazo de hasta 24 horas recibirás el pago correspondiente en tu cuenta bancaria registrada.
+                    </p>
+                    @if (!empty($notify->comment))
+                        <p>
+                            El administrador ha dejado las siguientes observaciones:  
+                        </p>
+                        <p>
+                            <b class="text-color">{{$notify->comment}}</b>
+                        </p>                   
+                    @endif
                 @else
                     <p>
                          La venta de saldo de tu cuenta {{$notify->wallet_email}} de {{$notify->wallet}} se ha cancelado. 
