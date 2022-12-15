@@ -106,9 +106,9 @@
                                         </div>
                                         
                                         <div class="col-span-6">
-                                            <CalculateBuyBalance v-if="issetWallet" :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchange[0].dollar_buy" :walletVip="walletAccount[0].vip" :user="$page.props.user" />
+                                            <CalculateBuyBalance v-if="issetWallet" :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchangeRate" :walletVip="walletAccount[0].vip" :user="$page.props.user" />
 
-                                            <CalculateBuyBalance v-else="issetWallet" :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchange[0].dollar_buy" :walletVip="0" :user="$page.props.user" />
+                                            <CalculateBuyBalance v-else="issetWallet" :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchangeRate" :walletVip="0" :user="$page.props.user" />
                                         </div>
                                     </div>
 
@@ -118,6 +118,7 @@
                                         </jet-button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>                        
                     </div>
@@ -156,11 +157,11 @@
         },
         
         props: [
-            'exchange', 
             'accounts',
             'wallets',
             'walletAccount',
-            'dataUser'       
+            'dataUser',
+            'exchangeRate',     
         ],   
 
         data() {

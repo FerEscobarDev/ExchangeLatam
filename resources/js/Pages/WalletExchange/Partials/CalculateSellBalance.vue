@@ -5,11 +5,12 @@
                 <span class="text-sm text-gray-600 mr-1">Monto USD: </span><span class="font-semibold text-dark-brand">$ {{usdFormat(amountUsd)}}</span>
             </span>
             <span class="flex justify-between items-center w-full">
+                <span class="text-sm text-gray-600 mr-1">Tasa de cambio: </span><span class="font-semibold text-dark-brand">$ {{dollarPrice}}</span>
+            </span> 
+            <span class="flex justify-between items-center w-full">
                 <span class="text-sm text-gray-600 mr-1">Monto COP: </span><span class="font-semibold text-dark-brand">$ {{copAmount(amountCop, dollarPrice, usdFormat(amountUsd))}}</span>
             </span>                                   
-            <!-- <span class="flex justify-between items-center w-full">
-                <span class="text-sm text-gray-600 mr-1">Comisión: </span><span class="font-semibold text-dark-brand">$ {{comission(copAmount(amountCop, dollarPrice, usdFormat(amountUsd)))}}</span>
-            </span>                                                                        
+            <!--                                                                        
             <span class="flex justify-between items-center w-full">
                 <span class="text-sm text-gray-600 mr-1">Impuesto IVA: </span><span class="font-semibold text-dark-brand">$ {{valIva(comission(copAmount(amountCop, dollarPrice, usdFormat(amountUsd))))}}</span>
             </span> -->

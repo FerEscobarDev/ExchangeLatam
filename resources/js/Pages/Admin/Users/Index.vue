@@ -166,7 +166,6 @@
     import { faUserClock } from '@fortawesome/free-solid-svg-icons';
     import { faUserTimes } from '@fortawesome/free-solid-svg-icons';
     import dayjs from 'dayjs';
-import axios from 'axios';
 
     library.add(faCheckCircle, faTimesCircle, faUserCheck, faUserClock, faUserTimes);
 
