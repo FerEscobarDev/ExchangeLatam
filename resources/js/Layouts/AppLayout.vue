@@ -202,7 +202,7 @@
             },
 
             activeWalletExchange(){
-                if(route().current('users.indexWalletExchange'))
+                if(route().current('users.indexWalletExchange') || route().current('users.createWalletExchangeDeposit') || route().current('users.createWalletExchangeWithdrawal') || route().current('users.showWalletExchange'))
                 {
                     return true
                 }

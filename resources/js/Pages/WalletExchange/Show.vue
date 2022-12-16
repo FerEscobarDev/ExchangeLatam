@@ -72,13 +72,16 @@
                                         <span class="text-sm text-gray-600 mr-1">Tipo de Cuenta: </span><span class="text-sm font-semibold text-dark-brand">{{transaction.account.type}}</span>
                                     </span>                                    
                                     <span v-if="transaction.status === 'Realizado'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 mx-auto">
-                                        Pago Realizado
+                                        Transacción Realizada
                                     </span>
-                                    <span v-else-if="transaction.status === 'Pendiente'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 mx-auto">
-                                        Procesando ...
+                                    <span v-else-if="transaction.status === 'Pendiente'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-700 mx-auto">
+                                        Pago Pendiente
                                     </span>
-                                    <span v-else-if="transaction.status === 'Cancelado'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 mx-auto">
+                                    <span v-else-if="transaction.status === 'Cancelado'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-red-700 mx-auto">
                                         Transacción Rechazada
+                                    </span>
+                                    <span v-else-if="transaction.status === 'Procesando'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-600 mx-auto">
+                                        Procesando...
                                     </span>
                                 </div>
                                 <div v-else class="rounded-lg bg-slate-200 text-dark-brand p-4 w-80 flex flex-col items-start">
@@ -103,13 +106,16 @@
                                         <span class="text-sm text-gray-600 mr-1">Tipo de Cuenta: </span><span class="text-sm font-semibold text-dark-brand">{{transaction.account.type}}</span>
                                     </span>                                    
                                     <span v-if="transaction.status === 'Realizado'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 mx-auto">
-                                        Pago Realizado
+                                        Transacción Realizada
                                     </span>
-                                    <span v-else-if="transaction.status === 'Pendiente'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 mx-auto">
-                                        Procesando ...
+                                    <span v-else-if="transaction.status === 'Pendiente'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-700 mx-auto">
+                                        Pago Pendiente
                                     </span>
-                                    <span v-else-if="transaction.status === 'Cancelado'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 mx-auto">
+                                    <span v-else-if="transaction.status === 'Cancelado'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-red-700 mx-auto">
                                         Transacción Rechazada
+                                    </span>
+                                    <span v-else-if="transaction.status === 'Procesando'" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-600 mx-auto">
+                                        Procesando...
                                     </span>
                                 </div>
                             </div>
