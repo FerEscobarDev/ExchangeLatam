@@ -108,6 +108,11 @@ class WalletExchangeController extends Controller
         ]);
 
         $walletAccount = Auth::user()->walletAccounts->where('wallet_id', $request['wallet']['id']);
+
+        if(empty($walletAccount[0])){
+            return Redirect::back()->with('error', 'Debes registrar tu cuenta de skrill para continuar con la solicitud');
+        }
+
         $dollarPrice = priceBuyBalance();
         $rebate = 0;
         $amount_usd = $request['amount_usd'];
@@ -173,6 +178,11 @@ class WalletExchangeController extends Controller
         $user = User::find(Auth::user()->id);
 
         $walletAccount = $user->walletAccounts->where('wallet_id', $request['wallet']['id']);
+
+        if(empty($walletAccount[0])){
+            return Redirect::back()->with('error', 'Debes registrar tu cuenta de skrill para continuar con la solicitud');
+        }
+
         $account = $user->accounts->where('active', 'Activa')->first();
         $dollarPrice = priceSellBalance();
         $rebate = 0;
