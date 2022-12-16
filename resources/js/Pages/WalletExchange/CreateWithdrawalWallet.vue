@@ -2,7 +2,8 @@
     <app-layout title="Vender Saldo">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-700 leading-tight">
-                <Link :href="route('dashboard')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Dashboard/</Link><Link :href="route('users.indexWalletExchange')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Wallet Exchange/</Link>Solicitud Venta Saldo De Skrill
+                <Link :href="route('dashboard')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Dashboard/</Link>
+                <Link :href="route('users.indexWalletExchange')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Wallet Exchange/</Link>Solicitud Venta Saldo De Skrill
             </h2>
         </template>
 
@@ -116,9 +117,9 @@
                                         </div> -->
                                         
                                         <div class="col-span-6">
-                                            <CalculateSellBalance v-if="issetWallet" :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchange[0].dollar_sell" :walletVip="walletAccount[0].vip" :user="$page.props.user" />
+                                            <CalculateSellBalance v-if="issetWallet" :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchangeRate" :walletVip="walletAccount[0].vip" :user="$page.props.user" />
 
-                                            <CalculateSellBalance v-else="issetWallet" :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchange[0].dollar_sell" :walletVip="0" :user="$page.props.user" />
+                                            <CalculateSellBalance v-else="issetWallet" :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchangeRate" :walletVip="0" :user="$page.props.user" />
                                         </div>
                                     </div>
 
@@ -128,6 +129,7 @@
                                         </jet-button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>                        
                     </div>
@@ -147,7 +149,7 @@
     import JetLabel from '@/Components/Label.vue';
     import JetSelect from '@/Components/Select.vue';
     import CalculateSellBalance from '@/Pages/WalletExchange/Partials/CalculateSellBalance.vue';
-    import DialogModal from '@/Components/DialogModal.vue';
+    import DialogModal from '@/Components/DialogModal.vue';    
 
     import { Link } from '@inertiajs/inertia-vue3';
 
@@ -165,12 +167,12 @@
             SecondaryButton,
         },
         
-        props: [
-            'exchange', 
+        props: [ 
             'account',
             'wallets',
             'walletAccount',
-            'dataUser'       
+            'dataUser',
+            'exchangeRate',    
         ],   
 
         data() {
@@ -187,6 +189,7 @@
                 show: this.issetWallet ? false : true,
             }
         },
+
         setup(props) {
             const amount_cop = 0;
             const issetWallet = props.walletAccount.length > 0 ? true : false;
@@ -201,18 +204,24 @@
             submit() {
                 this.form.post(this.route('users.storeWalletExchangeWithdrawal'));
             },
+
             walletStore(){
                 this.formWallet.post(this.route('users.storeWalletAccount'), {
                     onSuccess: () => (this.closeModal(), this.issetWallet = true),
-            });
+                });
             },
+
             closeModal(){
                 this.show = false;
             },
+
             showModal(){
                 this.show = true;
-            }
+            },
+
         },
+
+
 
 
 

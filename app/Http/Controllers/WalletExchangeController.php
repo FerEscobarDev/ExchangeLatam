@@ -51,16 +51,16 @@ class WalletExchangeController extends Controller
     public function createDepositWallet()
     {
         $hoy = date('Y-m-d');
-        $exchange = DollarPrice::where('date', $hoy)->get();
         $dollarBalance = DollarBalance::where('company_id', 3)->orderBy('id', 'desc')->first();
         $walletAccount = Auth::user()->walletAccounts;
         $accounts = Account::where('user_id', 8)->where('active', 'Activa')->get();
         $wallets = Wallet::where('status', 1)->get();
         $dataUser = auth()->user()->dataUser;
+        $priceDeposit = priceBuyBalance();
 
         return Inertia::render('WalletExchange/CreateDepositWallet', [
-            'walletAccount' => $walletAccount,
-            'exchange' => $exchange,
+            'walletAccount' => $walletAccount,       
+            'exchangeRate' => $priceDeposit,
             'hoy' => $hoy,
             'accounts' => $accounts->map(function ($account) {
                 return [
@@ -77,19 +77,19 @@ class WalletExchangeController extends Controller
     public function createWithdrawalWallet()
     {
         $hoy = date('Y-m-d');
-        $exchange = DollarPrice::where('date', $hoy)->get();
         $walletAccount = Auth::user()->walletAccounts;
         $account = Account::where('user_id', Auth::user()->id)->where('active', 'Activa')->with('user', 'user.dataUser', 'bank')->get();
         $wallets = Wallet::where('status', 1)->get();
         $dataUser = auth()->user()->dataUser;
+        $priceWithdrawal = priceSellBalance();
 
         return Inertia::render('WalletExchange/CreateWithdrawalWallet', [
             'walletAccount' => $walletAccount,
-            'exchange' => $exchange,
             'hoy' => $hoy,
             'account' => $account,
             'wallets' => $wallets,
             'data_user' => $dataUser,
+            'exchangeRate' => $priceWithdrawal,
         ]);
     }
 
@@ -107,11 +107,13 @@ class WalletExchangeController extends Controller
             'account' => ['required'],
         ]);
 
-
         $walletAccount = Auth::user()->walletAccounts->where('wallet_id', $request['wallet']['id']);
-        $hoy = date('Y-m-d');
-        $dollarPrice = DollarPrice::select('dollar_buy')->where('date', $hoy)->first();
-        $dollarPrice = $dollarPrice->dollar_buy;
+
+        if(empty($walletAccount[0])){
+            return Redirect::back()->with('error', 'Debes registrar tu cuenta de skrill para continuar con la solicitud');
+        }
+
+        $dollarPrice = priceBuyBalance();
         $rebate = 0;
         $amount_usd = $request['amount_usd'];
         $amount_cop = $amount_usd * $dollarPrice;
@@ -176,10 +178,13 @@ class WalletExchangeController extends Controller
         $user = User::find(Auth::user()->id);
 
         $walletAccount = $user->walletAccounts->where('wallet_id', $request['wallet']['id']);
+
+        if(empty($walletAccount[0])){
+            return Redirect::back()->with('error', 'Debes registrar tu cuenta de skrill para continuar con la solicitud');
+        }
+
         $account = $user->accounts->where('active', 'Activa')->first();
-        $hoy = date('Y-m-d');
-        $dollarPrice = DollarPrice::select('dollar_sell')->where('date', $hoy)->first();
-        $dollarPrice = $dollarPrice->dollar_sell;
+        $dollarPrice = priceSellBalance();
         $rebate = 0;
         $copBalance = PesoBalance::orderBy('id', 'desc')->first();
         $purchasingPower = round($copBalance->amount / $dollarPrice, 2);
