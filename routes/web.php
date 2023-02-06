@@ -53,7 +53,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->name('dashboard');
+    })->name('dashboard');http://admin.localhost/dashboard
 }); */
 
 Route::get('/campaigns/vip', [CampaignController::class, 'pautaVip'])->name('campaign.pautaVip')->middleware('route.users');
@@ -66,7 +66,7 @@ Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name
 
 
 //Rutas Admin
-Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
+Route::domain(env('APP_SUBDOMAIN', 'admin.exchangelatam.com'))->middleware('auth', 'verified', 'data')->group(function () {
 //Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones
