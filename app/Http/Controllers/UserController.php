@@ -41,25 +41,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with('requirementUser', 'dataUser', 'formFund', 'formKnowledgeClient');
-        $search = '';
-
-        if(request()->has('search'))
-        {
-            $search = request('search');
-            $users = $users->where('name','like', '%'.$search.'%')
-                        ->orWhere('lastname','like', '%'.$search.'%')
-                        ->orWhere('email','like', '%'.$search.'%')
-                        ->orWhere('mobil','like', '%'.$search.'%')
-                        ->orWhere('id','like', '%'.$search.'%')
-                        ->orWhereRelation('dataUser', 'doc_num', 'like', '%'.$search.'%');
-        }
-
-        $users = $users->paginate(10)->appends(request()->except('page'));
+        $users = User::with('requirementUser', 'dataUser', 'formFund', 'formKnowledgeClient')
+                        ->filter()
+                        ->paginate(10)
+                        ->appends(request()->except('page'));
 
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
-            'search' => $search,
         ]);
     }
 
