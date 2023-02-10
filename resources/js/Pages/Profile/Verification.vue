@@ -5,16 +5,10 @@
                 <Link :href="route('dashboard')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Dashboard/</Link>Verificación de cuenta
             </h2>
         </template>
-        <div class="py-6 w-full">
-            <div class="flex mx-auto lg:mr-4">
-                <div class="container mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">   
+        <div class="lg:mr-4 max-w-full flex flex-col shadow border border-gray-200 sm:rounded-lg bg-white">   
 
-                        <forms-data :user="$page.props.user" />
+            <forms-data :user="$page.props.user" />
                         
-                    </div>
-                </div>
-            </div>
         </div>
     </app-layout>
 </template>
