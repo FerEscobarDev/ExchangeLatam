@@ -12,7 +12,7 @@
                 <h1 class="text-3xl text-black/75 font-semibold text-center">Últimas Transacciones</h1>
             </div>
 
-            <div class="min-w-full overflow-x-scroll xl:overflow-auto border border-gray-200 rounded-lg">
+            <div class="min-w-full overflow-auto border border-gray-200 rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>

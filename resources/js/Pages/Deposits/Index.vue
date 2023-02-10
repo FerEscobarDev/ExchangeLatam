@@ -11,7 +11,7 @@
                     Solicitar depósito
                 </Link>
             </div>
-            <div class="min-w-full overflow-x-scroll xl:overflow-auto border border-gray-200 rounded-lg">
+            <div class="min-w-full overflow-auto border border-gray-200 rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -73,7 +73,7 @@
                     </tbody>                                            
                     <tbody class="bg-white divide-y divide-gray-200" v-else>
                         <tr>
-                            <td class="px-6 py-4 w-full text-base text-gray-500 text-center" colspan="7">No tienes transacciones</td>
+                            <td class="px-6 py-4 w-full text-base text-gray-500 text-center" colspan="8">No tienes transacciones</td>
                         </tr>
                     </tbody>
                 </table>   
