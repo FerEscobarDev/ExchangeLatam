@@ -43,20 +43,14 @@ class WithdrawalController extends Controller
 
     public function userIndex()
     {   
-        /* 
-        $noticeModal = Auth::user()->notices->where('type', 'modal');
-        $noticesAll = Notice::where('type', 'general')->get();
-        $contact = Contact::select('link')->where('company_id', 1)->get(); */
-        $hoy = date('Y-m-d');
-        $exchange = DollarPrice::where('date', $hoy)->get();
+        $trm = getTrm();
+        $exchange = floatval($trm[0]->valor);
         $withdrawals = Transaction::where('user_id', Auth::user()->id)->where('type', 0)->with('transactionable', 'transactionable.broker')->orderBy("application_date","desc")->paginate(5);
 
         return Inertia::render('Withdrawals/Index', [
             'withdrawals' => $withdrawals,
             'exchange' => $exchange,
         ]);
-
-        /* return view('users.withdrawals', compact('contact', 'noticesAll', 'noticeModal', 'priceUsdWithdrawal', 'withdrawals')); */
     }
 
     /**

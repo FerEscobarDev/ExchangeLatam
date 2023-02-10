@@ -13,7 +13,7 @@
                         <div class="bg-white/40 overflow-hidden drop-shadow-md shadow-xl hover:drop-shadow-lg hover:shadow-2xl sm:rounded-lg m-4 w-72 h-28 mx-auto flex justify-between items-center">
                             <div class="flex flex-col items-center text-center p-3">
                                 <span class="text-lg text-dark-brand font-semibold">Tasa de cambio para retiros hoy: </span>
-                                <span class="text-xl text-blue-brand-gradient1 hover:text-2xl font-semibold">{{exchange[0].dollar_sell}}</span>
+                                <span class="text-xl text-blue-brand-gradient1 hover:text-2xl font-semibold">{{ exchange }}</span>
                             </div>
                         </div>
                         <div class="flex flex-col">
@@ -112,7 +112,7 @@
         },
         props: {
             withdrawals: Object, 
-            exchange: Array           
+            exchange: Number           
         },
         methods: {
             dateFormat(date)
