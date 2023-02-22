@@ -1,10 +1,10 @@
-/bootstrap/ssr
-/node_modules
-/public/build
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
+bootstrap/ssr
+node_modules
+public/build
+public/hot
+public/storage
+storage/*.key
+vendor
 .env
 .env.backup
 .phpunit.result.cache
