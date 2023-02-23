@@ -61,7 +61,7 @@ Route::get('/campaigns/sorteoAniversario', [CampaignController::class, 'sorteoAn
 Route::get('/', [CompanyController::class, 'index'])->name('company.welcome')->middleware('route.users');
 Route::get('/about', [CompanyController::class, 'about'])->name('company.about')->middleware('route.users');
 Route::get('/faq', [CompanyController::class, 'faq'])->name('company.faq')->middleware('route.users');
-Route::get('/policy-SAGRILAFT', [CompanyController::class, 'policy'])->name('company.policy')->middleware('route.users');
+Route::get('/policy-SAGRILAFT', [CompanyController::class, 'policyData'])->name('company.policy')->middleware('route.users');
 Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name('public.dollarPrices')->middleware('route.users');
 
 
