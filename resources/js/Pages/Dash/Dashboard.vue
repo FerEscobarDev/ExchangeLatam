@@ -6,7 +6,7 @@
             </h2>
         </template>
 
-        <div class="px-3 py-5 md:p-6 lg:mr-4 max-w-full flex flex-col shadow border border-gray-200 sm:rounded-lg bg-white"  v-if="$page.props.user.requirement_user.verified === 2 && $page.props.user.accounts[0] && transactions[0]">
+        <div class="px-3 py-5 md:pt-6 mb-4 lg:mr-4 max-w-full flex flex-col shadow border border-gray-200 sm:rounded-lg bg-white"  v-if="$page.props.user.requirement_user.verified === 2 && $page.props.user.accounts[0] && transactions[0]">
             
             <div class="flex justify-center items-center mb-6">
                 <h1 class="text-3xl text-black/75 font-semibold text-center">Últimas Transacciones</h1>
