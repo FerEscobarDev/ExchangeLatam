@@ -31,6 +31,7 @@ use Intervention\Image\Facades\Image;
 use App\Notifications\UserVerification;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\AdminVerification;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -87,8 +88,13 @@ class UserController extends Controller
 
         $ruta_img = $picture['picture']->store('img_profile', 'public');
 
-        $img = Image::make(public_path('storage/'.$ruta_img))->fit(400,400);
-        $img->save();
+        if (file_exists(public_path('storage/'.$ruta_img))) {
+            $img = Image::make(public_path('storage/'.$ruta_img))->fit(400,400);
+            $img->save();
+        }
+        else{
+            return Redirect::back()->with('error','El archivo no pudo leerse la ruta es '.public_path('storage/'.$ruta_img));
+        }
         
         if(!empty(Auth::user()->picture))
         {
@@ -99,7 +105,7 @@ class UserController extends Controller
             'picture' => $ruta_img
         ]);
 
-        return back()->with('success', 'Tu foto de perfil se ha subido.');
+        return Redirect::back()->with('success', 'Tu foto de perfil se ha subido.');
     }
 
     public function contact()

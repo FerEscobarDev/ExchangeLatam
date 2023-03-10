@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9a9956bbfbd7fb3d41777af0ad928f6",
+    "content-hash": "eeec56549ebf7fe7bdcb607ef8fc8b56",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1936,25 +1936,25 @@
         },
         {
             "name": "laravel/horizon",
-            "version": "v5.10.6",
+            "version": "v5.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "22b6d7c67bb86722cf380dbaed55ff1a3fc84053"
+                "reference": "d41a14c601766af0e2cce9486fd5dd143688c25f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/22b6d7c67bb86722cf380dbaed55ff1a3fc84053",
-                "reference": "22b6d7c67bb86722cf380dbaed55ff1a3fc84053",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/d41a14c601766af0e2cce9486fd5dd143688c25f",
+                "reference": "d41a14c601766af0e2cce9486fd5dd143688c25f",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-pcntl": "*",
                 "ext-posix": "*",
-                "illuminate/contracts": "^8.17|^9.0",
-                "illuminate/queue": "^8.17|^9.0",
-                "illuminate/support": "^8.17|^9.0",
+                "illuminate/contracts": "^8.17|^9.0|^10.0",
+                "illuminate/queue": "^8.17|^9.0|^10.0",
+                "illuminate/support": "^8.17|^9.0|^10.0",
                 "nesbot/carbon": "^2.17",
                 "php": "^7.3|^8.0",
                 "ramsey/uuid": "^4.0",
@@ -1963,7 +1963,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^6.0|^7.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0",
                 "phpunit/phpunit": "^9.0",
                 "predis/predis": "^1.1|^2.0"
             },
@@ -2007,9 +2007,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/horizon/issues",
-                "source": "https://github.com/laravel/horizon/tree/v5.10.6"
+                "source": "https://github.com/laravel/horizon/tree/v5.14.2"
             },
-            "time": "2022-12-14T15:24:14+00:00"
+            "time": "2023-02-10T15:40:38+00:00"
         },
         {
             "name": "laravel/jetstream",

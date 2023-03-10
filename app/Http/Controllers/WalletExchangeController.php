@@ -334,10 +334,15 @@ class WalletExchangeController extends Controller
 
         $ruta_img = $voucher['voucherUp']->store('deposit_support', 'public');
 
-        $image = Image::make(public_path('storage/'.$ruta_img));
-        $image->widen(700);/* 
-        $image->rotate(-90); */
-        $image->save();
+        if (file_exists(public_path('storage/'.$ruta_img))) {
+            $image = Image::make(public_path('storage/'.$ruta_img));
+            $image->widen(700);/* 
+            $image->rotate(-90); */
+            $image->save();
+        }
+        else{
+            return Redirect::back()->with('error','El archivo no pudo leerse la ruta es '.public_path('storage/'.$ruta_img));
+        }
 
         $cargado = $transaction->update(['voucher' => $ruta_img]);
  
