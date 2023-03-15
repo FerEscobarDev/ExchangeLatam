@@ -53,14 +53,20 @@
                             </div>
                             
                             <div class="col-span-8 lg:col-start-3 lg:col-span-4">
-                                <jet-calculate-deposit :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchange" :tradingVip="tradingAccountVip" :user="$page.props.user" />
+                                <jet-calculate-deposit :amountUsd="form.amount_usd" :amountCop="amount_cop" :dollarPrice="exchange" :user="$page.props.user" />
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 items-center mt-4">
-                            <jet-button class="mx-auto mb-4 max-w-max" :class="{ 'opacity-25': form.processing }" :disabled="true">
+                            <jet-button v-if="tradingAccountVip" class="mx-auto mb-4 max-w-max" :class="{ 'opacity-25': form.processing }">
                                 Solicitar
                             </jet-button>
+                            <jet-button v-else :type="'button'" class="mx-auto mb-4 max-w-max" @click="errorAccount">
+                                Solicitar
+                            </jet-button>
+                        </div>
+                        <div class="flex justify-center intems-center w-full">
+                            <jet-input-error :message="errAccount" class="my-2" />
                         </div>
                     </form>
                 </div>
@@ -102,6 +108,7 @@
 
         data() {
             return {
+                errAccount: null,
                 form: this.$inertia.form({
                     broker: this.brokers[0],
                     tradingAccount: null,
@@ -120,7 +127,13 @@
 
         methods: {
             submit() {
-                this.form.post(this.route('deposit.store'))
+                this.form.post(this.route('deposit.store'),{
+                    preserveScroll: true,
+                });
+            },
+
+            errorAccount() {
+                this.errAccount = 'Debes ingresar una cuenta de trading registrada bajo nuestro referido';
             }
         },
 
@@ -130,7 +143,7 @@
                 let vip = false;
                 if(this.tradingAccounts[0] && this.form.tradingAccount)
                 {
-
+                    console.log('se ejecuta');
                     this.tradingAccounts.forEach(element => {
                         
                         if(this.form.tradingAccount === element.number)
@@ -139,7 +152,6 @@
                             {  
                                 if(element.vip === 1)
                                 { 
-                                    console.log('Si es cuenta VIP');
                                     return vip = true;
                                 }
                             }

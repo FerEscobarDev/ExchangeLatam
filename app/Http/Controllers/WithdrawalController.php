@@ -44,7 +44,8 @@ class WithdrawalController extends Controller
     public function userIndex()
     {   
         $trm = getTrm();
-        $exchange = floatval($trm[0]->valor);
+        $trm = floatval($trm[0]->valor);
+        $exchange = $trm - 100;
         $withdrawals = Transaction::where('user_id', Auth::user()->id)->where('type', 0)->with('transactionable', 'transactionable.broker')->orderBy("application_date","desc")->paginate(5);
 
         return Inertia::render('Withdrawals/Index', [
@@ -71,7 +72,6 @@ class WithdrawalController extends Controller
      */
     public function store(Request $request)
     {   
-        /* dd($request); */
         $fecha_tasa = date('Y-m-d', strtotime($request->application_date));
         $user = User::find($request->user_id);
         $application_date = date('Y-m-d H:i:s', strtotime($request->application_date));

@@ -25,6 +25,7 @@ use App\Http\Controllers\WalletAccountController;
 use App\Http\Controllers\DollarPurchaseController;
 use App\Http\Controllers\WalletExchangeController;
 use App\Http\Controllers\FormKnowledgeClientController;
+use App\Http\Controllers\TradingAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -186,12 +187,16 @@ Route::domain(env('APP_SUBDOMAIN', 'admin.exchangelatam.com'))->middleware('auth
     Route::get('/admin/dashboard/forms/funds/{formFund}/read', [FormFundController::class, 'showAdmin'])->name('formFund.showAdmin');    
     Route::get('/admin/dashboard/forms/client/{formKnowledgeClient}/read', [FormKnowledgeClientController::class, 'showAdmin'])->name('formKnowledgeClient.showAdmin');
 
-    //Rutas Exchange Wallet    
+    //Rutas Exchange Wallet
+    Route::get('/admin/dashboard/walletexchange/index', [ WalletExchangeController::class, 'index' ])->name('admin.indexWalletExchange');
     Route::get('/admin/dashboard/walletexchange/{transaction}/show', [WalletExchangeController::class, 'showAdmin'])->name('admin.showWalletExchange');
     Route::put('/admin/dashboard/walletexchange/{transaction}/voucher', [WalletExchangeController::class, 'voucherUp'])->name('admin.voucherUpWalletExchange');
     Route::put('/admin/dashboard/walletexchange/{transaction}/status', [WalletExchangeController::class, 'status'])->name('admin.statusWalletExchange')->middleware('can:admin.statusWithdrawal');
     Route::delete('/admin/dashboard/walletexchange/{transaction}/destroy', [WalletExchangeController::class, 'destroy'])->name('admin.destroyWalletExchange')->middleware('can:admin.destroyWithdrawal');
     
+    //Rutas Trading Accounts
+    Route::get('/admin/dashboard/user/{user}/tradingAccounts', [ TradingAccountController::class, 'index' ])->name('admin.userTradingAccountIndex');
+    Route::post('/admin/dashboard/user/tradingAccount/store', [ TradingAccountController::class, 'store'])->name('admin.userTradingAccountStore');
 });
 
 //Rutas contacto

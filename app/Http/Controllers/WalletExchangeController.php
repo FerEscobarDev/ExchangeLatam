@@ -34,6 +34,18 @@ class WalletExchangeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index()
+    {
+        $transactions = Transaction::where('transactionable_type', 'App\Models\WalletAccount')
+                                    ->with('transactionable', 'transactionable.wallet', 'user')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
+
+        return Inertia::render('Admin/WalletExchange/Index', [
+            'transactions' => $transactions
+        ]); 
+    }
+
     public function userIndex()
     {
         $transactions = Transaction::where('user_id', Auth::user()->id)->where('transactionable_type', 'App\Models\WalletAccount')->with('transactionable', 'transactionable.wallet')->orderBy('id', 'desc')->paginate(5);    

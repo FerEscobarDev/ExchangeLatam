@@ -1,30 +1,27 @@
 <template>
-    <app-layout title="Wallet Exchange">
+    <app-layout-admin title="Wallet Exchange">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-700 leading-tight">
-                <Link :href="route('dashboard')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Dashboard/</Link>Wallet Exchange
+                <Link :href="route('dashboard')" class="text-blue-brand-gradient1 font-semibold hover:text-blue-brand">Dashboard/</Link>Listado de Wallets Exchange
             </h2>
         </template>
 
-        <div class="px-3 pt-5 md:pt-6 mb-4 lg:mr-4 max-w-full flex flex-col shadow border border-gray-200 sm:rounded-lg bg-white">
-            <div class="flex justify-evenly items-center mb-6">
-                <Link :href="route('users.createWalletExchangeDeposit')" class="inline-flex items-center text-center px-4 py-2 mr-1 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
-                    Comprar Saldo De Skrill
-                </Link>
-                <Link :href="route('users.createWalletExchangeWithdrawal')" class="inline-flex items-center text-center  px-4 py-2 ml-1 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
-                    Vender Tu Saldo Skrill
-                </Link>
-            </div>
-            
+        <div class="px-3 py-3 md:pt-3 mb-4 lg:mr-4 max-w-full flex flex-col shadow border border-gray-200 sm:rounded-lg bg-white">
             <div class="min-w-full overflow-auto border border-gray-200 rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Billetera
+                                Id
                             </th>
-                            <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Tipo
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Usuario
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Wallet
+                            </th>
+                            <th scope="col" class="hidden md:table-cell px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Cuenta Trading
                             </th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Monto USD
@@ -48,11 +45,19 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" v-if="transactions.data[0]">
                         <tr v-for="transaction in transactions.data" :key="transaction.id" class="odd:bg-white even:bg-gray-50">
-                            <td :class="{'text-rose-800' :transaction.transactionable.wallet.id === 1, 'text-green-600' :transaction.transactionable.wallet.id === 2}" class="text-center font-semibold px-6 py-4 whitespace-nowrap text-sm">
-                                {{transaction.transactionable.wallet.name}}
+                            <td class="text-center font-semibold px-6 py-4 whitespace-nowrap text-sm">
+                                {{transaction.id}}
                             </td>
-                            <td :class="{'text-blue-brand-gradient2' :transaction.type === 1, 'text-red-400' :transaction.type === 0, 'text-green-400' :transaction.type === 2, 'text-purple-400' :transaction.type === 3}" class="px-4 py-4 text-center whitespace-nowrap text-sm">
-                                {{transactionType(transaction)}}
+                            <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <Link :href="route('admin.userShow', transaction.user_id)" class="text-indigo-600 hover:text-indigo-900">
+                                    {{transaction.user.name}}
+                                </Link>
+                            </td>
+                            <td :class="{'text-rose-800' :transaction.transactionable.wallet_id === 1, 'text-green-500' :transaction.transactionable.wallet_id === 2}" class="px-4 py-4 text-center whitespace-nowrap text-sm text-gray-500 font-semibold">
+                                {{transaction.transactionable.wallet_id === 1 ? 'Skrill' : 'Neteller'}}
+                            </td>
+                            <td class="px-4 py-4 text-center whitespace-nowrap text-sm text-gray-500">
+                                {{transaction.transactionable.email}}
                             </td>
                             <td class="text-center px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{transaction.amount_usd.toLocaleString()}}
@@ -70,7 +75,7 @@
                                 {{transaction.status}}
                             </td>
                             <td class="text-center px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <Link :href="route('users.showWalletExchange', transaction.id)" class="text-indigo-600 hover:text-indigo-900">
+                                <Link :href="route('admin.showWalletExchange', transaction.id)" class="text-indigo-600 hover:text-indigo-900">
                                     Ver detalles
                                 </Link>
                             </td>
@@ -83,24 +88,24 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="mt-2">                                        
+            
+            <div class="mt-2">
                 <pagination class="border-none" v-if="transactions.data[0]" :paginating="transactions"/>
             </div>
         </div>
-    </app-layout>
+    </app-layout-admin>
 </template>
 
 <script>
     import { defineComponent } from 'vue';
-    import AppLayout from '@/Layouts/AppLayout.vue';
+    import AppLayoutAdmin from '@/Layouts/AppLayoutAdmin.vue';
     import { Link } from '@inertiajs/inertia-vue3';
     import Pagination from '@/Components/Pagination.vue';
     import dayjs from 'dayjs';
 
     export default defineComponent({
         components: {
-            AppLayout,
+            AppLayoutAdmin,
             Link,
             Pagination,
         },
@@ -117,25 +122,6 @@
                 let formatted_date = dateNew.$D + '-' + months[dateNew.$M] + '-' + dateNew.$y;
                 return formatted_date;
             },
-
-            transactionType(transaction){
-                if(transaction.type === 0)
-                {
-                    return 'Retiro';
-                }
-                else if(transaction.type === 1)
-                {
-                    return 'Depósito';
-                }
-                else if(transaction.type === 2)
-                {
-                    return 'Compra de saldo';
-                }
-                else if(transaction.type === 3)
-                {
-                    return 'Venta de saldo';
-                }
-            }
         },
     })
 </script>

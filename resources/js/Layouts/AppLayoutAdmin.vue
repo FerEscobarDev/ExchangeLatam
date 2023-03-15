@@ -83,6 +83,10 @@
                         <font-awesome-icon class="text-gray-300 ml-2 mr-4 h-8" :icon="['fas', 'arrow-circle-down']" size="lg" />
                         <span>Retiros</span>
                     </jet-nav-link-sidebar>
+                    <jet-nav-link-sidebar :href="route('admin.indexWalletExchange')" :active="activeWalletExchange()">
+                        <font-awesome-icon class="text-gray-300 ml-2 mr-4 h-8" :icon="['fas', 'arrow-circle-down']" size="lg" />
+                        <span>Wallet Exchange</span>
+                    </jet-nav-link-sidebar>
                     <jet-nav-link-sidebar :href="route('user.index')" :active="activeUsers()">
                         <font-awesome-icon class="text-gray-300 ml-2 mr-4 h-8" :icon="['fas', 'users']" size="1x"/>
                         <span>Usuarios</span>
@@ -284,6 +288,17 @@
 
             activeWithdrawals(){
                 if(route().current('withdrawal.index') || route().current('withdrawal.show'))
+                {
+                    return true
+                }
+                else 
+                {
+                    return false
+                }
+            },
+
+            activeWalletExchange(){
+                if(route().current('admin.indexWalletExchange') || route().current('admin.showWalletExchange'))
                 {
                     return true
                 }
