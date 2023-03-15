@@ -52,15 +52,15 @@ class DepositController extends Controller
 
     public function create()
     {
-        $hoy = date('Y-m-d');
-        $exchange = DollarPrice::where('date', $hoy)->get();
+        $trm = getTrm();
+        $exchange = $trm[0]->valor + 150;
         $accounts = Account::where('user_id', 8)->where('active', 'Activa')->get();
         $tradingAccounts = auth()->user()->tradingAccounts;
         $brokers = Broker::where('status', 1)->get();
         $dataUser = auth()->user()->dataUser;
 
         return Inertia::render('Deposits/Create',[            
-            'exchange' => $exchange[0]->dollar_buy,
+            'exchange' => $exchange,
             'accounts' => $accounts->map(function ($account) {
                 return [
                     'id' => $account->id,
@@ -82,14 +82,13 @@ class DepositController extends Controller
             'account' => ['required', 'array:id,name']
         ]);
 
-        $hoy = date('Y-m-d');
-        $dollar_price = DollarPrice::where('date', $hoy)->get();
-        $dollar_price = $dollar_price[0]->dollar_buy;
+        $trm = getTrm();
+        $dollar_price = $trm[0]->valor + 150;
         $amount_cop = ((int)$dollar_price*$request['amount_usd']);
-        $comission_iva_inclu = ($amount_cop*0.015);
+        /* $comission_iva_inclu = ($amount_cop*0.015);
         $comission = $comission_iva_inclu / 1.19;
-        $iva = $comission*0.19;
-        $total = $amount_cop+$comission+$iva;
+        $iva = $comission*0.19; */
+        $total = $amount_cop;
         $application_date = date('Y-m-d H:i:s');
         $expiration_date = date('Y-m-d H:i:s', strtotime($application_date.'+ 1 days'));
         $tradingAccount = TradingAccount::where('number', $request['tradingAccount'])->where('broker_id', $request['broker']['id'])->first();
@@ -106,11 +105,16 @@ class DepositController extends Controller
         {
             if($tradingAccount->user_id != Auth::user()->id)
             {
-                return back()->with('error', 'La cuenta de trading ingresada ya pertenece a otro usuario, si es un error comunícate con soporte.');
+                return Redirect::back()->with('error', 'La cuenta de trading ingresada pertenece a otro usuario, si es un error comunícate con soporte.');
+            }
+
+            if( $tradingAccount->vip == 0 )
+            {
+                return Redirect::back()->with('error', 'La cuenta de trading debe estár bajo nuestro referido por favor contacta con soporte.');
             }
         }
 
-        if(auth()->user()->dataUser->vip == 'yes' || $tradingAccount->vip == 1)
+        /* if(auth()->user()->dataUser->vip == 'yes' || $tradingAccount->vip == 1)
         {
             if($request['amount_usd'] >= 500)
             {
@@ -125,9 +129,10 @@ class DepositController extends Controller
         else
         {
             $rebate = 0;
-        }     
+        }    */  
         
-        $deposit = auth()->user()->transactions()->create([
+        $deposit = Transaction::create([
+            'user_id' => Auth::user()->id,
             'account_id' => $request->account['id'],
             'transactionable_id' => $tradingAccount->id,
             'transactionable_type' => 'App\Models\TradingAccount',
@@ -135,10 +140,10 @@ class DepositController extends Controller
             'price' => $dollar_price,
             'amount_usd' => $request['amount_usd'],
             'amount_cop' => $amount_cop,
-            'comission' => $comission,
+            'comission' => 0,
             'cuatro_por_mil' => 0,
-            'iva' => $iva,
-            'rebate' => $rebate,
+            'iva' => 0,
+            'rebate' => 0,
             'total' => $total,
             'application_date' => $application_date,
             'expiration_date' => $expiration_date
