@@ -10,7 +10,7 @@
             
             <div class="flex justify-center md:justify-start items-center mb-6">
                 <form @submit.prevent="submit" class="w-full md:w-72">
-                    <jet-input class="w-full" id="search" type="text" placeholder="Buscar" autofocus v-model="form.search"/>
+                    <jet-input class="w-full" id="search" type="search" placeholder="Buscar" autofocus v-model="form.search"/>
                 </form>
             </div>
 

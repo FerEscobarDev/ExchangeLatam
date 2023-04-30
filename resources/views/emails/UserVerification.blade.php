@@ -271,7 +271,7 @@
                 <p>Puedes acceder al área de usuario desde el siguiente botón.</p>
 
                 <div class="action">
-                    <a class="button button-primary" style="color: #fff;" href="https://exchangelatam.com/profile/edit" target="_blank">Acceder</a>
+                    <a class="button button-primary" style="color: #fff;" href="https://exchangelatam.com/dashboard/profile" target="_blank">Acceder</a>
                 </div>
 
                 <p>Gracias por elegirnos como tu medio de depósitos y retiros.</p><br>
@@ -291,7 +291,7 @@
                 <div class="subcopy">
                     <p><span class="break-all">Registrate <a href="https://fbs.partners?ibl=16847&ibk=exchangelatam">aquí</a> y conviertete en cliente VIP para realizar depósitos y retiros sin comisión.</span></p>
                     <p><span class="break-all">Vísita nuestra sección <a href="{{ 'https://exchangelatam.com/faq' }}">FAQ</a> y resuelve todas tus dudas antes de usar nuestros servicios.</span></p>
-                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="https://exchangelatam.com/profile/edit">https://exchangelatam.com/profile/edit</a></span></p>
+                    <p><span class="break-all">Si tienes problemas haciendo click en el botón "Acceder", copia y pega el siguiente enlace en tú navegador: <a href="https://exchangelatam.com/dashboard/profile">https://exchangelatam.com/dashboard/profile</a></span></p>
                 </div>
             </div>
 		</div>
