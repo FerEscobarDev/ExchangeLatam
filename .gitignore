@@ -1,9 +1,13 @@
-/bootstrap/ssr
+#/bootstrap/ssr
 /node_modules
+<<<<<<< HEAD
+=======
+#/public/build
+>>>>>>> c96f6b2c6afb5c6b031d26bfb18dbc269f2462bf
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+vendor
 .env
 .env.backup
 .phpunit.result.cache

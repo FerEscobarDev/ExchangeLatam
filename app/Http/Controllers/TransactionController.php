@@ -20,7 +20,14 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        
+        $transactions = Transaction::where('transactionable_type', 'App\Models\WalletAccount')
+                                    ->with('transactionable', 'transactionable.wallet')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
+
+        return Inertia::render('Admin/WalletExchange/Index', [
+            'transactions' => $transactions
+        ]); 
     }
 
     

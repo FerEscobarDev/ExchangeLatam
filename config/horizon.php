@@ -178,6 +178,7 @@ return [
             'nice' => 0,
         ],
     ],
+    
 
     'environments' => [
         'production' => [

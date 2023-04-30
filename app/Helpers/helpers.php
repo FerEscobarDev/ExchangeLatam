@@ -43,3 +43,11 @@ if (! function_exists('priceSellBalance')) {
         return  $priceWithdrawal;
     }
 }
+
+if(! function_exists('getTrm')) {
+    function getTrm()
+    {
+        $dataTrm = file_get_contents('https://www.datos.gov.co/resource/32sa-8pi3.json?$order=vigenciadesde%20DESC&$limit=1&$$app_token=LYqb1Q5Nj0TkfXrJnFDN7xk60');
+        return json_decode($dataTrm); 
+    }
+}

@@ -25,6 +25,7 @@ use App\Http\Controllers\WalletAccountController;
 use App\Http\Controllers\DollarPurchaseController;
 use App\Http\Controllers\WalletExchangeController;
 use App\Http\Controllers\FormKnowledgeClientController;
+use App\Http\Controllers\TradingAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->name('dashboard');
+    })->name('dashboard');http://admin.localhost/dashboard
 }); */
 
 Route::get('/campaigns/vip', [CampaignController::class, 'pautaVip'])->name('campaign.pautaVip')->middleware('route.users');
@@ -61,12 +62,12 @@ Route::get('/campaigns/sorteoAniversario', [CampaignController::class, 'sorteoAn
 Route::get('/', [CompanyController::class, 'index'])->name('company.welcome')->middleware('route.users');
 Route::get('/about', [CompanyController::class, 'about'])->name('company.about')->middleware('route.users');
 Route::get('/faq', [CompanyController::class, 'faq'])->name('company.faq')->middleware('route.users');
-Route::get('/policy-SAGRILAFT', [CompanyController::class, 'policy'])->name('company.policy')->middleware('route.users');
+Route::get('/policy-SAGRILAFT', [CompanyController::class, 'policyData'])->name('company.policy')->middleware('route.users');
 Route::get('/dollarPrices', [DollarPriceController::class, 'indexPublic'])->name('public.dollarPrices')->middleware('route.users');
 
 
 //Rutas Admin
-Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')->group(function () {
+Route::domain(env('APP_SUBDOMAIN', 'admin.exchangelatam.com'))->middleware('auth', 'verified', 'data')->group(function () {
 //Route::domain('admin.exchangelatam.test')->middleware('auth', 'verified', 'data')->group(function () {
 
     //Rutas Notificaciones
@@ -103,6 +104,7 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     //Rutas Gestión retiro de usuarios
     Route::get('/admin/user/{id}/withdrawals', [UserController::class, 'showWithdrawals'])->name('admin.usersShowWithdrawals')->middleware('can:admin.usersShowWithdrawals');/* ok */
     Route::post('/admin/withdrawal/store', [WithdrawalController::class, 'store'])->name('admin.storeWithdrawal')->middleware('can:admin.storeWithdrawal');/* ok */
+    Route::get('/admin/withdrawal/create', [WithdrawalController::class, 'create'])->name('admin.createWithdrawal');
     Route::delete('/admin/withdrawal/{withdrawal}/destroy', [WithdrawalController::class, 'destroy'])->name('admin.destroyWithdrawal')->middleware('can:admin.destroyWithdrawal');/* ok */
     Route::put('/admin/withdrawal/{withdrawal}/voucher', [WithdrawalController::class, 'voucherUp'])->name('admin.voucherUpWithdrawal')->middleware('can:admin.voucherUpWithdrawal');/* ok */
     Route::put('/admin/withdrawal/{withdrawal}/status', [WithdrawalController::class, 'status'])->name('admin.statusWithdrawal')->middleware('can:admin.statusWithdrawal');/* ok */
@@ -186,12 +188,16 @@ Route::domain('admin.exchangelatam.com')->middleware('auth', 'verified', 'data')
     Route::get('/admin/dashboard/forms/funds/{formFund}/read', [FormFundController::class, 'showAdmin'])->name('formFund.showAdmin');    
     Route::get('/admin/dashboard/forms/client/{formKnowledgeClient}/read', [FormKnowledgeClientController::class, 'showAdmin'])->name('formKnowledgeClient.showAdmin');
 
-    //Rutas Exchange Wallet    
+    //Rutas Exchange Wallet
+    Route::get('/admin/dashboard/walletexchange/index', [ WalletExchangeController::class, 'index' ])->name('admin.indexWalletExchange');
     Route::get('/admin/dashboard/walletexchange/{transaction}/show', [WalletExchangeController::class, 'showAdmin'])->name('admin.showWalletExchange');
     Route::put('/admin/dashboard/walletexchange/{transaction}/voucher', [WalletExchangeController::class, 'voucherUp'])->name('admin.voucherUpWalletExchange');
     Route::put('/admin/dashboard/walletexchange/{transaction}/status', [WalletExchangeController::class, 'status'])->name('admin.statusWalletExchange')->middleware('can:admin.statusWithdrawal');
     Route::delete('/admin/dashboard/walletexchange/{transaction}/destroy', [WalletExchangeController::class, 'destroy'])->name('admin.destroyWalletExchange')->middleware('can:admin.destroyWithdrawal');
     
+    //Rutas Trading Accounts
+    Route::get('/admin/dashboard/user/{user}/tradingAccounts', [ TradingAccountController::class, 'index' ])->name('admin.userTradingAccountIndex');
+    Route::post('/admin/dashboard/user/tradingAccount/store', [ TradingAccountController::class, 'store'])->name('admin.userTradingAccountStore');
 });
 
 //Rutas contacto

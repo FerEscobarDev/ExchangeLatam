@@ -8,8 +8,7 @@
         <div class="py-6 w-full">
             <div class="flex mx-auto lg:mr-4">
                 <div class="container mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg grid grid-cols-12 gap-x-2 gap-y-10 p-5">                       
-                        
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg grid grid-cols-12 gap-x-2 gap-y-10 p-5">
                         <div class="col-span-12">
                             <div class="flex flex-col md:flex-row items-center justify-center md:justify-around">
                                 <div class="flex items-center justify-start">
@@ -33,9 +32,12 @@
                                         <span v-else class=" text-amber-500 font-medium">Cuenta VIP</span>
                                     </div>
                                 </div>                                
-                                <div class="flex md:flex-col gap-4 mt-6 md:mt-0">
+                                <div class="flex md:flex-col justify-center items-center md:items-stretch gap-4 mt-6 md:mt-0">
                                     <Link :href="route('users.createWalletExchangeDeposit')" class="inline-flex justify-center items-center px-4 py-2 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
                                         Transacciones
+                                    </Link>
+                                    <Link :href="route('admin.userTradingAccountIndex', client.id)" class="inline-flex justify-center items-center px-4 py-2 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
+                                        Trading Accounts
                                     </Link>
                                     <Link :href="route('admin.usersVerification', client.id)" class="inline-flex justify-center items-center px-4 py-2 bg-dark-brand border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
                                         Verificación

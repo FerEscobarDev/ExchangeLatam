@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -151,5 +152,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function walletAccounts()
     {
         return $this->hasMany(WalletAccount::class);
+    }
+
+    // Query Scope
+    public function scopeFilter(Builder $query){
+
+        if(empty(request('search'))) return;
+
+        $search = request('search');
+
+        $query->where('name','like', '%'.$search.'%')
+                    ->orWhere('lastname','like', '%'.$search.'%')
+                    ->orWhere('email','like', '%'.$search.'%')
+                    ->orWhere('mobil','like', '%'.$search.'%')
+                    ->orWhere('id','like', '%'.$search.'%')
+                    ->orWhereRelation('dataUser', 'doc_num', 'like', '%'.$search.'%');
     }
 }

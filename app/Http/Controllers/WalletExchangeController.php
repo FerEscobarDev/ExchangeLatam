@@ -34,6 +34,18 @@ class WalletExchangeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index()
+    {
+        $transactions = Transaction::where('transactionable_type', 'App\Models\WalletAccount')
+                                    ->with('transactionable', 'transactionable.wallet', 'user')
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
+
+        return Inertia::render('Admin/WalletExchange/Index', [
+            'transactions' => $transactions
+        ]); 
+    }
+
     public function userIndex()
     {
         $transactions = Transaction::where('user_id', Auth::user()->id)->where('transactionable_type', 'App\Models\WalletAccount')->with('transactionable', 'transactionable.wallet')->orderBy('id', 'desc')->paginate(5);    
@@ -334,10 +346,15 @@ class WalletExchangeController extends Controller
 
         $ruta_img = $voucher['voucherUp']->store('deposit_support', 'public');
 
-        $image = Image::make(public_path('storage/'.$ruta_img));
-        $image->widen(700);/* 
-        $image->rotate(-90); */
-        $image->save();
+        if (file_exists(public_path('storage/'.$ruta_img))) {
+            $image = Image::make(public_path('storage/'.$ruta_img));
+            $image->widen(700);/* 
+            $image->rotate(-90); */
+            $image->save();
+        }
+        else{
+            return Redirect::back()->with('error','El archivo no pudo leerse la ruta es '.public_path('storage/'.$ruta_img));
+        }
 
         $cargado = $transaction->update(['voucher' => $ruta_img]);
  

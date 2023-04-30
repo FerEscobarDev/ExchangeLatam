@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Inertia\Inertia;
+use Illuminate\Http\Request;
 use App\Models\TradingAccount;
-use App\Http\Requests\StoreTradingAccountRequest;
-use App\Http\Requests\UpdateTradingAccountRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class TradingAccountController extends Controller
 {
@@ -13,9 +15,14 @@ class TradingAccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(User $user)
+    {   
+        $tradingAccounts = TradingAccount::where('user_id', $user->id)->with('user')->orderBy('id', 'desc')->paginate(5);
+
+        return Inertia::render('Admin/TradingAccounts/Index', [
+            'tradingAccounts' => $tradingAccounts,
+            'client' => $user
+        ]);
     }
 
     /**
@@ -23,9 +30,9 @@ class TradingAccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        //
+    
     }
 
     /**
@@ -34,9 +41,16 @@ class TradingAccountController extends Controller
      * @param  \App\Http\Requests\StoreTradingAccountRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTradingAccountRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'number' => ['required', 'numeric', 'unique:trading_accounts,number'],
+            'vip' => ['required', 'numeric'],
+        ]);
+
+        TradingAccount::create($request->all());
+
+        return Redirect::back()->with('success', 'Se registró la cuenta correctamente');
     }
 
     /**
@@ -68,7 +82,7 @@ class TradingAccountController extends Controller
      * @param  \App\Models\TradingAccount  $tradingAccount
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTradingAccountRequest $request, TradingAccount $tradingAccount)
+    public function update(Request $request, TradingAccount $tradingAccount)
     {
         //
     }
