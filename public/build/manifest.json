@@ -1,11 +1,11 @@
 {
-  "resources/img/UpTrading_Vertical_Amarillo.jpg": {
-    "file": "assets/UpTrading_Vertical_Amarillo.a33ef38b.jpg",
-    "src": "resources/img/UpTrading_Vertical_Amarillo.jpg"
-  },
   "resources/img/divitrade.jpg": {
     "file": "assets/divitrade.b8c615ea.jpg",
     "src": "resources/img/divitrade.jpg"
+  },
+  "resources/img/UpTrading_Vertical_Amarillo.jpg": {
+    "file": "assets/UpTrading_Vertical_Amarillo.a33ef38b.jpg",
+    "src": "resources/img/UpTrading_Vertical_Amarillo.jpg"
   },
   "resources/js/app.js": {
     "file": "assets/app.86b8d295.js",
