@@ -12,7 +12,7 @@
             <!-- Tipo Cuenta -->
             <div class="col-span-6 md:col-span-2">
                 <jet-label for="amount_usd" value="Monto USD" />
-                <jet-input id="amount_usd" type="number" class="mt-1 block w-full" v-model="form.amount_usd"/>
+                <jet-input id="amount_usd" type="number" step="0.01" class="mt-1 block w-full" v-model="form.amount_usd"/>
                 <jet-input-error :message="form.errors.amount_usd" class="mt-2" />
             </div>
 
