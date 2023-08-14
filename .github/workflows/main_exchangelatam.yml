@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'exchangeLatam'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_28CDA2C764E8409DAD90FECD3C1771F5 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_16C1071B2B34498CB5942D5D059DDB8C }}
           package: .
