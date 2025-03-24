@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.2",
         "doctrine/dbal": "^3.4",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.3",
@@ -73,8 +73,8 @@
             "pestphp/pest-plugin": true
         },
         "platform": {
-            "ext-pcntl": "8.0",
-            "ext-posix": "8.0"
+            "ext-pcntl": "8.2",
+            "ext-posix": "8.2"
         }
     },
     "minimum-stability": "dev",
