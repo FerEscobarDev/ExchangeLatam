@@ -15,6 +15,15 @@ fi
 
 chmod -R ugo+rw /.composer
 
+#!/bin/bash
+
+# Crear enlace de storage si no existe
+if [ ! -L /var/www/html/public/storage ]; then
+    php /var/www/html/artisan storage:link
+fi
+
+exec supervisord -c /etc/supervisor/conf.d/supervisord.conf
+
 if [ $# -gt 0 ]; then
     if [ "$SUPERVISOR_PHP_USER" = "root" ]; then
         exec "$@"
