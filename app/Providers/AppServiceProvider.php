@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,10 +30,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (config('app.env') === 'production') {
-            \URL::forceScheme('https');
+        if (env('APP_ENV') !== 'local') {
+            URL::forceScheme('https');
         }
-        
+
         Carbon::setLocale('es');
         setlocale(LC_TIME, 'es_ES.utf8');
 
